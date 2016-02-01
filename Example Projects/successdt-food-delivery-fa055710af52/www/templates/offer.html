@@ -1,0 +1,52 @@
+<!--
+  This template loads for the 'offers' state (app.js)
+  items is a $scope variable on OfferCtrl (controllers.js)
+  OffersCtrl pulls data from Items service (service.js)
+  The Items service returns array of items data
+-->
+<ion-view view-title="Offer" class="offer-page has-footer-buttons">
+
+  <ion-content class="stable-bg">
+
+    <ion-slide-box class="slide-box-offer">
+      <ion-slide ng-repeat="item in items">
+        <div class="card rlt" ui-sref="item({id: item.id})">
+          <img class="full-image" src="{{ item.thumb }}" alt=""/>
+
+          <div class="card-bottom">
+            <span class="dark">
+              {{ item.name }}
+            </span>
+
+            <span class="pull-right price balanced">
+              ${{ item.price }}
+            </span>
+          </div>
+
+          <div class="offer-label">
+            <span class="square text-center light assertive-bg">{{ item.offer }}%</span>
+            <i class="triangle"></i>
+          </div>
+        </div>
+
+      </ion-slide>
+    </ion-slide-box>
+
+  </ion-content>
+
+  <ion-footer-bar>
+    <div class="row item-button-group">
+
+      <div class="col button button-light" ng-click="toggleFav()">
+        <i class="text-2x ion-android-star-outline" ng-hide="item.faved"></i>
+        <i class="text-2x ion-android-star" ng-show="item.faved"></i>
+        <span class="text-sm">ADD TO FAVORITE</span>
+      </div>
+
+      <div class="col button button-balanced" ui-sref="cart">
+        <i class="text-2x ion-ios-cart-outline"></i>
+        <span class="text-sm">ADD TO CART</span>
+      </div>
+    </div>
+  </ion-footer-bar>
+</ion-view>

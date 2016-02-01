@@ -1,0 +1,30 @@
+<!--
+  This template loads for the 'category' state (app.js)
+  Show list of menu
+  category is a $scope variable on CategoryCtrl (controllers.js)
+  The CategoryCtrl pulls data from Categories service (service.js)
+  The Categories service returns array of items data
+-->
+<ion-view view-title="{{ category.name }}">
+
+  <ion-content class="stable-bg">
+
+    <div class="list no-padding">
+      <div class="item item-menu" ng-repeat="item in category.items" ui-sref="item({id: item.id})">
+
+        <img src="{{ item.thumb }}" alt="{{ item.name }}"/>
+
+        <div class="overlay">
+
+          <span class="pull-left light">
+            {{ item.name }}
+          </span>
+
+          <span class="pull-right balanced">
+            ${{ item.price }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

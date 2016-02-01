@@ -1,0 +1,72 @@
+<!--
+  This template loads for the 'setting' state (app.js)
+-->
+<ion-view view-title="Settings" class="has-footer-buttons">
+
+  <ion-content>
+
+    <!-- Cover and profile picture -->
+    <div class="profile-cover">
+      <div class="row">
+
+        <div class="col-33 text-center">
+          <img class="profile-picture circle" src="img/people/max.png">
+        </div>
+
+        <div class="col-66">
+          <h4 class="padding-top no-margin light">Adam Lambert</h4>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- User infomation -->
+    <div class="list">
+
+      <div class="item item-toggle">
+        <span class="balanced">Notification</span>
+        <label class="toggle toggle-balanced">
+          <input type="checkbox">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>
+
+      <label class="item item-input item-stacked-label">
+        <span class="input-label balanced">Credit card #No</span>
+        <input type="text" value="XXXX XXXX XXXX 4678">
+      </label>
+
+      <label class="item item-input item-stacked-label">
+        <span class="input-label balanced">Expires</span>
+        <input type="text" value="08/16">
+      </label>
+
+      <label class="item item-input item-stacked-label">
+        <span class="input-label balanced">CVV-Code</span>
+        <input type="text" value="3013">
+      </label>
+
+      <label class="item item-input item-stacked-label">
+        <span class="input-label balanced">Address</span>
+        <input type="text" value="St Luiz, Barcelona">
+      </label>
+
+    </div>
+
+  </ion-content>
+
+  <ion-footer-bar class="bar-balanced">
+    <div class="row item-button-group">
+
+      <div class="col button button-stable">
+        CANCEL
+      </div>
+
+      <div class="col button button-balanced">
+        SAVE
+      </div>
+    </div>
+  </ion-footer-bar>
+</ion-view>
