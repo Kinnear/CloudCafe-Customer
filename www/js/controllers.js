@@ -1,31 +1,43 @@
-angular.module('starter.controllers', [])
+var app = angular.module('starter.controllers', ["ionic", "firebase"]);
+
+app.controller("FavouriteController", function($scope, FavouriteData) {
+  $scope.favouriteFata = FavouriteData;
+//   $scope.addItem = function() {
+//     var name = prompt("What do you need to buy?");
+//     if (name) {
+//       $scope.items.$add({
+//         "name": name
+//       });
+//     }
+//   };
+});
 
 
 // Authentication controller
 // Put your login, register functions here
-.controller('AuthCtrl', function($scope, $ionicHistory) {
-  // hide back butotn in next view
+app.controller('AuthCtrl', function($scope, $ionicHistory) {
+  // hide back button in next view
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
-})
+});
 
 // Home controller
-.controller('HomeCtrl', function($scope, $state, Categories) {
+app.controller('HomeCtrl', function($scope, $state, Categories) {
     // get all categories from service
     $scope.categories = Categories.all();
-})
+});
 
 // Category controller
-.controller('CategoryCtrl', function($scope, $state, Categories, $stateParams) {
+app.controller('CategoryCtrl', function($scope, $state, Categories, $stateParams) {
   var id = $stateParams.id;
 
   // get all items from service by category id
   $scope.category = Categories.get(1);
-})
+});
 
 // Item controller
-.controller('ItemCtrl', function($scope, $state, Items, $stateParams) {
+app.controller('ItemCtrl', function($scope, $state, Items, $stateParams) {
     var id = $stateParams.id;
 
     // get item from service by item id
@@ -35,10 +47,10 @@ angular.module('starter.controllers', [])
     $scope.toggleFav = function() {
       $scope.item.faved = !$scope.item.faved;
     }
-})
+});
 
 // Favorite controller
-.controller('FavoriteCtrl', function($scope, $state, Items) {
+app.controller('FavoriteCtrl', function($scope, $state, Items) {
 
   // get all favorite items
   $scope.items = Items.all()
@@ -47,10 +59,10 @@ angular.module('starter.controllers', [])
   $scope.remove = function(index) {
     $scope.items.splice(index, 1);
   }
-})
+});
 
 // Cart controller
-.controller('CartCtrl', function($scope, Cart) {
+app.controller('CartCtrl', function($scope, Cart) {
   // set cart items
   $scope.cart = Cart.get();
 
@@ -69,10 +81,10 @@ angular.module('starter.controllers', [])
   $scope.remove = function(index) {
     $scope.cart.items.splice(index, 1);
   }
-})
+});
 
 // Offer controller
-.controller('OfferCtrl', function($scope, $state, Items, $ionicSideMenuDelegate) {
+app.controller('OfferCtrl', function($scope, $state, Items, $ionicSideMenuDelegate) {
   // get all items form Items model
   $scope.items = Items.all();
 
@@ -83,13 +95,13 @@ angular.module('starter.controllers', [])
 
   // disabled swipe menu
   $ionicSideMenuDelegate.canDragContent(false);
-})
+});
 
 // Checkout controller
-.controller('CheckoutCtrl', function($scope, $state) {})
+app.controller('CheckoutCtrl', function($scope, $state) {});
 
 // Address controller
-.controller('AddressCtrl', function($scope, $state) {
+app.controller('AddressCtrl', function($scope, $state) {
   function initialize() {
     // set up begining position
     var myLatlng = new google.maps.LatLng(21.0227358,105.8194541);
@@ -111,10 +123,10 @@ angular.module('starter.controllers', [])
   $scope.init = function() {
     initialize();
   }
-})
+});
 
 // User controller
-.controller('UserCtrl', function($scope, $state) {})
+app.controller('UserCtrl', function($scope, $state) {})
 
 // Setting Controller
 .controller('SettingCtrl', function($scope, $state) {})
@@ -132,9 +144,9 @@ angular.module('starter.controllers', [])
   $scope.mute = function(chat) {
     // write your code here
   }
-})
+});
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
+app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
   //$scope.chat = Chats.get($stateParams.chatId);
   $scope.chat = Chats.get(0);
 
@@ -181,4 +193,4 @@ angular.module('starter.controllers', [])
     });
   };
 
-})
+});
