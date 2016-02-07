@@ -1,7 +1,7 @@
 <!--
   This template loads for the 'setting' state (app.js)
 -->
-<ion-view view-title="Settings" class="has-footer-buttons">
+<ion-view view-title="REVIEW" class="has-footer-buttons">
 
   <ion-content>
 
@@ -9,20 +9,27 @@
     <div class="profile-cover">
       <div class="row">
 
-        <div class="col-33 text-center">
+        <div class="col-60 text-center">
           <img class="profile-picture circle" src="img/people/max.png">
+         
         </div>
-
+        
+        <div class="col-0 text-center">
+            <img class="profile-picture circle" src="img/people/max.png">
+                
+                </div>
+<!--Temp close
         <div class="col-66">
-          <h4 class="padding-top no-margin light">Adam Lambert</h4>
+          <h4 class="padding-top no-margin light">User One</h4>
         </div>
+ -->
 
       </div>
     </div>
 
     <!-- User infomation -->
     <div class="list">
-
+<!--Temp close
       <div class="item item-toggle">
         <span class="balanced">Notification</span>
         <label class="toggle toggle-balanced">
@@ -32,25 +39,28 @@
           </div>
         </label>
       </div>
-
+-->
       <label class="item item-input item-stacked-label">
-        <span class="input-label balanced">Credit card #No</span>
-        <input type="text" value="XXXX XXXX XXXX 4678">
+        <span class="input-label balanced">Transaction Details</span>
+        <p>Item: <br>
+        Shop: <br>
+        Date Funded: <br>
+        Date Delivered:</p>
       </label>
 
       <label class="item item-input item-stacked-label">
-        <span class="input-label balanced">Expires</span>
-        <input type="text" value="08/16">
+        <span class="input-label balanced">Ratings</span>
+        <input type="text" value="Taste: Presentation: Service:">
       </label>
 
       <label class="item item-input item-stacked-label">
-        <span class="input-label balanced">CVV-Code</span>
-        <input type="text" value="3013">
+        <span class="input-label balanced">Tell Us More</span>
+        <input type="text" value="other comments...">
       </label>
 
       <label class="item item-input item-stacked-label">
-        <span class="input-label balanced">Address</span>
-        <input type="text" value="St Luiz, Barcelona">
+        <span class="input-label balanced">Rewards Points Earned</span>
+        <input type="text" value="Integer value, no textbox here">
       </label>
 
     </div>
@@ -59,13 +69,13 @@
 
   <ion-footer-bar class="bar-balanced">
     <div class="row item-button-group">
-
+<!--Temp close
       <div class="col button button-stable">
         CANCEL
       </div>
-
+-->
       <div class="col button button-balanced">
-        SAVE
+        SUBMIT REVIEW
       </div>
     </div>
   </ion-footer-bar>
