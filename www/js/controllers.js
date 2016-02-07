@@ -29,11 +29,15 @@ app.controller('HomeCtrl', function($scope, $state, Categories) {
 });
 
 // Category controller
-app.controller('CategoryCtrl', function($scope, $state, Categories, $stateParams) {
+app.controller('CategoryCtrl', function($scope, $state, Categories, $stateParams, FavouriteData) {
   var id = $stateParams.id;
 
   // get all items from service by category id
+  // for now hardcode the category id to "1"
   $scope.category = Categories.get(1);
+  
+  // testing only
+  $scope.firebaseTest = FavouriteData;
 });
 
 // Item controller
