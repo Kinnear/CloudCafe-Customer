@@ -1,5 +1,24 @@
 var app = angular.module('starter.controllers', ["ionic", "firebase"]);
 
+
+//app.service('productService', function() {
+//  var productList = [];
+//
+//  var addProduct = function(newObj) {
+//    productList.push(newObj);
+//  };
+//
+//  var getProducts = function(){
+//    return productList;
+//  };
+//
+//  return {
+//    addProduct: addProduct,
+//    getProducts: getProducts
+//  };
+//
+//});
+
 app.controller("FavouriteController", function($scope, FavouriteData) {
   $scope.favouriteFata = FavouriteData;
 //   $scope.addItem = function() {
@@ -10,6 +29,12 @@ app.controller("FavouriteController", function($scope, FavouriteData) {
 //       });
 //     }
 //   };
+//
+//  $scope.callToAddToProductList = function(currObj){
+//    console.log("Here!!");
+//    console.log(currObj);
+//    productService.addProduct(currObj);
+//  };
 });
 
 
@@ -54,7 +79,7 @@ app.controller('ItemCtrl', function($scope, $state, Items, $stateParams) {
 });
 
 // Favorite controller
-app.controller('FavoriteCtrl', function($scope, $state, Items) {
+app.controller('FavoriteCtrl', function($scope, $state, Items, CartItemData) {
 
   // get all favorite items
   $scope.items = Items.all()
@@ -63,10 +88,21 @@ app.controller('FavoriteCtrl', function($scope, $state, Items) {
   $scope.remove = function(index) {
     $scope.items.splice(index, 1);
   }
+
+  var first = this;
+  first.item = CartItemData.getItemData();
+
+  $scope.addtocart = function(index){
+    console.log(index);
+    CartItemData.setItemData(index);
+    first.item = CartItemData.getItemData();
+  }
+
+
 });
 
 // Cart controller
-app.controller('CartCtrl', function($scope, Cart) {
+app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
   // set cart items
   $scope.cart = Cart.get();
 
@@ -85,6 +121,68 @@ app.controller('CartCtrl', function($scope, Cart) {
   $scope.remove = function(index) {
     $scope.cart.items.splice(index, 1);
   }
+
+  // Router Thingy
+  var second = this;
+  second.item = CartItemData.getItemData();
+
+  // Stripe JS
+  $scope.ProductMeta = {
+    title: "Awesome product",
+    description: "Yes it really is",
+    priceUSD: 1,
+  };
+
+  $scope.status = {
+    loading: false,
+    message: "",
+  };
+
+  $scope.charge = function() {
+
+    $scope.status['loading'] = true;
+    $scope.status['message'] = "Retrieving your Stripe Token...";
+
+    // first get the Stripe token
+    StripeCharge.getStripeToken($scope.ProductMeta).then(
+        function(stripeToken){
+          // -->
+          proceedCharge(stripeToken);
+        },
+        function(error){
+          console.log(error)
+
+          $scope.status['loading'] = false;
+          if(error != "ERROR_CANCEL") {
+            $scope.status['message'] = "Oops... something went wrong";
+          } else {
+            $scope.status['message'] = "";
+          }
+        }
+    ); // ./ getStripeToken
+
+    function proceedCharge(stripeToken) {
+
+      $scope.status['message'] = "Processing your payment...";
+
+      // then chare the user through your custom node.js server (server-side)
+      StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
+          function(StripeInvoiceData){
+            $scope.status['loading'] = false;
+            $scope.status['message'] = "Success! Check your Stripe Account";
+            console.log(StripeInvoiceData)
+          },
+          function(error){
+            console.log(error);
+
+            $scope.status['loading'] = false;
+            $scope.status['message'] = "Oops... something went wrong";
+          }
+      );
+
+    }; // ./ proceedCharge
+
+  };
 });
 
 // Offer controller

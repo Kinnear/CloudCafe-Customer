@@ -1,11 +1,13 @@
 // Ionic Starter App
+var SERVER_SIDE_URL             = "sleepy-refuge-89064.herokuapp.com";
+var STRIPE_API_PUBLISHABLE_KEY  = "pk_test_h57hQy5dRjVjlM7SoNVYG8Mn";
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'nl2br', 'monospaced.elastic'])
+angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.controllers', 'starter.services', 'nl2br', 'monospaced.elastic'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -23,13 +25,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+    .service("CartItemData", function Item(){
+        var item = this;
+        //item.message = "DefaultHello (Service)/";
+        this.setItemData = function(SetValue){
+            console.log("Setting Values");
+            item = SetValue;
+        }
+
+        this.getItemData = function(){
+            return item;
+        }
+    })
+
+.config(function($stateProvider, $urlRouterProvider, StripeCheckoutProvider) {
+
+    // Define your STRIPE_API_PUBLISHABLE_KEY
+    StripeCheckoutProvider.defaults({key: STRIPE_API_PUBLISHABLE_KEY});
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
-  
+
 
   // login screen
   $stateProvider.state('login', {
@@ -70,15 +88,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   .state('favorite', {
     url: '/favorite',
     templateUrl: 'templates/favorite.html',
-    controller: 'FavoriteCtrl'
+    controller: 'FavoriteCtrl as first'
   })
 
   // View cart
   .state('cart', {
     url: '/cart',
     templateUrl: 'templates/cart.html',
-    controller: 'CartCtrl'
+    controller: 'CartCtrl as second',
+      resolve: {
+          // checkout.js isn't fetched until this is resolved.
+          stripe: StripeCheckoutProvider.load
+      }
   })
+
 
   // View ordered items
   .state('last_orders', {
@@ -129,7 +152,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     templateUrl: 'templates/chat-detail.html',
     controller: 'ChatDetailCtrl'
   })
+
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/home');
+
 
 });
