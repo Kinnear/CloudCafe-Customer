@@ -1,0 +1,41 @@
+<!--
+  This template loads for the 'home' state (app.js)
+  Show list of menu
+  categories is a $scope variable on HomeCtrl (controllers.js)
+  The HomeCtrl pulls data from Categories service (service.js)
+  The Categories service returns array  of categories data
+-->
+<ion-view view-title="Menu">
+
+  <ion-content class="stable-bg">
+
+   <div class="list no-padding">
+      <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.id})">
+
+        <img src="{{ category.thumb }}" alt="{{ category.name }}"/>
+
+        <div class="overlay">
+
+          <span class="pull-left light">
+            {{ category.name }}
+          </span>
+
+          <span class="pull-right balanced">
+            {{ category.items.length }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <!--
+   <div class="list card">
+       
+        <div class="item item-body">
+            <img class="full-image" src="img/items/thumbs/brick_chicken.jpg">
+                <h2>Desserts <span class="assertive">5 NEW!</span></h2>
+                <p>Sweet treats ready in time for Valentine's Day! Don't miss out on these fabulous handmade desserts!</p>
+                </div>
+        
+    </div>-->
+    
+  </ion-content>
+</ion-view>
