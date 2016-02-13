@@ -1,0 +1,51 @@
+<!--
+  This template loads for the 'checkout' state (app.js)
+-->
+<ion-view view-title="Checkout">
+
+  <ion-content class="stable-bg checkout-page">
+
+    <!-- Payment method -->
+    <div class="padding-left padding-top">Payment</div>
+    <div class="list card">
+
+      <ion-radio ng-model="choice" ng-value="'A'">
+        Credit card
+        <p class="text-hint">
+          XXXX XXXX XXXX 4678
+        </p>
+      </ion-radio>
+
+      <ion-radio ng-model="choice" ng-value="'B'">
+        Cash on delivery
+        <p class="text-hint">
+          Free
+        </p>
+      </ion-radio>
+    </div>
+
+    <!-- Shipping address-->
+    <div class="padding-left padding-right">
+      Shipping address
+
+      <a class="pull-right" ui-sref="address">
+        <i class="ion-edit"></i>
+      </a>
+    </div>
+    <div class="card padding">
+      No 01
+      <br/>
+      St Luiz, Barcelona
+      <br/>
+      Spain
+    </div>
+  </ion-content>
+
+  <ion-footer-bar class="bar-balanced">
+    <div class="button" ui-sref="home">Finish</div>
+    <div class="title"></div>
+    <div class="button text-2x">
+      $20
+    </div>
+  </ion-footer-bar>
+</ion-view>

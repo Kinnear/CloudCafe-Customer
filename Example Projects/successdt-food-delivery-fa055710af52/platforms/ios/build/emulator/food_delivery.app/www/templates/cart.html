@@ -1,0 +1,69 @@
+<!--
+  This template loads for the 'cart' state (app.js)
+  cart is a $scope variable on CartCtrl (controllers.js)
+  The CartCtrl pulls data from Cart service (service.js)
+  The Cart service returns array of items data
+-->
+<ion-view view-title="Stripe">
+
+
+  <ion-content class="padding center">
+    <input type = "text" ng-model="second.item.message"/>
+    <ion-item class = "CartCtrl">
+      <ion-item>{{"$ID: "}}{{second.item.$id}}</ion-item>
+      <ion-item>{{"Name: "}}{{second.item.name}}</ion-item>
+      <ion-item>{{"Price "}}{{second.item.price}}</ion-item>
+      <ion-item>{{"Stall Name: "}}{{second.item.stallName}}</ion-item>
+      <ion-item>{{"Quantity: "}}{{second.item.quantity}}</ion-item>
+      <ion-item>{{"Rating: "}}{{second.item.rating}}</ion-item>
+      <ion-item>{{"Halal: "}}{{second.item.halal}}</ion-item>
+      <ion-item>{{"Likes: "}}{{second.item.likes}}</ion-item>
+
+      </ion-class>
+
+      <p>
+        <button class="button button-full button-positive" ng-click="charge()">Buy for ${{ProductMeta.priceUSD}}</button>
+      </p>
+
+      <p class="padding">
+        <ion-spinner ng-show="status.loading"></ion-spinner>
+      </p>
+
+      <p>
+        {{status.message}}
+      </p>
+
+    <!--<ion-list>-->
+      <!--<ion-item class="item-thumbnail-left card" ng-repeat="item in cart.items">-->
+        <!--<img src="{{ item.thumb }}" alt=""/>-->
+        <!--<h2>{{ item.name }}</h2>-->
+        <!--<div>-->
+          <!--<h2 class="price pull-left balanced">-->
+            <!--${{ item.price }}-->
+            <!--<span class="dark">x {{ item.quantity }}</span>-->
+          <!--</h2>-->
+          <!--<div class="pull-right button button-balanced button-card button-qty" ng-click="plusQty(item)">-->
+            <!--<i class="ion-plus"></i>-->
+          <!--</div>-->
+          <!--<div class="pull-right button button-balanced button-card button-qty" ng-click="minusQty(item)">-->
+            <!--<i class="ion-minus"></i>-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <!--<ion-option-button class="dark-bg light" ng-click="remove($index)">-->
+          <!--<i class="icon ion-trash-a padding"></i>-->
+        <!--</ion-option-button>-->
+      <!--</ion-item>-->
+    <!--</ion-list>-->
+
+  </ion-content>
+<!--temp close
+  <ion-footer-bar class="bar-balanced">
+    <div class="button" ui-sref="checkout">BUY</div>
+    <div class="title"></div>
+    <div class="button text-2x">
+      ${{ cart.total }}
+    </div>
+  </ion-footer-bar>
+  -->
+</ion-view>
