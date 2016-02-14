@@ -9,6 +9,7 @@
 
     <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
     <!-- stripe
       $ bower install angular-stripe-checkout
@@ -53,12 +54,12 @@
         <ion-nav-bar class="bar-light" align-title="center">
           <!-- Back button -->
           <ion-nav-back-button>
-            <span class="gunmetal">Back</span>
+            <span class="dark">Back</span>
           </ion-nav-back-button>
 
           <!-- Burger button -->
           <ion-nav-buttons side="left">
-            <button class="button button-icon button-gunmetal ion-navicon" menu-toggle="left">
+            <button class="button button-icon button-dark ion-navicon" menu-toggle="left">
             </button>
           </ion-nav-buttons>
 
@@ -84,7 +85,7 @@
           <div class="text-center">
             <a ui-sref="user">
               <img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">
-              <span class="gunmetal"><h4>User One</h4>
+              <span class="dark"><h4>User One</h4>
               <h5>location</h5></span>
             </a>
           </div>
@@ -106,48 +107,53 @@
           -->
           <div class="list" menu-close="">
             <div class="item item-icon-left" ui-sref="home">
-              <span class="gunmetal"><i class="icon ion-coffee"></i>
+              <span class="dark"><i class="icon ion-coffee"></i>
               Menu</span>
             </div>
 
             <div class="item item-icon-left"ui-sref="last_orders">
-              <span class="gunmetal"><i class="icon ion-ribbon-b "></i>
+              <span class="dark"><i class="icon ion-ribbon-b "></i>
               Rewards</span>
-              <span class="badge badge-menuNotification">5</span>
+              <span class="badge badge-balanced">5</span>
             </div>
 
-            <div class="item item-icon-left" ui-sref="offer">
-              <span class="gunmetal"><i class="icon ion-checkmark-circled"></i>
+            <div class="item item-icon-left" ui-sref="active">
+              <span class="dark"><i class="icon ion-checkmark-circled"></i>
               Active</span>
-              <span class="badge badge-menuNotification">10</span>
+              <span class="badge badge-balanced">10</span>
             </div>
 
             <div class="item item-icon-left" ui-sref="cart">
-              <span class="gunmetal"><i class="icon ion-ios-timer-outline"></i>
+              <span class="dark"><i class="icon ion-ios-timer-outline"></i>
               Stripe</span>
             </div>
 
             <div class="item item-icon-left" ui-sref="favorite">
-              <span class="gunmetal"><i class="icon ion-ios-heart"></i>
+              <span class="dark"><i class="icon ion-ios-heart"></i>
               Favorites</span>
             </div>
 
-            <div class="item item-icon-left" ui-sref="setting">
-              <span class="gunmetal"><i class="icon ion-clock"></i>
+            <div class="item item-icon-left" ui-sref="history">
+              <span class="dark"><i class="icon ion-clock"></i>
               History</span>
             </div>
 
-            <div class="item item-icon-left" ui-sref="chats">
-              <span class="gunmetal"><i class="icon ion-ios-help-outline"></i>
-              Support</span>
+            <div class="item item-icon-left" ui-sref="settings">
+              <span class="dark"><i class="icon ion-gear-b"></i>
+              Settings</span>
             </div>
-
+            <!--file under settings
+            <div class="item item-icon-left" ui-sref="reviews">
+                <span class="dark"><i class="icon ion-ios-help-outline"></i>
+                    Reviews</span>
+            </div>
+            
             <div class="item item-icon-left" ui-sref="login">
-              <span class="gunmetal"><i class="icon ion-log-out"></i>
+              <span class="dark"><i class="icon ion-log-out"></i>
               Logout</span>
             </div>
           </div>
-
+-->
         </ion-content>
 
       </ion-side-menu>

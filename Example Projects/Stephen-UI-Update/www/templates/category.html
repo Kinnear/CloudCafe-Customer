@@ -6,27 +6,34 @@
   The Categories service returns array of items data
 -->
 
-<ion-view view-title="{{ category.name }}">
+<ion-view view-title="Category">
 
   <ion-content class="stable-bg">
 
-    <div class="list no-padding">
-      <div class="item item-menu" ng-repeat="item in category.items" ui-sref="item({id: item.id})">
+    <div class="list card">
 
-        <img src="{{ item.thumb }}" alt="{{ item.name }}"/>
-
-        <div class="overlay">
-
-          <span class="pull-left light">
-            {{ item.name }}
-          </span>
-
-          <span class="pull-right balanced">
-            ${{ item.price }}
-          </span>
-        </div>
+  <div class="item item-avatar">
+    <img src="img/max.png">
+    <h2>Shop name</h2>
+    <p>number of stars track record</p>
+  </div>
+  
+  <div class="item item-image" ui-sref="item">
+    <img src="img/items/thumbs/fried_calamari.jpg">
       </div>
-    </div>
+
+  <div class="item item-body" ui-sref="item">
+    <h2>Dish Name</h2>
+    <p>
+      Description. lorem ipsum dolor
+    </p>
+    <p>
+      <a href="#" class="subdued">Number of days left</a>
+      <a href="#" class="subdued">Number of slots left</a>
+    </p>
+  </div>
+
+</div>
     
     
     

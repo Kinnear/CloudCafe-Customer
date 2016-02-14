@@ -1,6 +1,6 @@
 <!--
   This template loads for the 'home' state (app.js)
-  Show list of menu
+  Show list of category
   categories is a $scope variable on HomeCtrl (controllers.js)
   The HomeCtrl pulls data from Categories service (service.js)
   The Categories service returns array  of categories data
@@ -8,24 +8,62 @@
 <ion-view view-title="Menu">
 
   <ion-content class="stable-bg">
-
-   <div class="list no-padding">
-      <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.id})">
-
-        <img src="{{ category.thumb }}" alt="{{ category.name }}"/>
-
-        <div class="overlay">
-
-          <span class="pull-left light">
-            {{ category.name }}
-          </span>
-
-          <span class="pull-right balanced">
-            {{ category.items.length }}
-          </span>
-        </div>
-      </div>
-    </div>
+   
+  <div class="row">
+         
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/fried_calamari.jpg">
+  </div>
+  <a class="item dark">
+    Desserts
+    <p>5 new</p>
+  </a></div>
+  </div>
+  
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/zuppa.jpg">
+  </div>
+  <a class="item dark">
+    Seasonal
+    <p>2 new</p>
+  </a></div>
+  </div>
+  
+</div> 
+      
+<div class="row">
+         
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/brick_chicken.jpg">
+  </div>
+  <a class="item dark">
+    Healthy
+    <p>1 new</p>
+  </a></div>
+  </div>
+  
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/rib_eyes.jpg">
+  </div>
+  <a class="item dark">
+    Alcoholic
+    <p>6 new</p>
+  </a></div>
+  </div>
+  
+</div> 
+   
+  
+  
+ 
     <!--
    <div class="list card">
        

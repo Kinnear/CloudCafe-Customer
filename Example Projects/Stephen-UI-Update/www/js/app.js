@@ -110,10 +110,10 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
     controller: 'CartCtrl'
   })
 
-  .state('offer', {
-    url: '/offer',
-    templateUrl: 'templates/offer.html',
-    controller: 'OfferCtrl'
+  .state('active', {
+    url: '/active',
+    templateUrl: 'templates/active.html',
+    controller: 'ActiveCtrl'
   })
 
   .state('checkout', {
@@ -134,10 +134,10 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
     controller: 'UserCtrl'
   })
 
-  .state('setting', {
-    url: '/setting',
-    templateUrl: 'templates/setting.html',
-    controller: 'SettingCtrl'
+  .state('history', {
+    url: '/history',
+    templateUrl: 'templates/history.html',
+    controller: 'HistoryCtrl'
   })
 
   // Chat list
@@ -153,11 +153,27 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
     controller: 'ChatDetailCtrl'
   })
 
-        .state('reviews', {
+  .state('reviews', {
                url: '/reviews',
                templateUrl: 'templates/reviews.html',
                controller: 'ReviewsCtrl'
                })
+               
+ //states for new pages
+
+//state for settings.html
+.state('settings', {
+    url: '/settings',
+    templateUrl: 'templates/settings.html',
+    controller: 'SettingsCtrl'
+  })
+  
+//state for allreviews
+.state('allreviews', {
+    url: '/allreviews',
+    templateUrl: 'templates/allreviews.html',
+    controller: 'AllreviewsCtrl'
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/home');

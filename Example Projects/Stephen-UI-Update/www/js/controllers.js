@@ -185,8 +185,8 @@ app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
   };
 });
 
-// Offer controller
-app.controller('OfferCtrl', function($scope, $state, Items, $ionicSideMenuDelegate) {
+// Active controller
+app.controller('ActiveCtrl', function($scope, $state, Items, $ionicSideMenuDelegate) {
   // get all items form Items model
   $scope.items = Items.all();
 
@@ -232,8 +232,8 @@ app.controller('AddressCtrl', function($scope, $state) {
 // User controller
 app.controller('UserCtrl', function($scope, $state) {})
 
-// Setting Controller
-.controller('SettingCtrl', function($scope, $state) {})
+// History Controller
+.controller('HistoryCtrl', function($scope, $state) {})
 
 // Chat controller, view list chats and chat detail
 .controller('ChatCtrl', function($scope, Chats) {
@@ -298,3 +298,12 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScr
   };
 
 });
+
+
+//empty controllers for new pages here
+
+//controller for settings.html
+app.controller('SettingsCtrl', function($scope, $state) {})
+
+//controller for allreviews.html
+app.controller('AllreviewsCtrl', function($scope, $state) {})
