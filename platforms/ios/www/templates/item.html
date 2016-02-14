@@ -1,0 +1,78 @@
+<!--
+  This template loads for the 'item' state (app.js)
+  item is a $scope variable on ItemCtrl (controllers.js)
+  The ItemCtrl pulls data from Items service (service.js)
+  The Items service returns array of items data
+-->
+<ion-view view-title="{{ item.name }}">
+
+  <ion-content>
+
+    <!-- Item cover -->
+    <div class="item-cover">
+      <ion-slide-box>
+        <ion-slide ng-repeat="img in item.images">
+          <img class="full-image" src="{{ img }}" alt=""/>
+        </ion-slide>
+      </ion-slide-box>
+
+      <div class="overlay">
+        <span class="pull-left light">
+          {{ item.description }}
+        </span>
+
+        <span class="pull-right price balanced">
+          ${{ item.price }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="row item-button-group">
+      <div class="col button button-stable" ng-click="toggleFav()">
+        <i class="text-2x ion-android-star-outline" ng-hide="item.faved"></i>
+        <i class="text-2x ion-android-star" ng-show="item.faved"></i>
+        <span class="text-sm">ADD TO FAVORITE</span>
+      </div>
+      <div class="col button button-balanced">
+        <i class="text-2x ion-ios-cart-outline"></i>
+        <span class="text-sm">ADD TO CART</span>
+      </div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="padding">
+      <span>Reviews ({{ item.reviews.length }})</span>
+    </div>
+
+    <ion-list class="list-reviews">
+
+      <ion-item class="item-avatar" ng-repeat="review in item.reviews">
+        <img src="{{ review.face }}" alt=""/>
+        <div>
+          <span class="balanced">{{ review.username }}</span>
+          <p>{{ review.text }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+
+  <form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
+    <ion-footer-bar class="bar-stable message-footer">
+      <div class="footer-btn-wrap">
+        <button class="button button-icon icon ion-image"></button>
+      </div>
+      <label class="item-input-wrapper">
+        <textarea ng-model="input.message" value="" placeholder="Your message..."
+                  required minlength="1" maxlength="1500" msd-elastic></textarea>
+      </label>
+      <div class="footer-btn-wrap">
+        <button class="button button-icon icon ion-android-send footer-btn" type="submit"
+                ng-disabled="!input.message || input.message === ''">
+        </button>
+      </div>
+    </ion-footer-bar>
+  </form>
+
+</ion-view>
