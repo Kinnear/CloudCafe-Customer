@@ -175,6 +175,13 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
     controller: 'AllreviewsCtrl'
   })
 
+//state for change
+.state('change', {
+    url: '/change',
+    templateUrl: 'templates/change.html',
+    controller: 'ChangeCtrl'
+  })
+  
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/home');
 

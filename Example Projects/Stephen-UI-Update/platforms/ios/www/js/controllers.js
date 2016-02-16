@@ -307,3 +307,6 @@ app.controller('SettingsCtrl', function($scope, $state) {})
 
 //controller for allreviews.html
 app.controller('AllreviewsCtrl', function($scope, $state) {})
+
+//controller for Change Delivery Preferences change.html
+app.controller('ChangeCtrl', function($scope, $state) {})

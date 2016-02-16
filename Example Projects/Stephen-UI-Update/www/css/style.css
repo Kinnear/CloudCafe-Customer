@@ -55,3 +55,15 @@
 /*image padding*/
 .full-image {
   width: 100%; }
+  
+/* Back this project button*/
+.button.button-balanced {
+    border-color: transparent;
+    background-color: #B72C6C;
+    color: #fff;
+    border-radius: 0px;}
+    .button.button-balanced:hover {
+      color: #fff;
+      text-decoration: none; }
+    .button.button-balanced.active, .button.button-balanced.activated {
+      background-color: #B72C6C; }
