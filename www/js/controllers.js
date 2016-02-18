@@ -296,3 +296,17 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScr
   };
 
 });
+
+//controller for settings.html
+app.controller('SettingsCtrl', function($scope, $state) {})
+
+//controller for allreviews.html
+app.controller('AllreviewsCtrl', function($scope, $state) {})
+
+//controller for Change Delivery Preferences change.html
+app.controller('ChangeCtrl', function($scope, $state) {})
+
+app.controller('ActiveCtrl', function($scope, $state) {})
+
+// History Controller
+app.controller('HistoryCtrl', function($scope, $state) {})

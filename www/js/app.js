@@ -51,108 +51,141 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
 
   // login screen
   $stateProvider.state('login', {
-    url: '/login',
-    templateUrl: 'templates/login.html',
-    controller: 'AuthCtrl'
-  })
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'AuthCtrl'
+      })
 
-  // register screen
-  .state('register', {
-    url: '/register',
-    templateUrl: 'templates/register.html',
-    controller: 'AuthCtrl'
-  })
+      // register screen
+      .state('register', {
+        url: '/register',
+        templateUrl: 'templates/register.html',
+        controller: 'AuthCtrl'
+      })
 
-  // Home screen
-  .state('home', {
-    url: '/home',
-    templateUrl: 'templates/home.html',
-    controller: 'HomeCtrl'
-  })
+      // Home screen
+      .state('home', {
+        url: '/home',
+        templateUrl: 'templates/home.html',
+        controller: 'HomeCtrl'
+      })
 
-  // Category detail
-  .state('category', {
-    url: '/category/:id',
-    templateUrl: 'templates/category.html',
-    controller: 'CategoryCtrl'
-  })
+      // Category detail
+      .state('category', {
+        url: '/category/:id',
+        templateUrl: 'templates/category.html',
+        controller: 'CategoryCtrl'
+      })
 
-  // Item detail
-  .state('item', {
-    url: '/item/:id',
-    templateUrl: 'templates/item.html',
-    controller: 'ItemCtrl'
-  })
+      // Item detail
+      .state('item', {
+        url: '/item/:id',
+        templateUrl: 'templates/item.html',
+        controller: 'ItemCtrl'
+      })
 
-  // View favorite items
-  .state('favorite', {
-    url: '/favorite',
-    templateUrl: 'templates/favorite.html',
-    controller: 'FavoriteCtrl as first'
-  })
+      // View favorite items
+      .state('favorite', {
+        url: '/favorite',
+        templateUrl: 'templates/favorite.html',
+        controller: 'FavoriteCtrl as first'
+      })
 
-  // View cart
-  .state('cart', {
-    url: '/cart',
-    templateUrl: 'templates/cart.html',
-    controller: 'CartCtrl as second',
-      resolve: {
+      // View cart
+      .state('cart', {
+        url: '/cart',
+        templateUrl: 'templates/cart.html',
+        controller: 'CartCtrl as second',
+        resolve: {
           // checkout.js isn't fetched until this is resolved.
           stripe: StripeCheckoutProvider.load
-      }
-  })
+        }
+      })
 
 
-  // View ordered items
-  .state('last_orders', {
-    url: '/last-orders/',
-    templateUrl: 'templates/last-orders.html',
-    controller: 'CartCtrl'
-  })
+      // View ordered items
+      .state('last_orders', {
+        url: '/last-orders/',
+        templateUrl: 'templates/last-orders.html',
+        controller: 'CartCtrl'
+      })
 
-  .state('offer', {
-    url: '/offer',
-    templateUrl: 'templates/offer.html',
-    controller: 'OfferCtrl'
-  })
+      .state('active', {
+        url: '/active',
+        templateUrl: 'templates/active.html',
+        controller: 'ActiveCtrl'
+      })
 
-  .state('checkout', {
-    url: '/checkout',
-    templateUrl: 'templates/checkout.html',
-    controller: 'CheckoutCtrl'
-  })
+      .state('offer', {
+        url: '/offer',
+        templateUrl: 'templates/offer.html',
+        controller: 'OfferCtrl'
+      })
 
-  .state('address', {
-    url: '/address',
-    templateUrl: 'templates/address.html',
-    controller: 'AddressCtrl'
-  })
+      .state('checkout', {
+        url: '/checkout',
+        templateUrl: 'templates/checkout.html',
+        controller: 'CheckoutCtrl'
+      })
 
-  .state('user', {
-    url: '/user',
-    templateUrl: 'templates/user.html',
-    controller: 'UserCtrl'
-  })
+      .state('address', {
+        url: '/address',
+        templateUrl: 'templates/address.html',
+        controller: 'AddressCtrl'
+      })
 
-  .state('setting', {
-    url: '/setting',
-    templateUrl: 'templates/setting.html',
-    controller: 'SettingCtrl'
-  })
+      .state('user', {
+        url: '/user',
+        templateUrl: 'templates/user.html',
+        controller: 'UserCtrl'
+      })
 
-  // Chat list
-  .state('chats', {
-    url: '/chats',
-    templateUrl: 'templates/chats.html',
-    controller: 'ChatCtrl'
-  })
+      .state('history', {
+        url: '/history',
+        templateUrl: 'templates/history.html',
+        controller: 'HistoryCtrl'
+      })
 
-  .state('chat-detail', {
-    url: '/chats/:chatId',
-    templateUrl: 'templates/chat-detail.html',
-    controller: 'ChatDetailCtrl'
-  })
 
+      // Chat list
+      .state('chats', {
+        url: '/chats',
+        templateUrl: 'templates/chats.html',
+        controller: 'ChatCtrl'
+      })
+
+      .state('chat-detail', {
+        url: '/chats/:chatId',
+        templateUrl: 'templates/chat-detail.html',
+        controller: 'ChatDetailCtrl'
+      })
+
+      .state('reviews', {
+        url: '/reviews',
+        templateUrl: 'templates/reviews.html',
+        controller: 'ReviewsCtrl'
+      })
+
+      //state for settings.html
+      .state('settings', {
+        url: '/settings',
+        templateUrl: 'templates/settings.html',
+        controller: 'SettingsCtrl'
+      })
+
+      //state for allreviews
+      .state('allreviews', {
+        url: '/allreviews',
+        templateUrl: 'templates/allreviews.html',
+        controller: 'AllreviewsCtrl'
+      })
+
+      //state for change
+      .state('change', {
+        url: '/change',
+        templateUrl: 'templates/change.html',
+        controller: 'ChangeCtrl'
+      })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/home');
