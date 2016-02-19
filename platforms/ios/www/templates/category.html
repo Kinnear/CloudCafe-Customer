@@ -10,13 +10,11 @@
 
   <ion-content class="stable-bg">
 
+    <!--
     <div class="list no-padding">
       <div class="item item-menu" ng-repeat="item in category.items" ui-sref="item({id: item.id})">
-
         <img src="{{ item.thumb }}" alt="{{ item.name }}"/>
-
         <div class="overlay">
-
           <span class="pull-left light">
             {{ item.name }}
           </span>
@@ -27,6 +25,34 @@
         </div>
       </div>
     </div>
+    -->
+
+    <div class="list card">
+      <div class="item item-menu" ng-repeat="item in category.items" ui-sref="item({id: item.id})">
+        <div class="item item-avatar">
+          <img src="img/max.png">
+          <h2>Shop name: {{ item.name }}</h2>
+          <p>Stars: {{ item.name }}</p>
+        </div>
+
+        <div class="item item-image" ui-sref="item">
+          <img src="{{ item.thumb }}">
+        </div>
+
+        <div class="item item-body" ui-sref="item">
+          <h2>Dish Name</h2>
+          <p>
+            Description. lorem ipsum dolor
+          </p>
+          <p>
+            <a href="#" class="subdued">Number of days left</a>
+            <a href="#" class="subdued">Number of slots left</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
   </ion-content>
 </ion-view>
 

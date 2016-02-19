@@ -310,3 +310,6 @@ app.controller('AllreviewsCtrl', function($scope, $state) {})
 
 //controller for Change Delivery Preferences change.html
 app.controller('ChangeCtrl', function($scope, $state) {})
+
+//controller for Support support.html
+app.controller('SupportCtrl', function($scope, $state) {})

@@ -182,6 +182,13 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
     controller: 'ChangeCtrl'
   })
   
+//state for support
+.state('support', {
+    url: '/support',
+    templateUrl: 'templates/support.html',
+    controller: 'SupportCtrl'
+  })
+    
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/home');
 

@@ -16,6 +16,7 @@
         </ion-slide>
       </ion-slide-box>
 
+      <!--
       <div class="overlay">
         <span class="pull-left light">
           {{ item.description }}
@@ -25,38 +26,122 @@
           ${{ item.price }}
         </span>
       </div>
-    </div>
+    </div>-->
 
     <!-- Buttons -->
     <div class="row item-button-group">
       <div class="col button button-stable" ng-click="toggleFav()">
-        <i class="text-2x ion-android-star-outline" ng-hide="item.faved"></i>
-        <i class="text-2x ion-android-star" ng-show="item.faved"></i>
+        <i class="text-2x ion-ios-heart-outline" ng-hide="item.faved"></i>
+        <i class="text-2x ion-ios-heart" ng-show="item.faved"></i>
         <span class="text-sm">ADD TO FAVORITE</span>
       </div>
+      <!--temp close
       <div class="col button button-balanced">
         <i class="text-2x ion-ios-cart-outline"></i>
         <span class="text-sm">ADD TO CART</span>
       </div>
+       -->
     </div>
 
-    <!-- Reviews -->
-    <div class="padding">
-      <span>Reviews ({{ item.reviews.length }})</span>
+      <!-- Reviews -->
+      <label class="item item-input item-stacked-label">
+        <span class="input-label balanced">Details</span>
+        <p>Item: <br>
+          Shop: <br>
+          Slots left: <br>
+          Days left to fund: <br>
+          Order fulfillment date:<br>
+          Tags: Organic, Gluten-free, Hand-made</p>
+      </label>
+
+      <label class="item item-input item-stacked-label">
+        <span class="input-label balanced">Description</span>
+        <p>lorem Ipsum Dolor...</p>
+      </label>
+
+      <button class="button button-full button-clear" ui-sref="allreviews">
+        <i class="icon ion-ios-chatbubble-outline"></i>
+        Read all reviews
+      </button>
+
     </div>
 
-    <ion-list class="list-reviews">
+    <div class="list">
 
-      <ion-item class="item-avatar" ng-repeat="review in item.reviews">
-        <img src="{{ review.face }}" alt=""/>
-        <div>
-          <span class="balanced">{{ review.username }}</span>
-          <p>{{ review.text }}</p>
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Date
         </div>
-      </ion-item>
-    </ion-list>
+        <select>
+          <option selected>Select Date</option>
+          <option>date 1 Friday</option>
+          <option>date 2 Saturday</option>
+          <option>date 3 Sunday</option>
+        </select>
+      </label>
+
+    </div>
+
+
+    <div class="list">
+
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Time
+        </div>
+        <select>
+          <option selected>Select Time</option>
+          <option>time 1 0900</option>
+          <option>time 2 1400</option>
+          <option>time 3 1800</option>
+        </select>
+      </label>
+
+    </div>
+
+    <ul class="list">
+
+      <li class="item item-toggle">
+        Delivery
+        <label class="toggle toggle-energized">
+          <input type="checkbox">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </li>
+
+    </ul>
+
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Search">
+      </label>
+    </div>
+
+    <div class="list">
+
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Location
+        </div>
+        <select>
+          <option selected>Select Location</option>
+          <option>location 1</option>
+          <option>location 2</option>
+          <option>location 3</option>
+        </select>
+      </label>
+
+    </div>
+
+    <button class="button bar button-balanced">
+      Back this Project
+    </button>
 
   </ion-content>
+
 
   <form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
     <ion-footer-bar class="bar-stable message-footer">
