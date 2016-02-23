@@ -19,8 +19,8 @@ var app = angular.module('starter.controllers', ["ionic", "firebase"]);
 //
 //});
 
-app.controller("FavouriteController", function($scope, FavouriteData) {
-  $scope.favouriteFata = FavouriteData;
+app.controller("FavouriteController", function($scope, $firebaseArray, VarFactory, fbUrl) {
+//  $scope.favouriteFata = FavouriteData;
 //   $scope.addItem = function() {
 //     var name = prompt("What do you need to buy?");
 //     if (name) {
@@ -35,6 +35,38 @@ app.controller("FavouriteController", function($scope, FavouriteData) {
 //    console.log(currObj);
 //    productService.addProduct(currObj);
 //  };
+
+  $scope.AllFoodData;
+  $scope.tableName = '';
+  $scope.defName = '';
+  $scope.varName = '';
+
+  $scope.findVar = function() {
+    var seriesRef = new Firebase(fbUrl+'/'+$scope.tableName);
+    var seriesCollection = $firebaseArray(seriesRef);
+    seriesCollection.$ref().orderByChild($scope.defName).equalTo($scope.varName).once("value", function(dataSnapshot){
+      var series = dataSnapshot.val();
+      if(series){
+        console.log("Found", series);
+        $scope.series = series;
+      } else {
+        console.warn("Not found.");
+      }
+    });
+  };
+
+  $scope.getAll = function(){
+    var seriesRef = new Firebase(fbUrl+'/'+$scope.tableName);
+    var seriesCollection = $firebaseArray(seriesRef);
+    seriesCollection.$ref().on("value", function(snapshot) {
+      var newpost = snapshot.val();
+      console.log(newpost);
+      $scope.AllFoodData = snapshot.val();
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+    return $firebaseArray(seriesRef);;
+  }
 });
 
 
@@ -97,8 +129,6 @@ app.controller('FavoriteCtrl', function($scope, $state, Items, CartItemData) {
     CartItemData.setItemData(index);
     first.item = CartItemData.getItemData();
   }
-
-
 });
 
 // Cart controller
@@ -142,6 +172,12 @@ app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
 
     $scope.status['loading'] = true;
     $scope.status['message'] = "Retrieving your Stripe Token...";
+
+    console.log(second.item.foodName);
+
+    $scope.ProductMeta['title'] = second.item.foodName;
+    $scope.ProductMeta['description'] = second.item.description;
+    $scope.ProductMeta['priceUSD'] = second.item.price;
 
     // first get the Stripe token
     StripeCharge.getStripeToken($scope.ProductMeta).then(

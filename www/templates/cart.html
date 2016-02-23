@@ -5,10 +5,44 @@
   The Cart service returns array of items data
 -->
 <ion-view view-title="Cart">
-
-
   <ion-content class="padding center">
-    <input type = "text" ng-model="second.item.message"/>
+    <ion-list ng-controller = "CartCtrl">
+      <ion-item>{{"Name: "}}{{second.item.foodName}}</ion-item>
+      <ion-item>{{"Description: "}}{{second.item.description}}</ion-item>
+      <ion-item>{{"Price: "}}{{second.item.price}}</ion-item>
+    </ion-list>
+    <br/>
+    <!-- Payment method -->
+    <div class="padding-left padding-top">Payment</div>
+    <div class="list card">
+      <ion-radio ng-model="choice" ng-value="'A'">
+        Credit card
+        <p class="text-hint">
+          XXXX XXXX XXXX 4678
+        </p>
+      </ion-radio>
+    </div>
+
+    <!-- Shipping address-->
+    <div class="padding-left padding-right">
+      Shipping address
+
+      <a class="pull-right" ui-sref="address">
+        <i class="ion-edit"></i>
+      </a>
+    </div>
+    <div class="card padding">
+      No 01
+      <br/>
+      St Luiz, Barcelona
+      <br/>
+      Spain
+    </div>
+
+    <button class="button button-block button-royal" ng-click="charge()">Buy</button>
+  </ion-content>
+
+    <!--<input type = "text" ng-model="second.item.message"/>
     <ion-item class = "CartCtrl">
       <ion-item>{{"$ID: "}}{{second.item.$id}}</ion-item>
       <ion-item>{{"Name: "}}{{second.item.name}}</ion-item>
@@ -33,7 +67,7 @@
         {{status.message}}
       </p>
 
-    <!--<ion-list>-->
+    <ion-list>-->
       <!--<ion-item class="item-thumbnail-left card" ng-repeat="item in cart.items">-->
         <!--<img src="{{ item.thumb }}" alt=""/>-->
         <!--<h2>{{ item.name }}</h2>-->
@@ -54,9 +88,9 @@
           <!--<i class="icon ion-trash-a padding"></i>-->
         <!--</ion-option-button>-->
       <!--</ion-item>-->
-    <!--</ion-list>-->
+    <!--</ion-list></ion-content>
 
-  </ion-content>
+
 
   <ion-footer-bar class="bar-balanced">
     <div class="button" ui-sref="checkout">BUY</div>
@@ -64,5 +98,5 @@
     <div class="button text-2x">
       ${{ cart.total }}
     </div>
-  </ion-footer-bar>
+  </ion-footer-bar>-->
 </ion-view>
