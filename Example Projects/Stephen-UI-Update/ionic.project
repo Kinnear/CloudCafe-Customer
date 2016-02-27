@@ -1,12 +1,4 @@
 {
-  "name": "food_delivery",
-  "app_id": "e665d77f",
-  "gulpStartupTasks": [
-    "sass",
-    "watch"
-  ],
-  "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
-  ]
+  "name": "hj",
+  "app_id": ""
 }

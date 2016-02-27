@@ -1,4 +1,9 @@
-var app = angular.module('starter.services', ["ionic", "firebase"]);
+String.prototype.isEmpty = function() {
+  return (this.length === 0 || !this.trim());
+};
+
+var app = angular.module('starter.services', ["ionic", "firebase"])
+    .value('fbUrl','https://burning-heat-7015.firebaseio.com/');
 
 // Our Firebase Data Factory retriever
 app.factory("FavouriteData", function($firebaseArray) {
@@ -103,7 +108,6 @@ app.factory('Categories', function() {
     }
   };
 });
-
 
 app.factory('Items', function() {
   // Might use a resource here that returns a JSON array
@@ -427,3 +431,29 @@ app.factory('Chats', function () {
 
   return self;
 })
+
+
+app.factory('VarFactory', function(VarArrayFactory, fbUrl){
+  return function(tableRef){
+    var ref = new Firebase(fbUrl+'/'+tableRef);
+    console.log(fbUrl+'/'+tableRef);
+    return new VarArrayFactory(ref);
+  }
+});
+
+app.factory('VarArrayFactory', function($firebaseArray, $q){
+  return $firebaseArray.$extend({
+    findVar:function(defName, varName){
+      var deferred = $q.defer();
+      // query by 'name'
+      this.$ref().orderByChild(defName).equalTo(varName).once("value", function(dataSnapshot){
+        if(dataSnapshot.exists()){
+          deferred.resolve(dataSnapshot.val());
+        } else {
+          deferred.reject("Not found.");
+        }
+      });
+      return deferred.promise;
+    }
+  });
+});

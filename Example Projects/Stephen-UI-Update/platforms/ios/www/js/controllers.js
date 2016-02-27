@@ -1,321 +1,56 @@
-var app = angular.module('starter.controllers', ["ionic", "firebase"]);
+angular.module('starter.controllers', [])
 
+.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-//app.service('productService', function() {
-//  var productList = [];
-//
-//  var addProduct = function(newObj) {
-//    productList.push(newObj);
-//  };
-//
-//  var getProducts = function(){
-//    return productList;
-//  };
-//
-//  return {
-//    addProduct: addProduct,
-//    getProducts: getProducts
-//  };
-//
-//});
+  // With the new view caching in Ionic, Controllers are only called
+  // when they are recreated or on app start, instead of every page change.
+  // To listen for when this page is active (for example, to refresh data),
+  // listen for the $ionicView.enter event:
+  //$scope.$on('$ionicView.enter', function(e) {
+  //});
 
-app.controller("FavouriteController", function($scope, FavouriteData) {
-  $scope.favouriteFata = FavouriteData;
-//   $scope.addItem = function() {
-//     var name = prompt("What do you need to buy?");
-//     if (name) {
-//       $scope.items.$add({
-//         "name": name
-//       });
-//     }
-//   };
-//
-//  $scope.callToAddToProductList = function(currObj){
-//    console.log("Here!!");
-//    console.log(currObj);
-//    productService.addProduct(currObj);
-//  };
-});
+  // Form data for the login modal
+  $scope.loginData = {};
 
-
-// Authentication controller
-// Put your login, register functions here
-app.controller('AuthCtrl', function($scope, $ionicHistory) {
-  // hide back button in next view
-  $ionicHistory.nextViewOptions({
-    disableBack: true
+  // Create the login modal that we will use later
+  $ionicModal.fromTemplateUrl('templates/login.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
   });
-});
 
-// Home controller
-app.controller('HomeCtrl', function($scope, $state, Categories) {
-    // get all categories from service
-    $scope.categories = Categories.all();
-});
-
-// Category controller
-app.controller('CategoryCtrl', function($scope, $state, Categories, $stateParams, FavouriteData) {
-  var id = $stateParams.id;
-
-  // get all items from service by category id
-  // for now hardcode the category id to "1"
-  $scope.category = Categories.get(1);
-  
-  // testing only
-  $scope.firebaseTest = FavouriteData;
-});
-
-// Item controller
-app.controller('ItemCtrl', function($scope, $state, Items, $stateParams) {
-    var id = $stateParams.id;
-
-    // get item from service by item id
-    $scope.item = Items.get(1);
-
-    // toggle favorite
-    $scope.toggleFav = function() {
-      $scope.item.faved = !$scope.item.faved;
-    }
-});
-
-// Favorite controller
-app.controller('FavoriteCtrl', function($scope, $state, Items, CartItemData) {
-
-  // get all favorite items
-  $scope.items = Items.all()
-
-  // remove item from favorite
-  $scope.remove = function(index) {
-    $scope.items.splice(index, 1);
-  }
-
-  var first = this;
-  first.item = CartItemData.getItemData();
-
-  $scope.addtocart = function(index){
-    console.log(index);
-    CartItemData.setItemData(index);
-    first.item = CartItemData.getItemData();
-  }
-
-
-});
-
-// Cart controller
-app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
-  // set cart items
-  $scope.cart = Cart.get();
-
-  // plus quantity
-  $scope.plusQty = function(item) {
-    item.quantity++;
-  }
-
-  // minus quantity
-  $scope.minusQty = function(item) {
-    if(item.quantity > 1)
-      item.quantity--;
-  }
-
-  // remove item from cart
-  $scope.remove = function(index) {
-    $scope.cart.items.splice(index, 1);
-  }
-
-  // Router Thingy
-  var second = this;
-  second.item = CartItemData.getItemData();
-
-  // Stripe JS
-  $scope.ProductMeta = {
-    title: "Awesome product",
-    description: "Yes it really is",
-    priceUSD: 1,
+  // Triggered in the login modal to close it
+  $scope.closeLogin = function() {
+    $scope.modal.hide();
   };
 
-  $scope.status = {
-    loading: false,
-    message: "",
+  // Open the login modal
+  $scope.login = function() {
+    $scope.modal.show();
   };
 
-  $scope.charge = function() {
+  // Perform the login action when the user submits the login form
+  $scope.doLogin = function() {
+    console.log('Doing login', $scope.loginData);
 
-    $scope.status['loading'] = true;
-    $scope.status['message'] = "Retrieving your Stripe Token...";
-
-    // first get the Stripe token
-    StripeCharge.getStripeToken($scope.ProductMeta).then(
-        function(stripeToken){
-          // -->
-          proceedCharge(stripeToken);
-        },
-        function(error){
-          console.log(error)
-
-          $scope.status['loading'] = false;
-          if(error != "ERROR_CANCEL") {
-            $scope.status['message'] = "Oops... something went wrong";
-          } else {
-            $scope.status['message'] = "";
-          }
-        }
-    ); // ./ getStripeToken
-
-    function proceedCharge(stripeToken) {
-
-      $scope.status['message'] = "Processing your payment...";
-
-      // then chare the user through your custom node.js server (server-side)
-      StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
-          function(StripeInvoiceData){
-            $scope.status['loading'] = false;
-            $scope.status['message'] = "Success! Check your Stripe Account";
-            console.log(StripeInvoiceData)
-          },
-          function(error){
-            console.log(error);
-
-            $scope.status['loading'] = false;
-            $scope.status['message'] = "Oops... something went wrong";
-          }
-      );
-
-    }; // ./ proceedCharge
-
+    // Simulate a login delay. Remove this and replace with your login
+    // code if using a login system
+    $timeout(function() {
+      $scope.closeLogin();
+    }, 1000);
   };
+})
+
+.controller('PlaylistsCtrl', function($scope) {
+  $scope.playlists = [
+    { title: 'Reggae', id: 1 },
+    { title: 'Chill', id: 2 },
+    { title: 'Dubstep', id: 3 },
+    { title: 'Indie', id: 4 },
+    { title: 'Rap', id: 5 },
+    { title: 'Cowbell', id: 6 }
+  ];
+})
+
+.controller('PlaylistCtrl', function($scope, $stateParams) {
 });
-
-// Active controller
-app.controller('ActiveCtrl', function($scope, $state, Items, $ionicSideMenuDelegate) {
-  // get all items form Items model
-  $scope.items = Items.all();
-
-  // toggle favorite
-  $scope.toggleFav = function() {
-    $scope.item.faved = !$scope.item.faved;
-  }
-
-  // disabled swipe menu
-  $ionicSideMenuDelegate.canDragContent(false);
-});
-
-// Checkout controller
-app.controller('CheckoutCtrl', function($scope, $state) {});
-
-app.controller('ReviewsCtrl', function($scope, $state) {});
-
-// Address controller
-app.controller('AddressCtrl', function($scope, $state) {
-  function initialize() {
-    // set up begining position
-    var myLatlng = new google.maps.LatLng(21.0227358,105.8194541);
-
-    // set option for map
-    var mapOptions = {
-      center: myLatlng,
-      zoom: 16,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    // init map
-    var map = new google.maps.Map(document.getElementById("map"),
-      mapOptions);
-
-    // assign to stop
-    $scope.map = map;
-  }
-  // load map when the ui is loaded
-  $scope.init = function() {
-    initialize();
-  }
-});
-
-// User controller
-app.controller('UserCtrl', function($scope, $state) {})
-
-// History Controller
-.controller('HistoryCtrl', function($scope, $state) {})
-
-// Chat controller, view list chats and chat detail
-.controller('ChatCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-
-  // remove a conversation
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-
-  // mute a conversation
-  $scope.mute = function(chat) {
-    // write your code here
-  }
-});
-
-app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
-  //$scope.chat = Chats.get($stateParams.chatId);
-  $scope.chat = Chats.get(0);
-
-  $scope.sendMessage = function() {
-    var message = {
-      type: 'sent',
-      time: 'Just now',
-      text: $scope.input.message
-    };
-
-    $scope.input.message = '';
-
-    // push to massages list
-    $scope.chat.messages.push(message);
-
-    $ionicScrollDelegate.$getByHandle('mainScroll').scrollBottom();
-  };
-
-  // hover menu
-  $scope.onMessageHold = function(e, itemIndex, message) {
-    // show hover menu
-    $ionicActionSheet.show({
-      buttons: [
-        {
-          text: 'Copy Text'
-        }, {
-          text: 'Delete Message'
-        }
-      ],
-      buttonClicked: function(index) {
-        switch (index) {
-          case 0: // Copy Text
-            //cordova.plugins.clipboard.copy(message.text);
-
-            break;
-          case 1: // Delete
-            // no server side secrets here :~)
-            $scope.chat.messages.splice(itemIndex, 1);
-            break;
-        }
-
-        return true;
-      }
-    });
-  };
-
-});
-
-
-//empty controllers for new pages here
-
-//controller for settings.html
-app.controller('SettingsCtrl', function($scope, $state) {})
-
-//controller for allreviews.html
-app.controller('AllreviewsCtrl', function($scope, $state) {})
-
-//controller for Change Delivery Preferences change.html
-app.controller('ChangeCtrl', function($scope, $state) {})
-
-//controller for Support support.html
-app.controller('SupportCtrl', function($scope, $state) {})
-
-//controller for Shop shop.html
-app.controller('ShopCtrl', function($scope, $state) {})
-
-//controller for location.html
-app.controller('LocationCtrl', function($scope, $state) {})
