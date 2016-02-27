@@ -313,3 +313,6 @@ app.controller('ChangeCtrl', function($scope, $state) {})
 
 //controller for Support support.html
 app.controller('SupportCtrl', function($scope, $state) {})
+
+//controller for Shop shop.html
+app.controller('ShopCtrl', function($scope, $state) {})

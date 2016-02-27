@@ -12,7 +12,7 @@
 
     <div class="list card">
 
-      <div class="item item-avatar">
+      <div class="item item-avatar" ui-sref="shop">
         <img src="img/max.png">
         <h2>Shop name</h2>
         <p>number of stars track record</p>
@@ -27,10 +27,15 @@
         <p>
           Description. lorem ipsum dolor
         </p>
-        <p>
-          <a href="#" class="subdued">Number of days left</a>
-          <a href="#" class="subdued">Number of slots left</a>
-        </p>
+        
+        
+        <div class="row">
+            <div class="col">Days left: _</div>
+            <div class="col">Slots left: _</div>
+        </div>
+        
+        <progress max="5" value="3" class="progress-bar">
+        </progress>
       </div>
 
 </div>
