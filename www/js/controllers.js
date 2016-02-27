@@ -49,6 +49,17 @@ app.controller("FavouriteController", function($scope, $firebaseArray, VarFactor
       if(series){
         console.log("Found", series);
         $scope.series = series;
+        console.log(dataSnapshot.toString());
+        console.log(getParent(dataSnapshot.child("categoryID")));
+
+        dataSnapshot.orderByKey().on("child_added", function(snapshot){
+          console.log(snapspot.key());
+        });
+
+        //seriesRef.once('value',function(datasnapshot2){
+        //  console.log(datasnapshot2);
+        //}, {dataSnapshot.val():})
+
       } else {
         console.warn("Not found.");
       }
@@ -60,12 +71,44 @@ app.controller("FavouriteController", function($scope, $firebaseArray, VarFactor
     var seriesCollection = $firebaseArray(seriesRef);
     seriesCollection.$ref().on("value", function(snapshot) {
       var newpost = snapshot.val();
+
       console.log(newpost);
       $scope.AllFoodData = snapshot.val();
+      console.log($scope.AllFoodData['food1']);
+
+      snapshot.forEach(function(childObj){
+        console.log("The example key is " + childObj.key() + " and has values of");
+        console.log(childObj.val());
+        var ObjWithKey = childObj.val();
+        ObjWithKey['Key'] = childObj.key();
+        console.log("The new obj is " + ObjWithKey['foodName'] + ' - ' + ObjWithKey['Key']);
+        $scope.AllFoodData[childObj.key()] = ObjWithKey;
+      })
+
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });
-    return $firebaseArray(seriesRef);;
+    return $firebaseArray(seriesRef);
+  }
+
+  $scope.test = function() {
+    //var seriesRef = new Firebase(fbUrl+'/food');
+    //seriesRef.orderByKey().on("value", function(snapshot){
+    //  //console.log(snapshot.key());
+    //  snapshot.forEach(function(childSnapshot){
+    //    var val = childSnapshot.val().categoryID;
+    //    console.log(val);
+    //    console.log(childSnapshot.key())
+    //  })
+    //});
+  }
+
+  function getParent(snapshot) {
+    // You can get the reference (A Firebase object) from a snapshot
+    // using .ref().
+    var ref = snapshot.ref();
+    // Now simply find the parent and return the name.
+    return ref.parent().key();
   }
 });
 

@@ -1,5 +1,5 @@
 // Ionic Starter App
-var SERVER_SIDE_URL             = "sleepy-refuge-89064.herokuapp.com";
+var SERVER_SIDE_URL             = "https://sleepy-refuge-89064.herokuapp.com/";
 var STRIPE_API_PUBLISHABLE_KEY  = "pk_test_h57hQy5dRjVjlM7SoNVYG8Mn";
 
 // angular.module is a global place for creating, registering and retrieving Angular modules

@@ -24,8 +24,11 @@
     <ion-list ng-controller = "FavouriteController">
         <ion-item ng-repeat = "item in AllFoodData" ng-click="addtocart(item)" ui-sref="cart()">
             <h2>{{item.foodName}}</h2>
+            <h2>{{item.Key}}</h2>
             hello
         </ion-item>
+
+        <button ng-click="test()">Test</button>
 
       <h4>Firebase Table</h4>
       <input ng-model="tableName" placeholder="Firebase Table">
