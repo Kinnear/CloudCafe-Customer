@@ -1,0 +1,77 @@
+<!--
+  This template loads for the 'home' state (app.js)
+  Show list of category
+  categories is a $scope variable on HomeCtrl (controllers.js)
+  The HomeCtrl pulls data from Categories service (service.js)
+  The Categories service returns array  of categories data
+-->
+<ion-view view-title="Menu">
+
+  <ion-content class="stable-bg">
+
+  <div class="row">
+         
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/fried_calamari.jpg">
+  </div>
+  <a class="item dark">
+    Spotlight
+    <p><span class="assertive">5 new</span></p>
+  </a></div>
+  </div>
+  
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/zuppa.jpg">
+  </div>
+  <a class="item dark">
+    Seasonal
+    <p><span class="assertive">4 new</span></p>
+  </a></div>
+  </div>
+  
+</div> 
+      
+<div class="row">
+         
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/brick_chicken.jpg">
+  </div>
+  <a class="item dark">
+    Healthy
+    <p><span class="assertive">8 new</span></p>
+  </a></div>
+  </div>
+  
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/rib_eyes.jpg">
+  </div>
+  <a class="item dark">
+    Desserts
+    <p><span class="assertive">1 new</span></p>
+  </a></div>
+  </div>
+  
+</div>
+  
+ 
+    <!--
+   <div class="list card">
+       
+        <div class="item item-body">
+            <img class="full-image" src="img/items/thumbs/brick_chicken.jpg">
+                <h2>Desserts <span class="assertive">5 NEW!</span></h2>
+                <p>Sweet treats ready in time for Valentine's Day! Don't miss out on these fabulous handmade desserts!</p>
+                </div>
+        
+    </div>-->
+    
+  </ion-content>
+</ion-view>

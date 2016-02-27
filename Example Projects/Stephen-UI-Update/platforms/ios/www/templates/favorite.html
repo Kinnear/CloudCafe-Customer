@@ -1,0 +1,48 @@
+<!--
+  This template loads for the 'favorite' state (app.js)
+  items is a $scope variable on FavoriteCtrl (controllers.js)
+  The FavoriteCtrl pulls data from Items service (service.js)
+  The Items service returns array of items data
+-->
+<ion-view view-title="Favorites">
+
+  <ion-content class="stable-bg">
+    <input type = "text" ng-model="first.item.message"/>
+    <ion-item class = "FavoriteCtrl">
+      <ion-item>{{"$ID: "}}{{first.item.$id}}</ion-item>
+      <ion-item>{{"Name: "}}{{first.item.name}}</ion-item>
+      <ion-item>{{"Price "}}{{first.item.price}}</ion-item>
+      <ion-item>{{"Stall Name: "}}{{first.item.stallName}}</ion-item>
+      <ion-item>{{"Quantity: "}}{{first.item.quantity}}</ion-item>
+      <ion-item>{{"Rating: "}}{{first.item.rating}}</ion-item>
+      <ion-item>{{"Halal: "}}{{first.item.halal}}</ion-item>
+      <ion-item>{{"Likes: "}}{{first.item.likes}}</ion-item>
+      </ion-class>
+
+    <ion-list ng-controller = "FavouriteController">
+        <ion-item ng-repeat = "item in favouriteFata" ng-click="addtocart(item)" ui-sref="cart">
+            <h2>{{item.stallName}}</h2>
+            hello
+        </ion-item>        
+    </ion-list>
+
+    <ion-list>
+      <ion-item class="item-thumbnail-left card" ng-repeat="item in items">
+        <img src="{{ item.thumb }}" alt=""/>
+        <h2>{{ item.name }}</h2>
+        <div>
+          <h2 class="price pull-left balanced">${{ item.price }}</h2>
+          <div class="pull-right button button-balanced button-card">
+            <i class="ion-ios-cart-outline"></i>
+          </div>
+        </div>
+
+        <ion-option-button class="dark-bg light" ng-click="remove($index)">
+          <i class="icon ion-trash-a padding"></i>
+        </ion-option-button>
+      </ion-item>
+
+    </ion-list>
+
+  </ion-content>
+</ion-view>

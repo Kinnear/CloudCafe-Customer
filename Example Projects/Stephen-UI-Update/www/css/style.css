@@ -181,3 +181,15 @@ progress[value]::-webkit-progress-value {
     border-radius: 200px; 
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }
+
+.button.button-block, .button.button-full {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+    
+.button.button-block.button-balanced {
+    border-color: transparent;
+    background-color: #B72C6C;
+    color: #fff; }
+    .button.button-balanced:hover {
+      color: #CC6B98;
+      text-decoration: none; }

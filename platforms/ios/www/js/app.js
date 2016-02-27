@@ -93,7 +93,7 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
 
       // View cart
       .state('cart', {
-        url: '/cart/:itemData',
+        url: '/cart',
         templateUrl: 'templates/cart.html',
         controller: 'CartCtrl as second',
         resolve: {
