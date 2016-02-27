@@ -195,6 +195,13 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
     templateUrl: 'templates/shop.html',
     controller: 'ShopCtrl'
   })
+  
+//state for location
+.state('location', {
+    url: '/location',
+    templateUrl: 'templates/location.html',
+    controller: 'LocationCtrl'
+  })
     
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/home');

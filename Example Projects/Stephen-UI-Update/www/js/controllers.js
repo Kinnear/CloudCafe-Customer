@@ -316,3 +316,6 @@ app.controller('SupportCtrl', function($scope, $state) {})
 
 //controller for Shop shop.html
 app.controller('ShopCtrl', function($scope, $state) {})
+
+//controller for location.html
+app.controller('LocationCtrl', function($scope, $state) {})
