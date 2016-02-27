@@ -1,0 +1,86 @@
+<!--
+  This template loads for the 'user' state (app.js)
+-->
+<ion-view view-title="View Baker">
+
+<ion-content class="stable-bg">
+    
+<!--shop details-->
+<div class="card">
+  <div class="item item-text-wrap">
+   <div class="item item-avatar">
+        <img src="img/max.png">
+        <h2>Shop name</h2>
+        <p><i class="icon ion-ios-star"></i>
+                <i class="icon ion-ios-star-half"></i><br>
+        Established Jun 1996<br>
+        location<br>
+        Description of baking interests (passion, charity, funding further studies) qualifications/experience</p>
+      </div>
+      
+      <!--read shop all reviews previously-->
+      <button class="button button-full button-light" ui-sref="allreviews">
+        <i class="icon ion-ios-chatbubble-outline"></i>
+            Read all reviews
+      </button>
+  </div>
+</div>
+
+<a class="subdued"> ------------------------Previous Listings------------------------ </a>
+
+<!--previous listings-->
+ <div class="row">
+         
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/fried_calamari.jpg">
+  </div>
+  <a class="item dark">
+    Wasabi Cake
+    <p>5 weeks ago</p>
+  </a></div>
+  </div>
+  
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/zuppa.jpg">
+  </div>
+  <a class="item dark">
+    Matcha Strawberries
+    <p>7 weeks ago</p>
+  </a></div>
+  </div>
+  
+</div> 
+      
+<div class="row">
+         
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/brick_chicken.jpg">
+  </div>
+  <a class="item dark">
+    Merringue
+    <p>8 weeks ago new</p>
+  </a></div>
+  </div>
+  
+  <div class="col col-50">
+  <div class="list card" ui-sref="category">
+  <div class="item item-image">
+    <img src="img/items/thumbs/rib_eyes.jpg">
+  </div>
+  <a class="item dark">
+    Sakura Macarons
+    <p>9 weeks ago</p>
+  </a></div>
+  </div>
+  
+</div>
+
+
+</ion-content>
+</ion-view>
