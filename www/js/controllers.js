@@ -72,6 +72,7 @@ app.controller("FavouriteController", function($scope, $firebaseArray, VarFactor
     seriesCollection.$ref().on("value", function(snapshot) {
       var newpost = snapshot.val();
 
+      // this prints the ID out
       console.log(newpost);
       $scope.AllFoodData = snapshot.val();
       console.log($scope.AllFoodData['food1']);

@@ -25,6 +25,11 @@
         <ion-item ng-repeat = "item in AllFoodData" ng-click="addtocart(item)" ui-sref="cart()">
             <h2>{{item.foodName}}</h2>
             <h2>{{item.Key}}</h2>
+            
+            <img ng-show="item.img1 !== undefined" ng-src="{{item.img1}}">
+            <img ng-show="item.img1 === undefined" ng-src="http://placehold.it/100x100">
+            <!--<button class="button" ng-click="takePicture('item.img1URI')">Image 1</button>-->
+            
             hello
         </ion-item>
 
