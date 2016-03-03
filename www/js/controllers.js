@@ -1,41 +1,6 @@
 var app = angular.module('starter.controllers', ["ionic", "firebase"]);
 
-
-//app.service('productService', function() {
-//  var productList = [];
-//
-//  var addProduct = function(newObj) {
-//    productList.push(newObj);
-//  };
-//
-//  var getProducts = function(){
-//    return productList;
-//  };
-//
-//  return {
-//    addProduct: addProduct,
-//    getProducts: getProducts
-//  };
-//
-//});
-
-app.controller("FavouriteController", function($scope, $firebaseArray, VarFactory, fbUrl) {
-//  $scope.favouriteFata = FavouriteData;
-//   $scope.addItem = function() {
-//     var name = prompt("What do you need to buy?");
-//     if (name) {
-//       $scope.items.$add({
-//         "name": name
-//       });
-//     }
-//   };
-//
-//  $scope.callToAddToProductList = function(currObj){
-//    console.log("Here!!");
-//    console.log(currObj);
-//    productService.addProduct(currObj);
-//  };
-
+app.controller("FavouriteController", function($scope, $firebaseArray, $state, VarFactory, fbUrl) {
   $scope.AllFoodData;
   $scope.tableName = '';
   $scope.defName = '';
@@ -55,11 +20,6 @@ app.controller("FavouriteController", function($scope, $firebaseArray, VarFactor
         dataSnapshot.orderByKey().on("child_added", function(snapshot){
           console.log(snapspot.key());
         });
-
-        //seriesRef.once('value',function(datasnapshot2){
-        //  console.log(datasnapshot2);
-        //}, {dataSnapshot.val():})
-
       } else {
         console.warn("Not found.");
       }
@@ -93,15 +53,7 @@ app.controller("FavouriteController", function($scope, $firebaseArray, VarFactor
   }
 
   $scope.test = function() {
-    //var seriesRef = new Firebase(fbUrl+'/food');
-    //seriesRef.orderByKey().on("value", function(snapshot){
-    //  //console.log(snapshot.key());
-    //  snapshot.forEach(function(childSnapshot){
-    //    var val = childSnapshot.val().categoryID;
-    //    console.log(val);
-    //    console.log(childSnapshot.key())
-    //  })
-    //});
+    //$state.go('transSuccess' , {'ItemData':'Js1','StripeData':'Js2'});
   }
 
   function getParent(snapshot) {
@@ -176,7 +128,7 @@ app.controller('FavoriteCtrl', function($scope, $state, Items, CartItemData) {
 });
 
 // Cart controller
-app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
+app.controller('CartCtrl', function($scope, $state, $firebaseArray, Cart, CartItemData, StripeCharge, fbUrl) {
   // set cart items
   $scope.cart = Cart.get();
 
@@ -250,13 +202,28 @@ app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
           function(StripeInvoiceData){
             $scope.status['loading'] = false;
             $scope.status['message'] = "Success! Check your Stripe Account";
-            console.log(StripeInvoiceData)
+            console.log(StripeInvoiceData);
+            console.log(second.item.Key);
+
+            var transactionTable = new Firebase(fbUrl+'/transactions');
+            var transactionTableCollection = $firebaseArray(transactionTable);
+
+            transactionTableCollection.$add({
+              "foodID":second.item.Key,
+              "stripeTransactionID":StripeInvoiceData.id,
+              "timestamp":StripeInvoiceData.created,
+              "quantity":1
+            })
+
+            $state.go('transSuccess', {ItemData: second.item, Result: StripeInvoiceData});
           },
           function(error){
             console.log(error);
 
             $scope.status['loading'] = false;
             $scope.status['message'] = "Oops... something went wrong";
+
+            $state.go('transFailure', {'ErrorLog': error});
           }
       );
 
@@ -265,117 +232,11 @@ app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
   };
 });
 
-// Offer controller
-app.controller('OfferCtrl', function($scope, $state, Items, $ionicSideMenuDelegate) {
-  // get all items form Items model
-  $scope.items = Items.all();
-
-  // toggle favorite
-  $scope.toggleFav = function() {
-    $scope.item.faved = !$scope.item.faved;
-  }
-
-  // disabled swipe menu
-  $ionicSideMenuDelegate.canDragContent(false);
-});
-
-// Checkout controller
-app.controller('CheckoutCtrl', function($scope, $state) {});
-
-// Address controller
-app.controller('AddressCtrl', function($scope, $state) {
-  function initialize() {
-    // set up begining position
-    var myLatlng = new google.maps.LatLng(21.0227358,105.8194541);
-
-    // set option for map
-    var mapOptions = {
-      center: myLatlng,
-      zoom: 16,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    // init map
-    var map = new google.maps.Map(document.getElementById("map"),
-      mapOptions);
-
-    // assign to stop
-    $scope.map = map;
-  }
-  // load map when the ui is loaded
-  $scope.init = function() {
-    initialize();
-  }
-});
-
 // User controller
 app.controller('UserCtrl', function($scope, $state) {})
 
 // Setting Controller
 .controller('SettingCtrl', function($scope, $state) {})
-
-// Chat controller, view list chats and chat detail
-.controller('ChatCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-
-  // remove a conversation
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-
-  // mute a conversation
-  $scope.mute = function(chat) {
-    // write your code here
-  }
-});
-
-app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
-  //$scope.chat = Chats.get($stateParams.chatId);
-  $scope.chat = Chats.get(0);
-
-  $scope.sendMessage = function() {
-    var message = {
-      type: 'sent',
-      time: 'Just now',
-      text: $scope.input.message
-    };
-
-    $scope.input.message = '';
-
-    // push to massages list
-    $scope.chat.messages.push(message);
-
-    $ionicScrollDelegate.$getByHandle('mainScroll').scrollBottom();
-  };
-
-  // hover menu
-  $scope.onMessageHold = function(e, itemIndex, message) {
-    // show hover menu
-    $ionicActionSheet.show({
-      buttons: [
-        {
-          text: 'Copy Text'
-        }, {
-          text: 'Delete Message'
-        }
-      ],
-      buttonClicked: function(index) {
-        switch (index) {
-          case 0: // Copy Text
-            //cordova.plugins.clipboard.copy(message.text);
-
-            break;
-          case 1: // Delete
-            // no server side secrets here :~)
-            $scope.chat.messages.splice(itemIndex, 1);
-            break;
-        }
-
-        return true;
-      }
-    });
-  };
-
-});
 
 //controller for settings.html
 app.controller('SettingsCtrl', function($scope, $state) {})
@@ -383,10 +244,15 @@ app.controller('SettingsCtrl', function($scope, $state) {})
 //controller for allreviews.html
 app.controller('AllreviewsCtrl', function($scope, $state) {})
 
-//controller for Change Delivery Preferences change.html
-app.controller('ChangeCtrl', function($scope, $state) {})
-
 app.controller('ActiveCtrl', function($scope, $state) {})
 
 // History Controller
 app.controller('HistoryCtrl', function($scope, $state) {})
+
+//controller for Transaction Success/Failure
+app.controller('SuccessCtrl', function($scope, $stateParams, $state) {
+  $scope.var1 = $stateParams.ItemData;
+  $scope.var2 = $stateParams.StripeData;
+})
+
+app.controller('FailureCtrl', function($scope, $state) {})
