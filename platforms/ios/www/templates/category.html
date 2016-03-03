@@ -27,7 +27,7 @@
     </div>
     -->
 
-    <div class="list card">
+    <!--<div class="list card">
       <div class="item item-menu" ng-repeat="item in category.items" ui-sref="item({id: item.id})">
         <div class="item item-avatar">
           <img src="img/max.png">
@@ -51,7 +51,39 @@
         </div>
 
       </div>
+    </div>-->
+
+    <div class="list card">
+      <div class="item item-menu" ng-repeat="item in category.items" ui-sref="item({id: item.id})">
+        <div class="item item-avatar" ui-sref="shop">
+          <img src="img/max.png">
+          <h2>Shop name</h2>
+          <i class="icon ion-ios-star"></i>
+          <i class="icon ion-ios-star-half"></i>
+        </div>
+
+        <img src="{{ item.thumb }}">
+
+        <div class="item item-body" ui-sref="item">
+          <h2>Dish Name</h2>
+          <p>
+            Description. lorem ipsum dolor
+          </p>
+
+          <div class="button-bar">
+            <a class="button">Days Left:</a>
+            <a class="button">Slots Left:</a>
+            <a class="button">Price: ${{ item.price }}</a>
+          </div>
+
+          <progress max="5" value="3" class="progress-bar">
+          </progress>
+        </div>
+      </div>
+
+
     </div>
+
 
   </ion-content>
 </ion-view>

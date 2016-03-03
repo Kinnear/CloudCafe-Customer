@@ -16,40 +16,47 @@
         </ion-slide>
       </ion-slide-box>
 
-      <!--
-      <div class="overlay">
-        <span class="pull-left light">
-          {{ item.description }}
-        </span>
+      <!--close
+            <div class="overlay">
+              <span class="pull-left light">
+                {{ item.description }}
+              </span>
 
-        <span class="pull-right price balanced">
-          ${{ item.price }}
-        </span>
-      </div>
-    </div>-->
+              <span class="pull-right price light">
+                ${{ item.price }}
+              </span>
+            </div>
+          </div>-->
 
-    <!-- Buttons -->
-    <div class="row item-button-group">
-      <div class="col button button-stable" ng-click="toggleFav()">
-        <i class="text-2x ion-ios-heart-outline" ng-hide="item.faved"></i>
-        <i class="text-2x ion-ios-heart" ng-show="item.faved"></i>
-        <span class="text-sm">ADD TO FAVORITE</span>
+      <!-- Buttons -->
+      <div class="row item-button-group">
+        <div class="col button button-stable" ng-click="toggleFav()">
+          <i class="text-2x ion-ios-heart-outline" ng-hide="item.faved"></i>
+          <i class="text-2x ion-ios-heart" ng-show="item.faved"></i>
+          <span class="text-sm">ADD TO FAVORITE</span>
+        </div>
+        <!--temp close
+        <div class="col button button-balanced">
+          <i class="text-2x ion-ios-cart-outline"></i>
+          <span class="text-sm">ADD TO CART</span>
+        </div>
+         -->
       </div>
-      <!--temp close
-      <div class="col button button-balanced">
-        <i class="text-2x ion-ios-cart-outline"></i>
-        <span class="text-sm">ADD TO CART</span>
+
+      <div class="button-bar">
+        <a class="button">Days Left:</a>
+        <a class="button">Slots Left:</a>
+        <a class="button">Price: ${{ item.price }}</a>
       </div>
-       -->
-    </div>
+
+      <progress max="5" value="3" class="progress-bar">
+      </progress>
 
       <!-- Reviews -->
       <label class="item item-input item-stacked-label">
         <span class="input-label balanced">Details</span>
         <p>Item: <br>
           Shop: <br>
-          Slots left: <br>
-          Days left to fund: <br>
           Order fulfillment date:<br>
           Tags: Organic, Gluten-free, Hand-made</p>
       </label>
@@ -58,16 +65,21 @@
         <span class="input-label balanced">Description</span>
         <p>lorem Ipsum Dolor...</p>
       </label>
-
-      <button class="button button-full button-clear" ui-sref="allreviews">
-        <i class="icon ion-ios-chatbubble-outline"></i>
-        Read all reviews
-      </button>
-
     </div>
 
     <div class="list">
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Delivery
+        </div>
+        <select>
+          <option selected>Home</option>
+          <option>Work</option>
+        </select>
+      </label>
+    </div>
 
+    <div class="list">
       <label class="item item-input item-select">
         <div class="input-label">
           Date
@@ -79,12 +91,10 @@
           <option>date 3 Sunday</option>
         </select>
       </label>
-
     </div>
 
 
     <div class="list">
-
       <label class="item item-input item-select">
         <div class="input-label">
           Time
@@ -96,44 +106,6 @@
           <option>time 3 1800</option>
         </select>
       </label>
-
-    </div>
-
-    <ul class="list">
-
-      <li class="item item-toggle">
-        Delivery
-        <label class="toggle toggle-energized">
-          <input type="checkbox">
-          <div class="track">
-            <div class="handle"></div>
-          </div>
-        </label>
-      </li>
-
-    </ul>
-
-    <div class="list list-inset">
-      <label class="item item-input">
-        <i class="icon ion-search placeholder-icon"></i>
-        <input type="text" placeholder="Search">
-      </label>
-    </div>
-
-    <div class="list">
-
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Location
-        </div>
-        <select>
-          <option selected>Select Location</option>
-          <option>location 1</option>
-          <option>location 2</option>
-          <option>location 3</option>
-        </select>
-      </label>
-
     </div>
 
     <button class="button bar button-balanced">
@@ -141,23 +113,4 @@
     </button>
 
   </ion-content>
-
-
-  <form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
-    <ion-footer-bar class="bar-stable message-footer">
-      <div class="footer-btn-wrap">
-        <button class="button button-icon icon ion-image"></button>
-      </div>
-      <label class="item-input-wrapper">
-        <textarea ng-model="input.message" value="" placeholder="Your message..."
-                  required minlength="1" maxlength="1500" msd-elastic></textarea>
-      </label>
-      <div class="footer-btn-wrap">
-        <button class="button button-icon icon ion-android-send footer-btn" type="submit"
-                ng-disabled="!input.message || input.message === ''">
-        </button>
-      </div>
-    </ion-footer-bar>
-  </form>
-
 </ion-view>
