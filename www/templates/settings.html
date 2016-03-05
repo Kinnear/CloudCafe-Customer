@@ -21,11 +21,12 @@
                 Support
             </a>
 
-            <a class="item item-icon-left" ui-sref="login">
-                <i class="icon ion-log-out"></i>
-                Logout
-            </a>
-
+            <div ng-controller="FacebookAuthentication" ng-click="LogoutAuthentication()">
+                <a class="item item-icon-left">
+                    <i class="icon ion-log-out"></i>
+                    Logout
+                </a>
+            </div>
         </div>
     </ion-content>
 </ion-view>

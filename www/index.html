@@ -53,12 +53,12 @@
       <ion-nav-bar class="bar-light" align-title="center">
         <!-- Back button -->
         <ion-nav-back-button>
-          <span class="dark">Back</span>
+          <span class="dark" ng-controller="HideNavaigation" ng-hide="isStateLogin">Back</span>
         </ion-nav-back-button>
 
         <!-- Burger button -->
         <ion-nav-buttons side="left">
-          <button class="button button-icon button-dark ion-navicon" menu-toggle="left">
+          <button class="button button-icon button-dark ion-navicon" menu-toggle="left"  ng-controller="HideNavaigation" ng-hide="isStateLogin">
           </button>
         </ion-nav-buttons>
 
@@ -79,15 +79,14 @@
     <!-- Left menu -->
     <ion-side-menu side="left">
       <ion-content>
-
+          
+          
         <!-- User profile -->
-        <div class="text-center">
-          <a ui-sref="user">
-            <img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">
-              <span class="dark"><h4>User One</h4>
-              <h5>location</h5></span>
-          </a>
-        </div>
+        <a ui-sref="user">
+        <img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">
+            <span class="dark"><h4>User One</h4>
+            <h5>location</h5></span>
+        </a>
 
         <!-- Menu -->
         <!--temp remove to see logout button
