@@ -261,29 +261,33 @@ app.controller('FailureCtrl', function($scope, $state) {})
 app.controller("FacebookAuthentication", function($scope, $state, CurrentUserData, fbUrl){
 
     $scope.userData = CurrentUserData.getAuthenticationData();
-    $scope.loggedIn = false;
     $scope.loginType = null;
+    
+    console.log("Code in the controller ran.");
+    console.log("Service says logged in is " + CurrentUserData.getUserLoggedIn());
+    console.log("$scope.loginType = " + $scope.loginType);
+    console.log("$scope.userData = below");
+    console.log($scope.userData);
+    console.log('\n');
     
     // check if the user is logged in straight away
     var ref = new Firebase(fbUrl);
-    // var runOnce = 0;
+    var runOnce = 0;
 
     $scope.LoginFacebook = function(value)
     {
         $scope.loginType = value;
         
-        // if(runOnce < 1)
-        // {
-            ref.offAuth(authDataCallback); 
+        if(runOnce < 1)
+        {
             ref.onAuth(authDataCallback);
-        //     runOnce ++;
-        // }
+            runOnce ++;
+        }
         
-        console.log("$scope.loggedIn = " + $scope.loggedIn);
+        console.log("$scope.loggedIn = " + CurrentUserData.getUserLoggedIn());
         
-        $scope.loggedIn = false;
-        
-        if($scope.loggedIn == false)
+        // if($scope.loggedIn == false)
+        if(CurrentUserData.getUserLoggedIn() == false)
         {
             ref.authWithOAuthPopup($scope.loginType, function(error, authData) {
                     if (error) {
@@ -295,16 +299,20 @@ app.controller("FacebookAuthentication", function($scope, $state, CurrentUserDat
                     }
                 });
         }
+        else
+        {
+            $state.go('home');
+        }
     }
     
     $scope.LogoutAuthentication = function()
     { 
-        // ref.offAuth(authDataCallback);        
         ref.unauth();
-        // ref.offAuth(authDataCallback);
+        ref.offAuth(authDataCallback);
         CurrentUserData.clearAuthenticationData();
         $scope.userData = null;
-        $scope.loggedIn = false;
+        // $scope.loggedIn = false;
+        CurrentUserData.setUserLoggedIn(false);
         $scope.loginType = null;
         $state.go('login');
         console.log("Logout Authentication was called.");
@@ -317,7 +325,8 @@ app.controller("FacebookAuthentication", function($scope, $state, CurrentUserDat
             CurrentUserData.setAuthenticationData(authData);
             
             $scope.userData = CurrentUserData.getAuthenticationData();
-            $scope.loggedIn = true;
+            // $scope.loggedIn = true;
+            CurrentUserData.setUserLoggedIn(true);
             
             // checks to see if this facebook user has registered with us before
             var allUsers = new Firebase(fbUrl).child("users");
@@ -347,15 +356,34 @@ app.controller("FacebookAuthentication", function($scope, $state, CurrentUserDat
         {
             console.log("AuthData callback was called. ");
             CurrentUserData.clearAuthenticationData();
-            $scope.loggedIn = false;
+            // $scope.loggedIn = false;
+            CurrentUserData.setUserLoggedIn(false);
         }
     }
 });
 
-app.controller("HideNavaigation", function($scope, $state){
+app.controller("HideNavaigation", function($scope, $state, $ionicHistory){
     
     $scope.isStateLogin = function()
     {
         return $state.is('login');    
     };
+});
+
+app.controller("DeletePreviousNavigation", function($scope, $ionicHistory){
+    
+        $scope.$on('$ionicView.beforeEnter', function() {
+            //runs every time the page activates
+            // console.log("We're now in the login page!!");
+            
+             $ionicHistory.clearCache();
+             $ionicHistory.clearHistory();    
+    
+            // remove your nav router history
+            $ionicHistory.nextViewOptions({
+                disableAnimate: false,
+                disableBack: true,
+                historyRoot: true
+            });
+        });
 });

@@ -5,10 +5,10 @@ String.prototype.isEmpty = function() {
 var app = angular.module('starter.services', ["ionic", "firebase"])
     .value('fbUrl','https://burning-heat-7015.firebaseio.com/');
     
-    
 app.service("CurrentUserData", function()
 {
     var authenticationData = null;
+    var loggedIn = false;
     
     return {
             getAuthenticationData: function () {
@@ -19,7 +19,14 @@ app.service("CurrentUserData", function()
             },
             clearAuthenticationData: function(data) {
                 authenticationData = null;
-            }
+            },
+            
+            getUserLoggedIn: function () {
+                return loggedIn;
+            },
+            setUserLoggedIn: function(data) {
+                loggedIn = data;
+            },
         };    
 });
 

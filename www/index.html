@@ -50,15 +50,15 @@
 
     <!-- Center content -->
     <ion-side-menu-content>
-      <ion-nav-bar class="bar-light" align-title="center">
+      <ion-nav-bar class="bar-light" align-title="center"  ng-controller="HideNavaigation" ng-hide="isStateLogin()">
         <!-- Back button -->
         <ion-nav-back-button>
-          <span class="dark" ng-controller="HideNavaigation" ng-hide="isStateLogin">Back</span>
+          <span class="dark">Back</span>
         </ion-nav-back-button>
 
         <!-- Burger button -->
         <ion-nav-buttons side="left">
-          <button class="button button-icon button-dark ion-navicon" menu-toggle="left"  ng-controller="HideNavaigation" ng-hide="isStateLogin">
+          <button class="button button-icon button-dark ion-navicon" menu-toggle="left">
           </button>
         </ion-nav-buttons>
 
@@ -67,25 +67,26 @@
           <button class="button button-icon button-clear ion-android-more-vertical" ui-sref="home">
           </button>
         </ion-nav-buttons>
-      </ion-nav-bar>
          -->
+      </ion-nav-bar>
 
         <!--should add a filter button in place of triple button-->
 
         <!-- Main view content -->
-        <ion-nav-view animation="slide-left-right"></ion-nav-view>
+        <ion-nav-view animation="slide-left-right" ion-chevron-left  ng-controller="HideNavaigation" ng-hide="isStateLogin()"></ion-nav-view>
     </ion-side-menu-content>
 
     <!-- Left menu -->
     <ion-side-menu side="left">
       <ion-content>
           
-          
         <!-- User profile -->
         <a ui-sref="user">
         <img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">
-            <span class="dark"><h4>User One</h4>
-            <h5>location</h5></span>
+            <span class="dark">
+                <h4>User One</h4>
+                <h5>location</h5>
+            </span>
         </a>
 
         <!-- Menu -->
