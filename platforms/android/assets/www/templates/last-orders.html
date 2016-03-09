@@ -4,7 +4,7 @@
   The CartCtrl pulls data from Cart service (service.js)
   The Cart service returns array of items data
 -->
-<ion-view view-title="Last orders">
+<ion-view view-title="Rewards">
 
   <ion-content class="stable-bg">
 
@@ -13,17 +13,23 @@
         <img src="{{ item.thumb }}" alt=""/>
         <h2>{{ item.name }}</h2>
         <div>
-          <h2 class="price pull-left balanced">${{ item.price }}</h2>
-          <div class="pull-right button button-balanced button-card">
-            <i class="ion-ios-cart-outline"></i>
+          <h2 class="price pull-left balanced">Expiry:{{rewards.expiry}}
+            <br>Value: ${{ item.price }}
+          </h2>
+
+          <div class="pull-right button button-stable button-card">
+            <i class="">Redeemed</i>
+
+            <!-- <div class="pull-right button button-balanced button-card">
+                 <i class="">Used</i>-->
           </div>
         </div>
-
-        <ion-option-button class="dark-bg light" ng-click="remove($index)">
-          <i class="icon ion-trash-a padding"></i>
-        </ion-option-button>
-      </ion-item>
-
+        <!--temp close
+                <ion-option-button class="dark-bg light" ng-click="remove($index)">
+                  <i class="icon ion-trash-a padding"></i>
+                </ion-option-button>
+              </ion-item>
+        -->
     </ion-list>
 
   </ion-content>

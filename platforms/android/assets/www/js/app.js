@@ -1,29 +1,28 @@
 // Ionic Starter App
-var SERVER_SIDE_URL             = "sleepy-refuge-89064.herokuapp.com";
+var SERVER_SIDE_URL             = "https://sleepy-refuge-89064.herokuapp.com/";
 var STRIPE_API_PUBLISHABLE_KEY  = "pk_test_h57hQy5dRjVjlM7SoNVYG8Mn";
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
+// Modules currently Using
+// Ionic - Base Framework
+// UI.Router - Moving of Data
+// Stripe - Transaction of money
+// Starter.controllers/services - Basic Angular
 angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.controllers', 'starter.services', 'nl2br', 'monospaced.elastic'])
+    .run(function($ionicPlatform) {
+        $ionicPlatform.ready(function() {
+            // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+            // for form inputs)
+            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                cordova.plugins.Keyboard.disableScroll(true);
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
-
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
-})
+            }
+            if (window.StatusBar) {
+                // org.apache.cordova.statusbar required
+                StatusBar.styleDefault();
+            }
+        });
+    })
 
     .service("CartItemData", function Item(){
         var item = this;
@@ -38,124 +37,118 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
         }
     })
 
-.config(function($stateProvider, $urlRouterProvider, StripeCheckoutProvider) {
+    .config(function($stateProvider, $urlRouterProvider, StripeCheckoutProvider) {
+        // Define your STRIPE_API_PUBLISHABLE_KEY
+        StripeCheckoutProvider.defaults({key: STRIPE_API_PUBLISHABLE_KEY});
 
-    // Define your STRIPE_API_PUBLISHABLE_KEY
-    StripeCheckoutProvider.defaults({key: STRIPE_API_PUBLISHABLE_KEY});
+        // login screen
+        $stateProvider.state('login', {
+                url: '/login',
+                templateUrl: 'templates/login.html',
+                controller: 'AuthCtrl'
+            })
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
+            // register screen
+            .state('register', {
+                url: '/register',
+                templateUrl: 'templates/register.html',
+                controller: 'AuthCtrl'
+            })
 
+            // Home screen
+            .state('home', {
+                url: '/home',
+                templateUrl: 'templates/home.html',
+                controller: 'HomeCtrl'
+            })
 
-  // login screen
-  $stateProvider.state('login', {
-    url: '/login',
-    templateUrl: 'templates/login.html',
-    controller: 'AuthCtrl'
-  })
+            // Category detail
+            .state('category', {
+                url: '/category/:id',
+                templateUrl: 'templates/category.html',
+                controller: 'CategoryCtrl'
+            })
 
-  // register screen
-  .state('register', {
-    url: '/register',
-    templateUrl: 'templates/register.html',
-    controller: 'AuthCtrl'
-  })
+            // Item detail
+            .state('item', {
+                url: '/item/:id',
+                templateUrl: 'templates/item.html',
+                controller: 'ItemCtrl'
+            })
 
-  // Home screen
-  .state('home', {
-    url: '/home',
-    templateUrl: 'templates/home.html',
-    controller: 'HomeCtrl'
-  })
+            // View favorite items
+            .state('favorite', {
+                url: '/favorite',
+                templateUrl: 'templates/favorite.html',
+                controller: 'FavoriteCtrl as first'
+            })
 
-  // Category detail
-  .state('category', {
-    url: '/category/:id',
-    templateUrl: 'templates/category.html',
-    controller: 'CategoryCtrl'
-  })
+            // View cart
+            .state('cart', {
+                url: '/cart/:itemData',
+                templateUrl: 'templates/cart.html',
+                controller: 'CartCtrl as second',
+                resolve: {
+                    // checkout.js isn't fetched until this is resolved.
+                    stripe: StripeCheckoutProvider.load
+                }
+            })
 
-  // Item detail
-  .state('item', {
-    url: '/item/:id',
-    templateUrl: 'templates/item.html',
-    controller: 'ItemCtrl'
-  })
+            // View ordered items
+            .state('last_orders', {
+                url: '/last-orders/',
+                templateUrl: 'templates/last-orders.html',
+                controller: 'CartCtrl'
+            })
 
-  // View favorite items
-  .state('favorite', {
-    url: '/favorite',
-    templateUrl: 'templates/favorite.html',
-    controller: 'FavoriteCtrl as first'
-  })
+            .state('active', {
+                url: '/active',
+                templateUrl: 'templates/active.html',
+                controller: 'ActiveCtrl'
+            })
 
-  // View cart
-  .state('cart', {
-    url: '/cart',
-    templateUrl: 'templates/cart.html',
-    controller: 'CartCtrl as second',
-      resolve: {
-          // checkout.js isn't fetched until this is resolved.
-          stripe: StripeCheckoutProvider.load
-      }
-  })
+            .state('user', {
+                url: '/user',
+                templateUrl: 'templates/user.html',
+                controller: 'UserCtrl'
+            })
 
+            .state('history', {
+                url: '/history',
+                templateUrl: 'templates/history.html',
+                controller: 'HistoryCtrl'
+            })
 
-  // View ordered items
-  .state('last_orders', {
-    url: '/last-orders/',
-    templateUrl: 'templates/last-orders.html',
-    controller: 'CartCtrl'
-  })
+            //state for settings.html
+            .state('settings', {
+                url: '/settings',
+                templateUrl: 'templates/settings.html',
+                controller: 'SettingsCtrl'
+            })
 
-  .state('offer', {
-    url: '/offer',
-    templateUrl: 'templates/offer.html',
-    controller: 'OfferCtrl'
-  })
+            //state for allreviews
+            .state('allreviews', {
+                url: '/allreviews',
+                templateUrl: 'templates/allreviews.html',
+                controller: 'AllreviewsCtrl'
+            })
 
-  .state('checkout', {
-    url: '/checkout',
-    templateUrl: 'templates/checkout.html',
-    controller: 'CheckoutCtrl'
-  })
+            .state('transSuccess', {
+                url: '/success',
+                templateUrl: 'templates/success.html',
+                controller: 'SuccessCtrl',
+                params:{'ItemData':null,'StripeData':null}
+            })
 
-  .state('address', {
-    url: '/address',
-    templateUrl: 'templates/address.html',
-    controller: 'AddressCtrl'
-  })
+            .state('transFailure',{
+                url: '/failure',
+                templateUrl: 'templates/failure.html',
+                controller: 'FailureCtrl',
+                params: {
+                    'ErrorLog':''
+                }
+            })
 
-  .state('user', {
-    url: '/user',
-    templateUrl: 'templates/user.html',
-    controller: 'UserCtrl'
-  })
-
-  .state('setting', {
-    url: '/setting',
-    templateUrl: 'templates/setting.html',
-    controller: 'SettingCtrl'
-  })
-
-  // Chat list
-  .state('chats', {
-    url: '/chats',
-    templateUrl: 'templates/chats.html',
-    controller: 'ChatCtrl'
-  })
-
-  .state('chat-detail', {
-    url: '/chats/:chatId',
-    templateUrl: 'templates/chat-detail.html',
-    controller: 'ChatDetailCtrl'
-  })
-
-
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/home');
-
-
-});
+        // If others are not matched
+        $urlRouterProvider.otherwise('/home');
+    });

@@ -1,14 +1,14 @@
-<ion-view view-title="Login" hide-nav-bar="true" class="login-bg">
-  <ion-content class="login-bg">
+<ion-view view-title="Login" class="light-bg" ng-controller="DeletePreviousNavigation">
+  <ion-content class="light-bg">
 
     <div class="login-content">
 
       <!-- Logo -->
       <div class="padding text-center">
-        <div class="logo royal-bg">
+        <div class="logo balanced-bg">
           <i class="light ion-android-restaurant"></i>
         </div>
-        <h2 class="royal">
+        <h2 class="balanced">
           Cloud Café
         </h2>
       </div>
@@ -23,29 +23,34 @@
           <span class="input-label">Password</span>
           <input type="password">
         </label>
+
       </div>
 
-      <p class="text-right royal">Forgot Password?</p>
+      <p class="text-right balanced">Forgot Password? </p>
 
       <div>
-        <button class="button button-block button-royal" ui-sref="home">
+
+        <button class="button button-block button button-balanced" ui-sref="register">
           SIGN IN
         </button>
 
         <p class="text-center dark">Or</p>
 
-        <button class="button button-block facebook-login" ui-sref="home">
+        <button class="button button-block twitter-login" ui-sref="home">
           Sign in with Twitter
         </button>
-        <button class="button button-block twitter-login" ui-sref="home">
-          Sign in with Facebook
-        </button>
+        
+        <div ng-controller="FacebookAuthentication">
+            <button class="button button-block facebook-login" ng-click="LoginFacebook('facebook')">
+            Sign in with Facebook
+            </button>
+        </div>
       </div>
 
 
       <!-- Other links -->
       <div class="text-center">
-          <a ui-sref="register" class="dark">New here? <span class="royal">Sign up</span></a>
+        <a ui-sref="register" class="dark">New here? <span class="balanced">Sign up</span></a>
       </div>
 
     </div>

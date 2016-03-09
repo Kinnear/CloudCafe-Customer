@@ -9,22 +9,81 @@
 
   <ion-content class="stable-bg">
 
-    <div class="list no-padding">
-      <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.id})">
+    <!--
+    Original
+       <div class="list no-padding">
+         <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.id})">
 
-        <img src="{{ category.thumb }}" alt="{{ category.name }}"/>
+           <img src="{{ category.thumb }}" alt="{{ category.name }}"/>
 
-        <div class="overlay">
+           <div class="overlay">
 
-          <span class="pull-left light">
-            {{ category.name }}
-          </span>
+             <span class="pull-left light">
+               {{ category.name }}
+             </span>
 
-          <span class="pull-right balanced">
-            {{ category.items.length }}
-          </span>
+             <span class="pull-right balanced">
+               {{ category.items.length }}
+             </span>
+           </div>
+         </div>
+       </div>
+    -->
+
+    <!--
+    Stephen base
+       <div class="list card">
+           <div class="item item-body">
+               <img class="full-image" src="img/items/thumbs/brick_chicken.jpg">
+                   <h2>Desserts <span class="assertive">5 NEW!</span></h2>
+                   <p>Sweet treats ready in time for Valentine's Day! Don't miss out on these fabulous handmade desserts!</p>
+                   </div>
+
+       </div>
+    -->
+
+
+    <!--<div class="list card">-->
+      <!--<div class="item item-body" ng-repeat="category in categories" ui-sref="category({id: category.id})">-->
+
+        <!--<img class="full-image" src="{{ category.thumb }}" alt="{{ category.name }}"/>-->
+        <!--<h2>{{ category.name }} <span class="assertive">{{ category.items.length }} NEW!</span></h2>-->
+        <!--<p>Sweet treats ready in time for Valentine's Day! Don't miss out on these fabulous handmade desserts!</p>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="item item-body" ng-repeat="category in categories" ui-sref="category({id: category.id})">-->
+
+    <div ng-repeat="category in categories">
+      <div class="row">
+        <div class="col col-50">
+          left
+          <div class="list card" ui-sref="category({id: category.id})">
+            <div class="item item-image">
+              <img src="{{ category.thumb }}">
+            </div>
+            <a class="item dark">
+              {{ category.name }}
+              <p><span class="assertive">5 new</span></p>
+            </a>
+          </div>
+        </div>
+
+        <div class="col col-50">
+          right
+          <div class="list card" ui-sref="category({id: category.id})">
+            <div class="item item-image">
+              <img src="{{ category.thumb }}">
+            </div>
+            <a class="item dark">
+              {{ category.name }}
+              <p><span class="assertive">5 new</span></p>
+            </a>
+          </div>
         </div>
       </div>
     </div>
+
+
   </ion-content>
 </ion-view>

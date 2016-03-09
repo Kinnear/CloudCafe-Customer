@@ -258,88 +258,35 @@ app.controller('SuccessCtrl', function($scope, $stateParams, $state) {
 app.controller('FailureCtrl', function($scope, $state) {})
 
 // facebook authentication! woo hoo!
-app.controller("FacebookAuthentication", function($scope, $state, CurrentUserData, fbUrl){
+app.controller("FacebookAuthentication", function($scope, Auth, $state, CurrentUserData, fbUrl, $location){
 
-    $scope.userData = CurrentUserData.getAuthenticationData();
-    $scope.loginType = null;
+    // $scope.userData = CurrentUserData.getAuthenticationData();
+    // $scope.loginType = null;
     
-    console.log("Code in the controller ran.");
-    console.log("Service says logged in is " + CurrentUserData.getUserLoggedIn());
-    console.log("$scope.loginType = " + $scope.loginType);
-    console.log("$scope.userData = below");
-    console.log($scope.userData);
-    console.log('\n');
-    
-    // check if the user is logged in straight away
-    var ref = new Firebase(fbUrl);
-    var runOnce = 0;
-
-    $scope.LoginFacebook = function(value)
+    // console.log("Code in the controller ran.");
+    // console.log("Service says logged in is " + CurrentUserData.getUserLoggedIn());
+    // console.log("$scope.loginType = " + $scope.loginType);
+    // console.log("$scope.userData = below");
+    // console.log($scope.userData);
+    var killAuth = Auth.$onAuth(function(authData)
     {
-        $scope.loginType = value;
-        
-        if(runOnce < 1)
+        if(authData != null)
         {
-            ref.onAuth(authDataCallback);
-            runOnce ++;
-        }
-        
-        console.log("$scope.loggedIn = " + CurrentUserData.getUserLoggedIn());
-        
-        // if($scope.loggedIn == false)
-        if(CurrentUserData.getUserLoggedIn() == false)
-        {
-            ref.authWithOAuthPopup($scope.loginType, function(error, authData) {
-                    if (error) {
-                        console.log("Login Failed!", error);
-                    } else {
-                        console.log("Authenticated successfully with payload:", authData);
-                        // Apply our scope outside of angular on our html as well.
-                        $scope.$apply();
-                    }
-                });
-        }
-        else
-        {
-            $state.go('home');
-        }
-    }
-    
-    $scope.LogoutAuthentication = function()
-    { 
-        ref.unauth();
-        ref.offAuth(authDataCallback);
-        CurrentUserData.clearAuthenticationData();
-        $scope.userData = null;
-        // $scope.loggedIn = false;
-        CurrentUserData.setUserLoggedIn(false);
-        $scope.loginType = null;
-        $state.go('login');
-        console.log("Logout Authentication was called.");
-    };
-    
-    function authDataCallback(authData)
-    {
-        if (authData) 
-        {
-            CurrentUserData.setAuthenticationData(authData);
+            console.log("Redirect to home as, Logged in already before as:", authData.uid);
             
-            $scope.userData = CurrentUserData.getAuthenticationData();
-            // $scope.loggedIn = true;
-            CurrentUserData.setUserLoggedIn(true);
-            
+            // save our login details to the system over here
             // checks to see if this facebook user has registered with us before
             var allUsers = new Firebase(fbUrl).child("users");
             
-            allUsers.orderByChild(CurrentUserData.getAuthenticationData().provider).equalTo(CurrentUserData.getAuthenticationData().uid).once('value', function(snapshot) {
+            allUsers.orderByChild(authData.provider).equalTo(authData.uid).once('value', function(snapshot) {
                 
                 if(!snapshot.exists())
                 {
                     allUsers.push({                            
                             // the user's username
-                            "username": CurrentUserData.getAuthenticationData().facebook.displayName,
+                            "username": authData.facebook.displayName,
                             // the user's provider ID
-                            [CurrentUserData.getAuthenticationData().provider] : CurrentUserData.getAuthenticationData().uid
+                            [authData.provider] : authData.uid
                     });
                     console.log("The user doesn't exist! Therefore we have a new user to add.");
                 }
@@ -349,17 +296,123 @@ app.controller("FacebookAuthentication", function($scope, $state, CurrentUserDat
                 }
             });
             
-            // change over to the login page when the user has successfully logged in
-            $state.go('home');
+            killAuth();
+            
+            $location.path('home');
         }
-        else 
+        else
         {
-            console.log("AuthData callback was called. ");
-            CurrentUserData.clearAuthenticationData();
-            // $scope.loggedIn = false;
-            CurrentUserData.setUserLoggedIn(false);
+            console.log("Currently logged out");     
         }
+    });
+    
+    var offAuth = null;
+
+    $scope.LoginFacebook = function(authMethod)
+    {
+        offAuth = Auth.$onAuth(function(authData) 
+        {
+            if (authData === null) 
+            {
+                // console.log("No data was found that the user is logged in.");
+                Auth.$authWithOAuthRedirect(authMethod).then(function(authData)
+                {
+                }).catch(function(error) 
+                {
+                    if (error.code === 'TRANSPORT_UNAVAILABLE') 
+                    {
+                        Auth.$authWithOAuthPopup(authMethod).then(function(error, authData) 
+                        {
+                            if (error) 
+                            {
+                                    console.log("Login Failed!", error);
+                            }
+                            else
+                            {
+                                console.log("Authenticated successfully with payload:", authData);
+                                // Apply our scope outside of angular on our html as well.
+                                // $scope.$apply();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        console.log("Some error has occured");
+                        console.log(error);
+                    }
+                });
+                
+                console.log("Finished trying out the onAuth function");
+            }
+            else
+            {
+                console.log('Successfully attempted to log in. Logged in as', authData.uid);                
+                // $location.path('home');
+            }
+            $scope.authData = authData; // This will display the user's name in our view
+        });
     }
+    
+    $scope.LogoutAuthentication = function()
+    { 
+        // if our authentication callback does not exist, we dont need to remove the callback
+        if(offAuth != null)
+        {
+            console.log("OnAuth has been called therefore we remove the callback");
+            offAuth();
+        }
+        Auth.$unauth();
+    //     CurrentUserData.clearAuthenticationData();
+    //     $scope.userData = null;
+    //     // $scope.loggedIn = false;
+    //     CurrentUserData.setUserLoggedIn(false);
+    //     $scope.loginType = null;
+        $location.path('login');
+        console.log("Logout Authentication was called.");
+    };
+    
+    // function authDataCallback(authData)
+    // {
+    //     if (authData) 
+    //     {
+    //         CurrentUserData.setAuthenticationData(authData);
+            
+    //         $scope.userData = CurrentUserData.getAuthenticationData();
+    //         // $scope.loggedIn = true;
+    //         CurrentUserData.setUserLoggedIn(true);
+            
+    //         // checks to see if this facebook user has registered with us before
+    //         var allUsers = new Firebase(fbUrl).child("users");
+            
+    //         allUsers.orderByChild(CurrentUserData.getAuthenticationData().provider).equalTo(CurrentUserData.getAuthenticationData().uid).once('value', function(snapshot) {
+                
+    //             if(!snapshot.exists())
+    //             {
+    //                 allUsers.push({                            
+    //                         // the user's username
+    //                         "username": CurrentUserData.getAuthenticationData().facebook.displayName,
+    //                         // the user's provider ID
+    //                         [CurrentUserData.getAuthenticationData().provider] : CurrentUserData.getAuthenticationData().uid
+    //                 });
+    //                 console.log("The user doesn't exist! Therefore we have a new user to add.");
+    //             }
+    //             else 
+    //             {
+    //                 console.log("That user already exists");
+    //             }
+    //         });
+            
+    //         // change over to the login page when the user has successfully logged in
+    //         $state.go('home');
+    //     }
+    //     else 
+    //     {
+    //         console.log("AuthData callback was called. ");
+    //         CurrentUserData.clearAuthenticationData();
+    //         // $scope.loggedIn = false;
+    //         CurrentUserData.setUserLoggedIn(false);
+    //     }
+    // }
 });
 
 app.controller("HideNavaigation", function($scope, $state, $ionicHistory){
@@ -374,8 +427,6 @@ app.controller("DeletePreviousNavigation", function($scope, $ionicHistory){
     
         $scope.$on('$ionicView.beforeEnter', function() {
             //runs every time the page activates
-            // console.log("We're now in the login page!!");
-            
              $ionicHistory.clearCache();
              $ionicHistory.clearHistory();    
     

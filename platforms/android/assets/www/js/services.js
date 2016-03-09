@@ -1,4 +1,39 @@
-var app = angular.module('starter.services', ["ionic", "firebase"]);
+String.prototype.isEmpty = function() {
+  return (this.length === 0 || !this.trim());
+};
+
+var app = angular.module('starter.services', ["ionic", "firebase"])
+    .value('fbUrl','https://burning-heat-7015.firebaseio.com/');
+    
+app.service("CurrentUserData", function()
+{
+    var authenticationData = null;
+    var loggedIn = false;
+    
+    return {
+            getAuthenticationData: function () {
+                return authenticationData;
+            },
+            setAuthenticationData: function(data) {
+                authenticationData = data;
+            },
+            clearAuthenticationData: function(data) {
+                authenticationData = null;
+            },
+            
+            getUserLoggedIn: function () {
+                return loggedIn;
+            },
+            setUserLoggedIn: function(data) {
+                loggedIn = data;
+            },
+        };    
+});
+
+app.factory("Auth", function($firebaseAuth) {
+  var usersRef = new Firebase("https://burning-heat-7015.firebaseio.com/");
+  return $firebaseAuth(usersRef);
+});
 
 // Our Firebase Data Factory retriever
 app.factory("FavouriteData", function($firebaseArray) {
@@ -103,7 +138,6 @@ app.factory('Categories', function() {
     }
   };
 });
-
 
 app.factory('Items', function() {
   // Might use a resource here that returns a JSON array
@@ -244,107 +278,7 @@ app.factory('Cart', function() {
   };
 });
 
-app.factory('Chats', function () {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [
-    {
-      id: 0,
-      name: 'Ben Sparrow',
-      lastText: 'You on your way?',
-      face: 'img/people/ben.png',
-      messages: [
-        {
-          type: 'received',
-          text: 'Hey, How are you? wanna hang out this friday?',
-          image: '',
-          time: 'Thursday 05:55 PM'
-        },
-        {
-          type: 'sent',
-          text: 'Good, Yes sure why not :D',
-          image: '',
-          time: 'Thursday 05:56 PM'
-        },
-        {
-          type: 'received',
-          text: 'Check out this view from my last trip',
-          image: '',
-          time: 'Thursday 05:57 PM'
-        },
-        {
-          type: 'sent',
-          text: 'Looks Great is that view in Canada?',
-          image: '',
-          time: 'Thursday 05:58 PM'
-        },
-        {
-          type: 'received',
-          text: 'Yes, it\'s in Canada',
-          image: '',
-          time: 'Thursday 05:57 PM'
-        }
-      ]
-    },
-    {
-      id: 1,
-      name: 'Max Lynx',
-      lastText: 'Hey, it\'s me',
-      face: 'img/people/max.png'
-    },
-    {
-      id: 2,
-      name: 'Adam Bradleyson',
-      lastText: 'I should buy a boat',
-      face: 'img/people/adam.jpg'
-    },
-    {
-
-      d: 3,
-      name: 'Perry Governor',
-      lastText: 'Look at my mukluks!',
-      face: 'img/people/perry.png'
-    },
-    {
-      id: 4,
-      name: 'Mike Harrington',
-      lastText: 'This is wicked good ice cream.',
-      face: 'img/people/mike.png'
-    },
-    {
-      id: 5,
-      name: 'Ben Sparrow',
-      lastText: 'You on your way?',
-      face: 'img/people/ben.png'
-    },
-    {
-      id: 6,
-      name: 'Max Lynx',
-      lastText: 'Hey, it\'s me',
-      face: 'img/people/max.png'
-    }
-  ];
-
-  return {
-    all: function () {
-      return chats;
-    },
-    remove: function (chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function (chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
-  };
-})
-
-.factory('StripeCharge', function($q, $http, StripeCheckout) {
+app.factory('StripeCharge', function($q, $http, StripeCheckout) {
   var self = this;
 
   /**
@@ -427,3 +361,28 @@ app.factory('Chats', function () {
 
   return self;
 })
+
+app.factory('VarFactory', function(VarArrayFactory, fbUrl){
+  return function(tableRef){
+    var ref = new Firebase(fbUrl+'/'+tableRef);
+    console.log(fbUrl+'/'+tableRef);
+    return new VarArrayFactory(ref);
+  }
+});
+
+app.factory('VarArrayFactory', function($firebaseArray, $q){
+  return $firebaseArray.$extend({
+    findVar:function(defName, varName){
+      var deferred = $q.defer();
+      // query by 'name'
+      this.$ref().orderByChild(defName).equalTo(varName).once("value", function(dataSnapshot){
+        if(dataSnapshot.exists()){
+          deferred.resolve(dataSnapshot.val());
+        } else {
+          deferred.reject("Not found.");
+        }
+      });
+      return deferred.promise;
+    }
+  });
+});

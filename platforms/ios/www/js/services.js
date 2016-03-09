@@ -4,6 +4,36 @@ String.prototype.isEmpty = function() {
 
 var app = angular.module('starter.services', ["ionic", "firebase"])
     .value('fbUrl','https://burning-heat-7015.firebaseio.com/');
+    
+app.service("CurrentUserData", function()
+{
+    var authenticationData = null;
+    var loggedIn = false;
+    
+    return {
+            getAuthenticationData: function () {
+                return authenticationData;
+            },
+            setAuthenticationData: function(data) {
+                authenticationData = data;
+            },
+            clearAuthenticationData: function(data) {
+                authenticationData = null;
+            },
+            
+            getUserLoggedIn: function () {
+                return loggedIn;
+            },
+            setUserLoggedIn: function(data) {
+                loggedIn = data;
+            },
+        };    
+});
+
+app.factory("Auth", function($firebaseAuth) {
+  var usersRef = new Firebase("https://burning-heat-7015.firebaseio.com/");
+  return $firebaseAuth(usersRef);
+});
 
 // Our Firebase Data Factory retriever
 app.factory("FavouriteData", function($firebaseArray) {

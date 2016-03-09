@@ -30,6 +30,11 @@ app.service("CurrentUserData", function()
         };    
 });
 
+app.factory("Auth", function($firebaseAuth) {
+  var usersRef = new Firebase("https://burning-heat-7015.firebaseio.com/");
+  return $firebaseAuth(usersRef);
+});
+
 // Our Firebase Data Factory retriever
 app.factory("FavouriteData", function($firebaseArray) {
   var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/");

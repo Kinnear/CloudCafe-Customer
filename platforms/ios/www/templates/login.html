@@ -1,4 +1,4 @@
-<ion-view view-title="Login" class="light-bg">
+<ion-view view-title="Login" class="light-bg" ng-controller="DeletePreviousNavigation">
   <ion-content class="light-bg">
 
     <div class="login-content">
@@ -26,7 +26,7 @@
 
       </div>
 
-      <p class="text-right balanced">Forgot Password?</p>
+      <p class="text-right balanced">Forgot Password? </p>
 
       <div>
 
@@ -36,12 +36,15 @@
 
         <p class="text-center dark">Or</p>
 
-        <button class="button button-block facebook-login" ui-sref="home">
+        <button class="button button-block twitter-login" ui-sref="home">
           Sign in with Twitter
         </button>
-        <button class="button button-block twitter-login" ui-sref="home">
-          Sign in with Facebook
-        </button>
+        
+        <div ng-controller="FacebookAuthentication">
+            <button class="button button-block facebook-login" ng-click="LoginFacebook('facebook')">
+            Sign in with Facebook
+            </button>
+        </div>
       </div>
 
 
