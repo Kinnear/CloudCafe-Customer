@@ -297,6 +297,7 @@ app.controller("FacebookAuthentication", function($scope, Auth, $state, CurrentU
             });
             
             killAuth();
+            CurrentUserData.setAuthenticationData(authData); 
             
             $location.path('home');
         }
@@ -355,6 +356,8 @@ app.controller("FacebookAuthentication", function($scope, Auth, $state, CurrentU
     
     $scope.LogoutAuthentication = function()
     { 
+        CurrentUserData.clearAuthenticationData();
+        
         // if our authentication callback does not exist, we dont need to remove the callback
         if(offAuth != null)
         {
