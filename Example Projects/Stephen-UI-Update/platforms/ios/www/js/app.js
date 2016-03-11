@@ -196,7 +196,14 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
     controller: 'ShopCtrl'
   })
   
-//state for location
+//state for my-modal
+.state('my-modal', {
+    url: '/my-modal',
+    templateUrl: 'templates/my-modal.html',
+    controller: 'MyController'
+  })
+  
+  //state for location
 .state('location', {
     url: '/location',
     templateUrl: 'templates/location.html',
