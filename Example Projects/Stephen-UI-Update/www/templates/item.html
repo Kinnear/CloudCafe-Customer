@@ -4,10 +4,10 @@
   The ItemCtrl pulls data from Items service (service.js)
   The Items service returns array of items data
 -->
-<ion-view view-title="{{ item.name }}">
+<ion-view view-title="">
 
   <ion-content>
-
+      
     <!-- Item cover -->
     <div class="item-cover">
       <ion-slide-box>
@@ -54,14 +54,16 @@
 
     <!-- Reviews -->
     
-    <label class="item item-input item-stacked-label">
-        <span class="input-label balanced">Dish Name</span>
-        <p>Description....lorem Ipsum Dolor...</p>
-    </label>
+    <div class="dishnamebox">
+        <h1 class="dishname">{{ item.name }}</h1>
+    </div>
     
-    <label class="item item-input item-stacked-label">
-        <span class="input-label balanced">Shop</span>
-    </label>
+   <div>
+        <i class="button icon ion-ios-information-outline"></i>
+        <div class="dishwriteup">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, 
+        </div>
+    </div>
     
     </div>
     
@@ -73,8 +75,7 @@
       <script id = "my-modal.html" type = "text/ng-template">
     <ion-modal-view>
         <ion-header-bar class="bar-calm">
-            <h1 class = "title">Project Details</h1>
-            <button class = "button icon-left ion-close-round" ng-click = "closeModal()"></button>
+            <button class = "button button-icon icon-left ion-arrow-left-c" ng-click = "closeModal()"></button>
         </ion-header-bar>
             
         <ion-content class="calm-bg">
@@ -83,6 +84,33 @@
   <div class="item item-text-wrap">
     <!--input options here-->
     <div class="list">
+        <div class="item item-text-wrap">
+            <div class="row">
+            <div class="col col-50">Item</div>
+            <div class="col">Sakura Macarons</div>
+            </div>
+            
+            <div class="row">
+            <div class="col col-70">Price</div>
+            <div class="col">$14.00</div>
+            </div> 
+            
+            <div class="row">
+            <div class="col col-70">Quantity</div>
+            <div class="col">x 1</div>
+            </div> 
+            
+            <div class="row">
+            <div class="col col-50">Delivery</div>
+            <div class="col">$3.00</div>
+            </div> 
+            
+            <div class="row">
+            <div class="col col-50">Total</div>
+            <div class="col">$17.00</div>
+            </div>
+            
+        </div>
 
   <label class="item item-input item-select">
     <div class="input-label">
@@ -96,13 +124,11 @@
   
   <label class="item item-input item-select">
     <div class="input-label">
-      Date (use date picker)
+      Date
     </div>
     <select>
-      <option selected>Select Date</option>
-      <option>date 1 Friday</option>
-      <option>date 2 Saturday</option>
-      <option>date 3 Sunday</option>
+      <option selected>12 April (Sat)</option>
+      <option>13 April (Sun)</option>
     </select>
   </label>
 
@@ -112,9 +138,9 @@
     </div>
     <select>
       <option selected>Select Time</option>
-      <option>time 1 0900</option>
-      <option>time 2 1400</option>
-      <option>time 3 1800</option>
+      <option>9-11am</option>
+      <option>2-4pm</option>
+      <option>7-9pm</option>
     </select>
   </label>
   

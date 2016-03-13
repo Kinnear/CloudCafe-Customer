@@ -193,3 +193,42 @@ progress[value]::-webkit-progress-value {
     .button.button-balanced:hover {
       color: #CC6B98;
       text-decoration: none; }
+      
+      .bar.bar-calm {
+    border-color: #4ABDAC;
+    background-color: #4ABDAC;
+    background-image: linear-gradient(0deg, #4ABDAC, #4ABDAC 50%, transparent 50%);
+    color: #fff; }
+    .bar.bar-calm .title {
+      color: #fff; }
+    .bar.bar-calm.bar-footer {
+      background-image: linear-gradient(180deg, #4ABDAC, #4ABDAC 50%, transparent 50%); }
+      
+.calm-bg {
+  background-color: #4ABDAC; }
+  
+  .dishname {
+  margin: 0;
+  padding: 20px;
+  border: 0;
+  vertical-align: baseline;
+  font: inherit;
+  font-size: 200%;
+  color: #fff; }
+  
+  .dishnamebox{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  font: inherit;
+  font-size: 100%;
+  background-color: #B72C6C;}
+  
+  .dishwriteup {
+  margin: 0px 50px;
+  color: #0F0E0F;
+  font-size: 14px;
+  font: inherit;
+  font-style: normal;
+  float: right; }
