@@ -260,51 +260,49 @@ app.controller('FailureCtrl', function($scope, $state) {})
 // facebook authentication! woo hoo!
 app.controller("FacebookAuthentication", function($scope, Auth, $state, CurrentUserData, fbUrl, $location){
 
-    // $scope.userData = CurrentUserData.getAuthenticationData();
-    // $scope.loginType = null;
-    
-    // console.log("Code in the controller ran.");
-    // console.log("Service says logged in is " + CurrentUserData.getUserLoggedIn());
-    // console.log("$scope.loginType = " + $scope.loginType);
-    // console.log("$scope.userData = below");
-    // console.log($scope.userData);
-    var killAuth = Auth.$onAuth(function(authData)
+    // run this code only if the current state is 'login'
+    if($state.current.name == "login")
     {
-        if(authData != null)
+        var killAuth = Auth.$onAuth(function(authData)
         {
-            console.log("Redirect to home as, Logged in already before as:", authData.uid);
-            
-            // save our login details to the system over here
-            // checks to see if this facebook user has registered with us before
-            var allUsers = new Firebase(fbUrl).child("users");
-            
-            allUsers.orderByChild(authData.provider).equalTo(authData.uid).once('value', function(snapshot) {
+            if(authData != null)
+            {
+                console.log("Redirect to home as, Logged in already before as:", authData.uid);
                 
-                if(!snapshot.exists())
-                {
-                    allUsers.push({                            
-                            // the user's username
-                            "username": authData.facebook.displayName,
-                            // the user's provider ID
-                            [authData.provider] : authData.uid
-                    });
-                    console.log("The user doesn't exist! Therefore we have a new user to add.");
-                }
-                else 
-                {
-                    console.log("That user already exists");
-                }
-            });
-            
-            killAuth();
-            
-            $location.path('home');
-        }
-        else
-        {
-            console.log("Currently logged out");     
-        }
-    });
+                // save our login details to the system over here
+                // checks to see if this facebook user has registered with us before
+                var allUsers = new Firebase(fbUrl).child("users");
+                
+                allUsers.orderByChild(authData.provider).equalTo(authData.uid).once('value', function(snapshot) {
+                    
+                    if(!snapshot.exists())
+                    {
+                        allUsers.push({                            
+                                // the user's username
+                                "username": authData.facebook.displayName,
+                                // the user's provider ID
+                                [authData.provider] : authData.uid
+                        });
+                        console.log("The user doesn't exist! Therefore we have a new user to add.");
+                    }
+                    else 
+                    {
+                        console.log("That user already exists");
+                    }
+                });
+                
+                killAuth();
+                CurrentUserData.setAuthenticationData(authData); 
+                
+                // $location.path('home');
+                $state.go('home');
+            }
+            else
+            {
+                console.log("Currently logged out");     
+            }
+        });
+    }
     
     var offAuth = null;
 
@@ -355,6 +353,8 @@ app.controller("FacebookAuthentication", function($scope, Auth, $state, CurrentU
     
     $scope.LogoutAuthentication = function()
     { 
+        CurrentUserData.clearAuthenticationData();
+        
         // if our authentication callback does not exist, we dont need to remove the callback
         if(offAuth != null)
         {

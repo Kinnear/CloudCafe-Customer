@@ -2,17 +2,17 @@
 
 /*general font*/
 .balanced, a.balanced {
-  color: #B72C6C; }
+  color: #fff; }
 
 .balanced-bg {
-  background-color: #B72C6C; }
+  background-color: #fff; }
 
 .balanced-border {
-  border-color: #B72C6C; }
+  border-color: #fff; }
   
 .tabs .tab-item .badge.badge-balanced,
 .badge.badge-balanced {
-  background-color: #B72C6C;
+  background-color: #fff;
   color: #fff; }
 
 /* for index.html*/  
@@ -59,14 +59,14 @@
 /* Back this project button*/
 .button.button-balanced {
     border-color: transparent;
-    background-color: #B72C6C;
+    background-color: #fff;
     color: #fff;
     border-radius: 0px;}
     .button.button-balanced:hover {
       color: #fff;
       text-decoration: none; }
     .button.button-balanced.active, .button.button-balanced.activated {
-      background-color: #B72C6C; }
+      background-color: #fff; }
       
 .text-center {
   text-align: center; }
@@ -176,7 +176,7 @@ progress[value]::-webkit-progress-value {
 	   -webkit-linear-gradient(top, 
 	                           rgba(255, 255, 255, .25), 
 	                           rgba(0, 0, 0, .25)),
-	   -webkit-linear-gradient(left, #B72C6C, #B72C6C);
+	   -webkit-linear-gradient(left, #fff, #fff);
 
     border-radius: 200px; 
     background-size: 35px 20px, 100% 100%, 100% 100%;
@@ -188,24 +188,26 @@ progress[value]::-webkit-progress-value {
     
 .button.button-block.button-balanced {
     border-color: transparent;
-    background-color: #B72C6C;
+    background-color: #fff;
     color: #fff; }
     .button.button-balanced:hover {
       color: #CC6B98;
       text-decoration: none; }
       
       .bar.bar-calm {
-    border-color: #4ABDAC;
-    background-color: #4ABDAC;
-    background-image: linear-gradient(0deg, #4ABDAC, #4ABDAC 50%, transparent 50%);
+    border-color: #5ecbb8;
+    background-color: #5ecbb8;
+    background-image: linear-gradient(0deg, #5ecbb8, #5ecbb8 50%, transparent 50%);
     color: #fff; }
+    
     .bar.bar-calm .title {
       color: #fff; }
+      
     .bar.bar-calm.bar-footer {
-      background-image: linear-gradient(180deg, #4ABDAC, #4ABDAC 50%, transparent 50%); }
+      background-image: linear-gradient(180deg, #5ecbb8, #5ecbb8 50%, transparent 50%); }
       
 .calm-bg {
-  background-color: #4ABDAC; }
+  background-color: #5ecbb8; }
   
   .dishname {
   margin: 0;
@@ -214,7 +216,7 @@ progress[value]::-webkit-progress-value {
   vertical-align: baseline;
   font: inherit;
   font-size: 200%;
-  color: #fff; }
+  color: #000000; }
   
   .dishnamebox{
   margin: 0;
@@ -223,7 +225,7 @@ progress[value]::-webkit-progress-value {
   vertical-align: baseline;
   font: inherit;
   font-size: 100%;
-  background-color: #B72C6C;}
+  background-color: #fff;}
   
   .dishwriteup {
   margin: 0px 50px;
@@ -232,3 +234,4 @@ progress[value]::-webkit-progress-value {
   font: inherit;
   font-style: normal;
   float: right; }
+  
