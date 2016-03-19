@@ -235,3 +235,31 @@ progress[value]::-webkit-progress-value {
   font-style: normal;
   float: right; }
   
+  .button.button-block{
+      
+    width: 96%;
+    margin: 2%;
+  }
+  
+  .button.button-block.button-positive{
+      
+    width: 96%;
+    margin: 2%;
+  }
+  
+  .button.button-block.button-calm {
+    border-color: transparent;
+    background-color: #5ecbb8;
+    color: #fff;}
+    .button.button-block.button-calm:hover {
+      color: #fff;
+      text-decoration: none; }
+    .button.button-block.button-calm.active, .button.button-block.button-calm.activated {
+      background-color: #0bd2bc; }
+      
+    
+    .card.list{
+        margin: 2px;
+    }
+    
+    
