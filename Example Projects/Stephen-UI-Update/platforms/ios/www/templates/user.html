@@ -14,8 +14,8 @@
         </div>
 
         <div class="col-66">
-          <h4 class="padding-top no-margin light">Adam Lambert</h4>
-          <span class="balanced">Edit photo, upload or take a photo</span>
+          <h4 class="padding-top no-margin dark">Name</h4>
+          <p> Member since 2015</p>
         </div>
 
       </div>
@@ -24,46 +24,50 @@
     <!-- User infomation -->
     <div class="list">
 <!-- unconfirmed-->
-      <label class="item item-input item-floating-label">
-        <span class="input-label balanced">Name</span>
-        <input type="text" placeholder="Name">
-      </label>
 
-      <label class="item item-input item-floating-label">
-        <span class="input-label balanced">Email</span>
-        <input type="text" placeholder="Email" value="+849123456789">
-      </label>
-
-      <label class="item item-input item-floating-label">
-        <span class="input-label balanced">Email</span>
-        <input type="text" placeholder="" value="successdt@hotmail.com">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label dark">Email</span>
+        <input type="email" placeholder="successdt@hotmail.com" required>
       </label>
 
 
-      <label class="item item-input item-floating-label">
-        <span class="input-label balanced">Password</span>
-        <input type="password" placeholder="" value="123456">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label dark">Password</span>
+        <input type="password" placeholder="123456" required>
       </label>
       
-      <label class="item item-input item-floating-label">
-        <span class="input-label balanced">Address</span>
-        <input type="text" placeholder="" value="123 Paya Lebar Way">
+      <div style="width: 100%; overflow: hidden;">
+    <div style="width: 60%; float: left;">
+        <label class="item item-input item-stacked-label">
+        <span class="input-label dark">Home Address</span>
+        <input type="text" placeholder="123 Paya Lebar Way">
       </label>
-
+    </div>
+    <div style="margin-left: 60%;">
+        <label class="item item-input item-stacked-label">
+        <span class="input-label dark">Postal Code</span>
+        <input type="tel" placeholder="123456">
+      </label></div>
+    </div>
+      
+      <div style="width: 100%; overflow: hidden;">
+    <div style="width: 60%; float: left;">
+        <label class="item item-input item-stacked-label">
+        <span class="input-label dark">Work Address</span>
+        <input type="text" placeholder="123 Raffles Place">
+      </label>
+    </div>
+    <div style="margin-left: 60%;">
+        <label class="item item-input item-stacked-label">
+        <span class="input-label dark">Postal Code</span>
+        <input type="tel" placeholder="789012">
+      </label>
+      </div>
+    </div>
+      
     </div>
 
+<button class="button button-block button-calm button-bottom">Save Changes</button>
   </ion-content>
 
-  <ion-footer-bar class="bar-balanced">
-    <div class="row item-button-group">
-
-      <div class="col button button-stable">
-        CANCEL
-      </div>
-
-      <div class="col button button-balanced">
-        SAVE
-      </div>
-    </div>
-  </ion-footer-bar>
 </ion-view>

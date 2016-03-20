@@ -148,14 +148,14 @@
   margin-right: 0; }
     
 /* progress bar styling*/
-
+/*
 progress[value] {
   width: 250px;
   height: 5px;
 }
 
 progress[value] {
-  /* Reset the default appearance */
+ 
   -webkit-appearance: none;
    appearance: none;  
   
@@ -180,7 +180,7 @@ progress[value]::-webkit-progress-value {
 
     border-radius: 200px; 
     background-size: 35px 20px, 100% 100%, 100% 100%;
-}
+}*/
 
 .button.button-block, .button.button-full {
     margin-top: 10px;
@@ -216,7 +216,8 @@ progress[value]::-webkit-progress-value {
   vertical-align: baseline;
   font: inherit;
   font-size: 200%;
-  color: #000000; }
+  color: #000000;
+  font-family: 'Roboto Condensed';}
   
   .dishnamebox{
   margin: 0;
@@ -225,7 +226,8 @@ progress[value]::-webkit-progress-value {
   vertical-align: baseline;
   font: inherit;
   font-size: 100%;
-  background-color: #fff;}
+  background-color: #fff;
+  clear: both;}
   
   .dishwriteup {
   margin: 0px 50px;
@@ -233,7 +235,8 @@ progress[value]::-webkit-progress-value {
   font-size: 14px;
   font: inherit;
   font-style: normal;
-  float: right; }
+  float: right;
+  clear:both; }
   
   .button.button-block{
       
@@ -247,19 +250,90 @@ progress[value]::-webkit-progress-value {
     margin: 2%;
   }
   
+  .calm{
+      color:#5ecbb8;
+  }
+  
+  .button.button-block.button-calm.button-bottom {
+    border-color: transparent;
+    background-color: #5ecbb8;
+    color: #fff;
+    position: fixed;
+  bottom: 0%;
+  }
+    .button.button-block.button-calm.button-bottom:hover {
+      color: #fff;
+      text-decoration: none; 
+      position: fixed;
+  bottom: 0%;}
+    .button.button-block.button-calm.button-bottom.active, .button.button-block.button-calm.button-bottom.activated {
+      background-color: #0bd2bc; 
+      position: fixed;
+  bottom: 0%;}
+  
+ 
   .button.button-block.button-calm {
     border-color: transparent;
     background-color: #5ecbb8;
-    color: #fff;}
+    color: #fff;
+  }
     .button.button-block.button-calm:hover {
       color: #fff;
-      text-decoration: none; }
+      text-decoration: none; 
+      }
     .button.button-block.button-calm.active, .button.button-block.button-calm.activated {
-      background-color: #0bd2bc; }
+      background-color: #0bd2bc; 
+      }
       
     
     .card.list{
         margin: 2px;
     }
+    
+    .icon.ion-ios-information-outline{
+  display: inline-block;
+  font-family: "Ionicons";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+  size: 200%;}
+  
+  .profile-cover {
+  padding-top: 10px;
+  min-height: 80px;
+  background: url("../img/bg.jpg") no-repeat center;
+  background-size: 100% auto; }
+  .profile-cover .profile-picture {
+    width: 80px;
+    height: 80px; }
+    
+ .padding-top.no-margin.dark{
+     padding-top: 16px;
+ }
+ 
+ .button {
+  border-color: transparent;
+  background-color: #f8f8f8;
+  color: #444;
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0 12px;
+  min-width: 52px;
+  min-height: 47px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  vertical-align: top;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 42px;
+  cursor: pointer;}
     
     

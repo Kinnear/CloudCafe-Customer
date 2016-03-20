@@ -214,17 +214,16 @@ progress[value]::-webkit-progress-value {
   padding: 20px;
   border: 0;
   vertical-align: baseline;
-  font: inherit;
   font-size: 200%;
   color: #000000;
-  font-family: Open Sans;}
+  font-family: 'Roboto Condensed';}
   
   .dishnamebox{
   margin: 0;
   padding: 0;
   border: 0;
   vertical-align: baseline;
-  font: inherit;
+  font-family: 'Roboto Condensed';
   font-size: 100%;
   background-color: #fff;
   clear: both;}
@@ -233,7 +232,7 @@ progress[value]::-webkit-progress-value {
   margin: 0px 50px;
   color: #0F0E0F;
   font-size: 14px;
-  font: inherit;
+  font: 'inherit';
   font-style: normal;
   float: right;
   clear:both; }
@@ -335,5 +334,4 @@ progress[value]::-webkit-progress-value {
   font-size: 16px;
   line-height: 42px;
   cursor: pointer;}
-    
     
