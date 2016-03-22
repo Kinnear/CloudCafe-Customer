@@ -214,7 +214,6 @@ progress[value]::-webkit-progress-value {
   padding: 20px;
   border: 0;
   vertical-align: baseline;
-  font: inherit;
   font-size: 200%;
   color: #000000;
   font-family: 'Roboto Condensed';}
@@ -224,7 +223,7 @@ progress[value]::-webkit-progress-value {
   padding: 0;
   border: 0;
   vertical-align: baseline;
-  font: inherit;
+  font-family: 'Roboto Condensed';
   font-size: 100%;
   background-color: #fff;
   clear: both;}
@@ -233,7 +232,7 @@ progress[value]::-webkit-progress-value {
   margin: 0px 50px;
   color: #0F0E0F;
   font-size: 14px;
-  font: inherit;
+  font: 'inherit';
   font-style: normal;
   float: right;
   clear:both; }
@@ -336,4 +335,13 @@ progress[value]::-webkit-progress-value {
   line-height: 42px;
   cursor: pointer;}
     
-    
+.fade-in-out.ng-enter, .fade-in-out .ng-enter {
+  -webkit-animation: fadeIn 0.3s;
+  -moz-animation: fadeIn 0.3s;
+  animation: fadeIn 0.3s;
+  position: absolute; }
+.fade-in-out.ng-leave, .fade-in-out .ng-leave {
+  -webkit-animation: fadeOut 0.3s;
+  -moz-animation: fadeOut 0.3s;
+  animation: fadeOut 0.3s;
+  position: absolute; }
