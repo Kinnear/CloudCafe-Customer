@@ -6,6 +6,10 @@
     "config_munge": {
         "files": {}
     },
-    "installed_plugins": {},
+    "installed_plugins": {
+        "com.telerik.plugins.nativepagetransitions": {
+            "PACKAGE_NAME": "com.ionicframework.fooddelivery935160"
+        }
+    },
     "dependent_plugins": {}
 }

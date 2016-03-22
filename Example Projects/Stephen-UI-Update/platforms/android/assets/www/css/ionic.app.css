@@ -9168,7 +9168,8 @@ a.button {
     content: "."; }
 
 .full-image {
-  width: 100%; }
+  width: 100%;
+   }
 
 .clearfix {
   *zoom: 1; }

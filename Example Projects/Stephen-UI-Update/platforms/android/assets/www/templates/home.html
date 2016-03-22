@@ -1,30 +1,62 @@
 <!--
   This template loads for the 'home' state (app.js)
-  Show list of menu
+  Show list of category
   categories is a $scope variable on HomeCtrl (controllers.js)
   The HomeCtrl pulls data from Categories service (service.js)
   The Categories service returns array  of categories data
 -->
-<ion-view view-title="Menu">
+<ion-view view-title="Explore">
 
   <ion-content class="stable-bg">
 
-    <div class="list no-padding">
-      <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.id})">
+    <div class="row">
+      <div class="col col-50">
+        <div class="list card" ui-sref="item">
+          <div class="item item-image">
+            <img src="img/items/thumbs/fried_calamari.jpg">
+          </div>
+          </div>
+      </div>
 
-        <img src="{{ category.thumb }}" alt="{{ category.name }}"/>
-
-        <div class="overlay">
-
-          <span class="pull-left light">
-            {{ category.name }}
-          </span>
-
-          <span class="pull-right balanced">
-            {{ category.items.length }}
-          </span>
-        </div>
+      <div class="col col-50">
+        <div class="list card" ui-sref="item">
+          <div class="item item-image">
+            <img src="img/items/thumbs/zuppa.jpg">
+          </div>
       </div>
     </div>
+    </div>
+    
+
+    <div class="row">
+      <div class="col col-50">
+        <div class="list card" ui-sref="item">
+          <div class="item item-image">
+            <img src="img/items/thumbs/brick_chicken.jpg">
+          </div>
+          </div>
+      </div>
+
+      <div class="col col-50">
+        <div class="list card" ui-sref="item">
+          <div class="item item-image">
+            <img src="img/items/thumbs/rib_eyes.jpg">
+          </div>
+      </div>
+    </div>
+    </div>
+  
+ 
+    <!--
+   <div class="list card">
+       
+        <div class="item item-body">
+            <img class="full-image" src="img/items/thumbs/brick_chicken.jpg">
+                <h2>Desserts <span class="assertive">5 NEW!</span></h2>
+                <p>Sweet treats ready in time for Valentine's Day! Don't miss out on these fabulous handmade desserts!</p>
+                </div>
+        
+    </div>-->
+    
   </ion-content>
 </ion-view>

@@ -4,10 +4,10 @@
   The ItemCtrl pulls data from Items service (service.js)
   The Items service returns array of items data
 -->
-<ion-view view-title="{{ item.name }}">
-
+<ion-view>
   <ion-content>
-
+      
+      
     <!-- Item cover -->
     <div class="item-cover">
       <ion-slide-box>
@@ -16,63 +16,168 @@
         </ion-slide>
       </ion-slide-box>
 
+<!--close
       <div class="overlay">
         <span class="pull-left light">
           {{ item.description }}
         </span>
 
-        <span class="pull-right price balanced">
+        <span class="pull-right price light">
           ${{ item.price }}
         </span>
       </div>
-    </div>
+    </div>-->
 
     <!-- Buttons -->
-    <div class="row item-button-group">
+    <!--<div class="row item-button-group">
       <div class="col button button-stable" ng-click="toggleFav()">
-        <i class="text-2x ion-android-star-outline" ng-hide="item.faved"></i>
-        <i class="text-2x ion-android-star" ng-show="item.faved"></i>
+        <i class="text-2x ion-ios-heart-outline" ng-hide="item.faved"></i>
+        <i class="text-2x ion-ios-heart" ng-show="item.faved"></i>
         <span class="text-sm">ADD TO FAVORITE</span>
-      </div>
+      </div>-->
+      <!--temp close
       <div class="col button button-balanced">
         <i class="text-2x ion-ios-cart-outline"></i>
         <span class="text-sm">ADD TO CART</span>
       </div>
+       -->
     </div>
+    
+    <!--<div class="button-bar">
+        <a class="button">Days Left:</a>
+        <a class="button">Slots Left:</a>
+        <a class="button">Price:</a>
+        </div>-->
+        
+    <!--<progress max="5" value="3" class="progress-bar">
+    </progress>-->
 
     <!-- Reviews -->
-    <div class="padding">
-      <span>Reviews ({{ item.reviews.length }})</span>
+    
+    <div class="dishnamebox" style="margin-left: 9%; margin-right: 5%;">
+        <h1 class="dishname">Roboto Condensed</h1>
     </div>
+    
+    <div style="width: 100%; overflow: hidden;">
+    <div style="width: 10%; float: left;">
+        <i class="button icon ion-ios-information-outline"></i>
+    </div>
+    <div style="margin-left: 15%; margin-right: 5%;"><p>Lorem Ipsum is simply dummy text of the 
+        printing and typesetting industry. Lorem Ipsum has been the industry's 
+        standard dummy text ever since the 1500s, when an unknown printer 
+        took a galley of type and scrambled it to make a type specimen book. 
+        It has survived not only five centuries, <br><br>
+        
+        Price: $16 <br><br>
+        
+        Location: North, North-East, East
+        </p></div>
+    </div>
+    
+    
 
-    <ion-list class="list-reviews">
-
-      <ion-item class="item-avatar" ng-repeat="review in item.reviews">
-        <img src="{{ review.face }}" alt=""/>
-        <div>
-          <span class="balanced">{{ review.username }}</span>
-          <p>{{ review.text }}</p>
+    <div ng-controller="MyController">
+            <button class="button button-block button-calm button-bottom" ng-click="openModal(class)">
+               Place Order</button>
+    </div>
+      
+      <script id = "my-modal.html" type = "text/ng-template">
+    <ion-modal-view>
+        
+        <ion-header-bar class="bar-calm">
+            <button class = "button button-icon icon-left ion-arrow-left-c" ng-click = "closeModal()"></button>
+        </ion-header-bar>
+            
+        <ion-content class="calm-bg">
+            
+            <div class="card">
+  <div class="item item-text-wrap">
+    <!--input options here-->
+    <div class="list">
+        <div class="item item-text-wrap">
+            <div class="row">
+            <div class="col col-50">Item</div>
+            <div class="col">Sakura Macarons</div>
+            </div>
+            
+            <div class="row">
+            <div class="col col-70">Price</div>
+            <div class="col">$14.00</div>
+            </div> 
+            
+            <div class="row">
+            <div class="col col-70">Quantity</div>
+            <div class="col">x 1</div>
+            </div> 
+            
+            <div class="row">
+            <div class="col col-50">Delivery</div>
+            <div class="col">$3.00</div>
+            </div> 
+            
+            <div class="row">
+            <div class="col col-50">Total</div>
+            <div class="col">$17.00</div>
+            </div>
+            
         </div>
-      </ion-item>
-    </ion-list>
 
+  <label class="item item-input item-select">
+    <div class="input-label">
+      Delivery
+    </div>
+    <select>
+      <option selected>Home</option>
+      <option>Work</option>
+    </select>
+  </label>
+  
+  <label class="item item-input item-select">
+    <div class="input-label">
+      Date
+    </div>
+    <select>
+      <option selected>12 April (Sat)</option>
+      <option>13 April (Sun)</option>
+    </select>
+  </label>
+
+  <label class="item item-input item-select">
+    <div class="input-label">
+      Time
+    </div>
+    <select>
+      <option selected>Select Time</option>
+      <option>9-11am</option>
+      <option>2-4pm</option>
+      <option>7-9pm</option>
+    </select>
+  </label>
+  
+  <label class="item item-input item-select">
+    <div class="input-label">
+      Quantity
+    </div>
+    <select>
+      <option selected>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4 (whole cake)</option>
+    </select>
+  </label>
+
+</div>
+
+<button class="button button-block button-positive">
+  Purchase
+</button>
+</div>
+            
+            
+
+      </ion-content>
+   </ion-modal-view>
+</script>
+   
   </ion-content>
-
-  <form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
-    <ion-footer-bar class="bar-stable message-footer">
-      <div class="footer-btn-wrap">
-        <button class="button button-icon icon ion-image"></button>
-      </div>
-      <label class="item-input-wrapper">
-        <textarea ng-model="input.message" value="" placeholder="Your message..."
-                  required minlength="1" maxlength="1500" msd-elastic></textarea>
-      </label>
-      <div class="footer-btn-wrap">
-        <button class="button button-icon icon ion-android-send footer-btn" type="submit"
-                ng-disabled="!input.message || input.message === ''">
-        </button>
-      </div>
-    </ion-footer-bar>
-  </form>
-
 </ion-view>

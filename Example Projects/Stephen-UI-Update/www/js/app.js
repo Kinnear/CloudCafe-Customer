@@ -2,6 +2,9 @@
 var SERVER_SIDE_URL             = "sleepy-refuge-89064.herokuapp.com";
 var STRIPE_API_PUBLISHABLE_KEY  = "pk_test_h57hQy5dRjVjlM7SoNVYG8Mn";
 
+
+
+
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -9,10 +12,39 @@ var STRIPE_API_PUBLISHABLE_KEY  = "pk_test_h57hQy5dRjVjlM7SoNVYG8Mn";
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.controllers', 'starter.services', 'nl2br', 'monospaced.elastic'])
 
+// .run(function($ionicPlatform) {
+//     $ionicPlatform.ready(function() {
+ 
+//         // then override any default you want
+//         window.plugins.nativepagetransitions.globalOptions.duration = 500;
+//         window.plugins.nativepagetransitions.globalOptions.iosdelay = 350;
+//         window.plugins.nativepagetransitions.globalOptions.androiddelay = 350;
+//         window.plugins.nativepagetransitions.globalOptions.winphonedelay = 350;
+//         window.plugins.nativepagetransitions.globalOptions.slowdownfactor = 4;
+//         // these are used for slide left/right only currently
+//         window.plugins.nativepagetransitions.globalOptions.fixedPixelsTop = 0;
+//         window.plugins.nativepagetransitions.globalOptions.fixedPixelsBottom = 0;
+     
+//     });
+// }); 
+
+
+
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    
+    // then override any default you want
+        window.plugins.nativepagetransitions.globalOptions.duration = 500;
+        window.plugins.nativepagetransitions.globalOptions.iosdelay = 350;
+        window.plugins.nativepagetransitions.globalOptions.androiddelay = 350;
+        window.plugins.nativepagetransitions.globalOptions.winphonedelay = 350;
+        window.plugins.nativepagetransitions.globalOptions.slowdownfactor = 4;
+        // these are used for slide left/right only currently
+        window.plugins.nativepagetransitions.globalOptions.fixedPixelsTop = 0;
+        window.plugins.nativepagetransitions.globalOptions.fixedPixelsBottom = 0;
+        
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
@@ -38,7 +70,12 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
         }
     })
 
-.config(function($stateProvider, $urlRouterProvider, StripeCheckoutProvider) {
+.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider, StripeCheckoutProvider) {
+
+
+
+// this is correct
+$ionicConfigProvider.views.transition('none')
 
     // Define your STRIPE_API_PUBLISHABLE_KEY
     StripeCheckoutProvider.defaults({key: STRIPE_API_PUBLISHABLE_KEY});
@@ -215,3 +252,4 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
 
 
 });
+
