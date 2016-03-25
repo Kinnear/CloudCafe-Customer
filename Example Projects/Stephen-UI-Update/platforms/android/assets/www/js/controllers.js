@@ -1,5 +1,36 @@
 var app = angular.module('starter.controllers', ["ionic", "firebase"]);
 
+app.controller(function($scope, $ionicAnimation) {
+   var anim = $ionicAnimation({
+    // A unique, reusable name
+    name: 'popIn',
+
+    // The duration of an auto playthrough
+    duration: 0.5,
+
+    // How long to wait before running the animation
+    delay: 0,
+
+    // Whether to reverse after doing one run through
+    autoReverse: false,
+
+    // How many times to repeat? -1 or null for infinite
+    repeat: -1,
+
+    // Timing curve to use (same as CSS timing functions), or a function of time "t" to handle it yourself
+    curve: 'ease-in-out',
+
+    onStart: function() {
+      // Callback on start
+    },
+    onEnd: function() {
+      // Callback on end
+    },
+    step: function(amt) {
+
+    }
+  })
+});
 
 //app.service('productService', function() {
 //  var productList = [];
@@ -18,6 +49,33 @@ var app = angular.module('starter.controllers', ["ionic", "firebase"]);
 //  };
 //
 //});
+
+app.controller('MyController', function($scope, $ionicModal) {
+  $ionicModal.fromTemplateUrl('my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+});
 
 app.controller("FavouriteController", function($scope, FavouriteData) {
   $scope.favouriteFata = FavouriteData;
@@ -185,8 +243,8 @@ app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
   };
 });
 
-// Offer controller
-app.controller('OfferCtrl', function($scope, $state, Items, $ionicSideMenuDelegate) {
+// Active controller
+app.controller('ActiveCtrl', function($scope, $state, Items, $ionicSideMenuDelegate) {
   // get all items form Items model
   $scope.items = Items.all();
 
@@ -201,6 +259,8 @@ app.controller('OfferCtrl', function($scope, $state, Items, $ionicSideMenuDelega
 
 // Checkout controller
 app.controller('CheckoutCtrl', function($scope, $state) {});
+
+app.controller('ReviewsCtrl', function($scope, $state) {});
 
 // Address controller
 app.controller('AddressCtrl', function($scope, $state) {
@@ -230,8 +290,8 @@ app.controller('AddressCtrl', function($scope, $state) {
 // User controller
 app.controller('UserCtrl', function($scope, $state) {})
 
-// Setting Controller
-.controller('SettingCtrl', function($scope, $state) {})
+// History Controller
+.controller('HistoryCtrl', function($scope, $state) {})
 
 // Chat controller, view list chats and chat detail
 .controller('ChatCtrl', function($scope, Chats) {
@@ -296,3 +356,24 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScr
   };
 
 });
+
+
+//empty controllers for new pages here
+
+//controller for settings.html
+app.controller('SettingsCtrl', function($scope, $state) {})
+
+//controller for allreviews.html
+app.controller('AllreviewsCtrl', function($scope, $state) {})
+
+//controller for Change Delivery Preferences change.html
+app.controller('ChangeCtrl', function($scope, $state) {})
+
+//controller for Support support.html
+app.controller('SupportCtrl', function($scope, $state) {})
+
+//controller for Shop shop.html
+app.controller('ShopCtrl', function($scope, $state) {})
+
+//controller for location.html
+app.controller('LocationCtrl', function($scope, $state) {})

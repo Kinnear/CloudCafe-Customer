@@ -1,1 +1,337 @@
 /* Empty. Add your own CSS if you like */
+
+/*general font*/
+.balanced, a.balanced {
+  color: #fff; }
+
+.balanced-bg {
+  background-color: #fff; }
+
+.balanced-border {
+  border-color: #fff; }
+  
+.tabs .tab-item .badge.badge-balanced,
+.badge.badge-balanced {
+  background-color: #fff;
+  color: #fff; }
+
+/* for index.html*/  
+.dark, a.dark {
+  color: #292E37; }
+
+.dark-bg {
+  background-color: #292E37; }
+
+.dark-border {
+  border-color: #292E37; }
+ 
+/* hamburger button*/
+.button.button-dark {
+    border-color: transparent;
+    background-color: #292E37;
+    color: #292E37; }
+    .button.button-dark:hover {
+      color: #292E37;
+      text-decoration: none; }
+    .button.button-dark.active, .button.button-dark.activated {
+      background-color: #262626; }
+    .button.button-dark.button-clear {
+      border-color: transparent;
+      background: none;
+      box-shadow: none;
+      color: #292E37; }
+    .button.button-dark.button-icon {
+      border-color: transparent;
+      background: none; }
+    .button.button-dark.button-outline {
+      border-color: #292E37;
+      background: transparent;
+      color: #292E37; }
+      .button.button-dark.button-outline.active, .button.button-dark.button-outline.activated {
+        background-color: #292E37;
+        box-shadow: none;
+        color: #292E37; }
+        
+/*image padding*/
+.full-image {
+  width: 100%; }
+  
+/* Back this project button*/
+.button.button-balanced {
+    border-color: transparent;
+    background-color: #fff;
+    color: #fff;
+    border-radius: 0px;}
+    .button.button-balanced:hover {
+      color: #fff;
+      text-decoration: none; }
+    .button.button-balanced.active, .button.button-balanced.activated {
+      background-color: #fff; }
+      
+.text-center {
+  text-align: center; }
+  
+.list:last-child {
+  margin-bottom: 0px; }
+  .list:last-child.card {
+    margin-bottom: 5px; }
+    
+/**
+ * Cards and Inset Lists
+ * --------------------------------------------------
+ * A card and list-inset are close to the same thing, except a card as a box shadow.
+ */
+.card,
+.list-inset {
+  overflow: hidden;
+  margin: 15px 7.5px;
+  border-radius: 2px;
+  background-color: #fff; }
+
+.card {
+  padding-top: -20px;
+  padding-bottom: -20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+  .card .item {
+    border-left: 0;
+    border-right: 0; }
+  .card .item:first-child {
+    border-top: 0; }
+  .card .item:last-child {
+    border-bottom: 0; }
+
+.padding .card, .padding .list-inset {
+  margin-left: 0;
+  margin-right: 0; }
+
+.card .item:first-child,
+.list-inset .item:first-child,
+.padding > .list .item:first-child {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px; }
+  .card .item:first-child .item-content,
+  .list-inset .item:first-child .item-content,
+  .padding > .list .item:first-child .item-content {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px; }
+.card .item:last-child,
+.list-inset .item:last-child,
+.padding > .list .item:last-child {
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px; }
+  .card .item:last-child .item-content,
+  .list-inset .item:last-child .item-content,
+  .padding > .list .item:last-child .item-content {
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px; }
+
+.card .item:last-child,
+.list-inset .item:last-child {
+  margin-bottom: -5px; }
+
+.card .item,
+.list-inset .item,
+.padding > .list .item,
+.padding-horizontal > .list .item {
+  margin-right: 0;
+  margin-left: 0; }
+  .card .item.item-input input,
+  .list-inset .item.item-input input,
+  .padding > .list .item.item-input input,
+  .padding-horizontal > .list .item.item-input input {
+    padding-right: 44px; }
+
+.padding-left > .list .item {
+  margin-left: 0; }
+
+.padding-right > .list .item {
+  margin-right: 0; }
+    
+/* progress bar styling*/
+/*
+progress[value] {
+  width: 250px;
+  height: 5px;
+}
+
+progress[value] {
+ 
+  -webkit-appearance: none;
+   appearance: none;  
+  
+  width: 320px;
+  height: 8px;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #F6E5ED;
+  border-radius: 200px;
+}
+
+progress[value]::-webkit-progress-value {
+  background-image:
+	   -webkit-linear-gradient(-45deg, 
+	                           transparent 33%, rgba(0, 0, 0, .1) 33%, 
+	                           rgba(0,0, 0, .1) 66%, transparent 66%),
+	   -webkit-linear-gradient(top, 
+	                           rgba(255, 255, 255, .25), 
+	                           rgba(0, 0, 0, .25)),
+	   -webkit-linear-gradient(left, #fff, #fff);
+
+    border-radius: 200px; 
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}*/
+
+.button.button-block, .button.button-full {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+    
+.button.button-block.button-balanced {
+    border-color: transparent;
+    background-color: #fff;
+    color: #fff; }
+    .button.button-balanced:hover {
+      color: #CC6B98;
+      text-decoration: none; }
+      
+      .bar.bar-calm {
+    border-color: #5ecbb8;
+    background-color: #5ecbb8;
+    background-image: linear-gradient(0deg, #5ecbb8, #5ecbb8 50%, transparent 50%);
+    color: #fff; }
+    
+    .bar.bar-calm .title {
+      color: #fff; }
+      
+    .bar.bar-calm.bar-footer {
+      background-image: linear-gradient(180deg, #5ecbb8, #5ecbb8 50%, transparent 50%); }
+      
+.calm-bg {
+  background-color: #5ecbb8; }
+  
+  .dishname {
+  margin: 0;
+  padding: 20px;
+  border: 0;
+  vertical-align: baseline;
+  font-size: 200%;
+  color: #000000;
+  font-family: 'Roboto Condensed';}
+  
+  .dishnamebox{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  font-family: 'Roboto Condensed';
+  font-size: 100%;
+  background-color: #fff;
+  clear: both;}
+  
+  .dishwriteup {
+  margin: 0px 50px;
+  color: #0F0E0F;
+  font-size: 14px;
+  font: 'inherit';
+  font-style: normal;
+  float: right;
+  clear:both; }
+  
+  .button.button-block{
+      
+    width: 96%;
+    margin: 2%;
+  }
+  
+  .button.button-block.button-positive{
+      
+    width: 96%;
+    margin: 2%;
+  }
+  
+  .calm{
+      color:#5ecbb8;
+  }
+  
+  .button.button-block.button-calm.button-bottom {
+    border-color: transparent;
+    background-color: #5ecbb8;
+    color: #fff;
+    position: fixed;
+  bottom: 0%;
+  }
+    .button.button-block.button-calm.button-bottom:hover {
+      color: #fff;
+      text-decoration: none; 
+      position: fixed;
+  bottom: 0%;}
+    .button.button-block.button-calm.button-bottom.active, .button.button-block.button-calm.button-bottom.activated {
+      background-color: #0bd2bc; 
+      position: fixed;
+  bottom: 0%;}
+  
+ 
+  .button.button-block.button-calm {
+    border-color: transparent;
+    background-color: #5ecbb8;
+    color: #fff;
+  }
+    .button.button-block.button-calm:hover {
+      color: #fff;
+      text-decoration: none; 
+      }
+    .button.button-block.button-calm.active, .button.button-block.button-calm.activated {
+      background-color: #0bd2bc; 
+      }
+      
+    
+    .card.list{
+        margin: 2px;
+    }
+    
+    .icon.ion-ios-information-outline{
+  display: inline-block;
+  font-family: "Ionicons";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+  size: 200%;}
+  
+  .profile-cover {
+  padding-top: 10px;
+  min-height: 80px;
+  background: url("../img/bg.jpg") no-repeat center;
+  background-size: 100% auto; }
+  .profile-cover .profile-picture {
+    width: 80px;
+    height: 80px; }
+    
+ .padding-top.no-margin.dark{
+     padding-top: 16px;
+ }
+ 
+ .button {
+  border-color: transparent;
+  background-color: #f8f8f8;
+  color: #444;
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0 12px;
+  min-width: 52px;
+  min-height: 47px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  vertical-align: top;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 42px;
+  cursor: pointer;}
+    

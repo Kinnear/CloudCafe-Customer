@@ -5,13 +5,13 @@
   The HomeCtrl pulls data from Categories service (service.js)
   The Categories service returns array  of categories data
 -->
-<ion-view view-title="Menu">
+<ion-view view-title="Explore">
 
   <ion-content class="stable-bg">
 
     <div class="row">
       <div class="col col-50">
-        <div class="list card" ui-sref="item">
+        <div class="list card" ui-sref="item" transitiontype="slide" direction="left" go-native>
           <div class="item item-image">
             <img src="img/items/thumbs/fried_calamari.jpg">
           </div>
@@ -19,7 +19,7 @@
       </div>
 
       <div class="col col-50">
-        <div class="list card" ui-sref="item">
+        <div class="list card" window.plugins.nativepagetransitions.slide({     ui-sref="item" });>
           <div class="item item-image">
             <img src="img/items/thumbs/zuppa.jpg">
           </div>
@@ -28,23 +28,28 @@
     </div>
     
 
-    <!--<div class="row">-->
-      <!--<div class="col col-50">-->
-        <!--<div class="list card" ui-sref="item">-->
-          <!--<div class="item item-image">-->
-            <!--<img src="img/items/thumbs/brick_chicken.jpg">-->
-          <!--</div>-->
-          <!--</div>-->
-      <!--</div>-->
+    <div class="row">
+      <div class="col col-50">
+        <div class="list card" window.plugins.nativepagetransitions.slide({     ui-sref="item" });>
+          <div class="item item-image">
+            <img src="img/items/thumbs/brick_chicken.jpg">
+          </div>
+          </div>
+      </div>
 
-      <!--<div class="col col-50">-->
-        <!--<div class="list card" ui-sref="item">-->
-          <!--<div class="item item-image">-->
-            <!--<img src="img/items/thumbs/rib_eyes.jpg">-->
-          <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
+      <div class="col col-50">
+        <div class="list card" window.plugins.nativepagetransitions.slide({
+    window.plugins.nativepagetransitions.slide({     ui-sref="item" });
+});>
+          <div class="item item-image">
+            <img src="img/items/thumbs/rib_eyes.jpg">
+          </div>
+      </div>
+    </div>
+    </div>
+    
+    
+    
   
  
     <!--

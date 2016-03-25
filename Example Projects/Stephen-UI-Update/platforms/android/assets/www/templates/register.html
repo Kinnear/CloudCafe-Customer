@@ -1,50 +1,46 @@
-<ion-view view-title="Login" hide-nav-bar="true" class="login-bg">
-  <ion-content class="login-bg">
+<ion-view view-title="Register" class="light-bg">
+  <ion-content class="light-bg">
 
     <div class="login-content">
 
       <!-- Logo -->
-      <div class="padding text-center">
-        <div class="logo balanced-bg">
-          <i class="light ion-android-restaurant"></i>
+      <div class="item item-image">
+            <img src="img/ui/splash.png">
         </div>
-        <h2 class="light">
-          Food Delivery
-        </h2>
-      </div>
+        
 
       <!-- Login form -->
       <div class="list">
 
-        <label class="item item-input item-stacked-label">
+        <label class="item item-input item-floating-label">
           <span class="input-label">Name</span>
-          <input type="text">
+          <input type="text" placeholder="Name" required>
         </label>
 
-        <label class="item item-input item-stacked-label">
+        <label class="item item-input item-floating-label">
           <span class="input-label">Email</span>
-          <input type="text">
+          <input type="email" placeholder="Email" required>
         </label>
 
-        <label class="item item-input item-stacked-label">
+        <label class="item item-input item-floating-label">
           <span class="input-label">Password</span>
-          <input type="password">
+          <input type="password" placeholder="Password" required>
         </label>
 
 
       </div>
 
       <div class="padding-top">
-        <button class="button button-block button-balanced" ui-sref="home">
-          SIGN UP
+        <button class="button button-block button-calm" ui-sref="location">
+          REGISTER
         </button>
       </div>
 
 
       <!-- Other links -->
-      <div class="text-center">
-        <a ui-sref="login" class="light">I have <span class="balanced">an account</span></a>
-      </div>
+      <!--<div class="text-center">
+        <a ui-sref="login" class="dark">I have <span class="balanced">an account</span></a>
+      </div>-->
 
     </div>
 

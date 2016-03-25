@@ -8,7 +8,7 @@
 
 
     <!-- compiled css output -->
-    <link href="css/ionic.app.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'><link href="css/ionic.app.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
     <!-- stripe
@@ -53,7 +53,8 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
     <script src="lib/ion-md-input/js/ion-md-input.min.js"></script>
-  </head>
+    
+    </head>
   <body ng-app="starter">
 
     <ion-side-menus>
@@ -62,15 +63,17 @@
       <ion-side-menu-content>
         <ion-nav-bar class="bar-light" align-title="center">
           <!-- Back button -->
-          <ion-nav-back-button>
-            <span class="dark"> </span>
+          <ion-nav-back-button >
+            <span class="dark" > </span>
           </ion-nav-back-button>
+          
 
           <!-- Burger button -->
           <ion-nav-buttons side="left">
-            <button class="button button-icon button-dark ion-navicon" menu-toggle="left">
+            <button class="button button-icon button-light ion-navicon" menu-toggle="left">
             </button>
           </ion-nav-buttons>
+          
 
           <!-- triple button more removed temp
           <ion-nav-buttons side="right">
@@ -82,7 +85,7 @@
           <!--should add a filter button in place of triple button-->
 
         <!-- Main view content -->
-        <ion-nav-view animation="slide-left-right"></ion-nav-view>
+        <ion-nav-view ></ion-nav-view>
       </ion-side-menu-content>
 
       <!-- Left menu -->
@@ -113,8 +116,8 @@
           -->
           <div class="list" menu-close="">
             <div class="item item-icon-left" ui-sref="home">
-              <span class="dark"><i class="icon ion-coffee"></i>
-              Menu</span>
+              <span class="dark"><i class="icon ion-compass"></i>
+              Explore</span>
             </div>
 
             <!--<div class="item item-icon-left"ui-sref="last_orders">
