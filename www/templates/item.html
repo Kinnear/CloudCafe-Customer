@@ -4,113 +4,167 @@
   The ItemCtrl pulls data from Items service (service.js)
   The Items service returns array of items data
 -->
-<ion-view view-title="{{ item.name }}">
+<ion-view view-title="{{ item.foodName }}">
 
   <ion-content>
-
+      
     <!-- Item cover -->
     <div class="item-cover">
       <ion-slide-box>
         <ion-slide ng-repeat="img in item.images">
-          <img class="full-image" src="{{ img }}" alt=""/>
+          <!--<img class="full-image" src="{{ img }}" alt=""/>-->
+          <img ng-show="item.img1 !== undefined" ng-src="{{item.img1}}">
+
         </ion-slide>
       </ion-slide-box>
 
-      <!--close
-            <div class="overlay">
-              <span class="pull-left light">
-                {{ item.description }}
-              </span>
+<!--close
+      <div class="overlay">
+        <span class="pull-left light">
+          {{ item.description }}
+        </span>
 
-              <span class="pull-right price light">
-                ${{ item.price }}
-              </span>
-            </div>
-          </div>-->
-
-      <!-- Buttons -->
-      <div class="row item-button-group">
-        <div class="col button button-stable" ng-click="toggleFav()">
-          <i class="text-2x ion-ios-heart-outline" ng-hide="item.faved"></i>
-          <i class="text-2x ion-ios-heart" ng-show="item.faved"></i>
-          <span class="text-sm">ADD TO FAVORITE</span>
-        </div>
-        <!--temp close
-        <div class="col button button-balanced">
-          <i class="text-2x ion-ios-cart-outline"></i>
-          <span class="text-sm">ADD TO CART</span>
-        </div>
-         -->
+        <span class="pull-right price light">
+          ${{ item.price }}
+        </span>
       </div>
+    </div>-->
 
-      <div class="button-bar">
+    <!-- Buttons -->
+    <!--<div class="row item-button-group">
+      <div class="col button button-stable" ng-click="toggleFav()">
+        <i class="text-2x ion-ios-heart-outline" ng-hide="item.faved"></i>
+        <i class="text-2x ion-ios-heart" ng-show="item.faved"></i>
+        <span class="text-sm">ADD TO FAVORITE</span>
+      </div>-->
+      <!--temp close
+      <div class="col button button-balanced">
+        <i class="text-2x ion-ios-cart-outline"></i>
+        <span class="text-sm">ADD TO CART</span>
+      </div>
+       -->
+    </div>
+    
+    <!--<div class="button-bar">
         <a class="button">Days Left:</a>
         <a class="button">Slots Left:</a>
-        <a class="button">Price: ${{ item.price }}</a>
-      </div>
+        <a class="button">Price:</a>
+        </div>-->
+        
+    <!--<progress max="5" value="3" class="progress-bar">
+    </progress>-->
 
-      <progress max="5" value="3" class="progress-bar">
-      </progress>
-
-      <!-- Reviews -->
-      <label class="item item-input item-stacked-label">
-        <span class="input-label balanced">Details</span>
-        <p>Item: <br>
-          Shop: <br>
-          Order fulfillment date:<br>
-          Tags: Organic, Gluten-free, Hand-made</p>
-      </label>
-
-      <label class="item item-input item-stacked-label">
-        <span class="input-label balanced">Description</span>
-        <p>lorem Ipsum Dolor...</p>
-      </label>
+    <!-- Reviews -->
+    
+    <div class="dishnamebox">
+        <h1 class="dishname">{{ item.name }}</h1>
     </div>
-
-    <div class="list">
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Delivery
+    
+   <div>
+        <i class="button icon ion-ios-information-outline"></i>
+        <div class="dishwriteup">
+            {{ item.description }}
         </div>
-        <select>
-          <option selected>Home</option>
-          <option>Work</option>
-        </select>
-      </label>
     </div>
-
-    <div class="list">
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Date
-        </div>
-        <select>
-          <option selected>Select Date</option>
-          <option>date 1 Friday</option>
-          <option>date 2 Saturday</option>
-          <option>date 3 Sunday</option>
-        </select>
-      </label>
+    
     </div>
+    
 
-
-    <div class="list">
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Time
-        </div>
-        <select>
-          <option selected>Select Time</option>
-          <option>time 1 0900</option>
-          <option>time 2 1400</option>
-          <option>time 3 1800</option>
-        </select>
-      </label>
+    <div ng-controller="MyController">
+        <button class="bar bar-footer bar-calm" ng-click="openModal(class,item); addtocart(item)">Back this Project</button>
     </div>
+      
+    <script id="my-modal.html" type ="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-calm">
+                <button class = "button button-icon icon-left ion-arrow-left-c" ng-click ="closeModal()"></button>
+            </ion-header-bar>
+            
+        <ion-content class="calm-bg"> 
+            <div class="card">
+                <div class="item item-text-wrap">
+                    <!--input options here-->
+                    <div class="list">
+                        <div class="item item-text-wrap">
+                            <div class="row">
+                            <div class="col col-50">Item</div>
+                            <div class="col">{{item.foodName}}</div>
+                            </div>
+                            
+                            <div class="row">
+                            <div class="col col-70">Price</div>
+                            <div class="col">{{item.price}}</div>
+                            </div> 
+                            
+                            <div class="row">
+                            <div class="col col-70">Quantity</div>
+                            <div class="col">x 1</div>
+                            </div> 
+                            
+                            <div class="row">
+                            <div class="col col-50">Delivery</div>
+                            <div class="col">$3.00</div>
+                            </div> 
+                            
+                            <div class="row">
+                            <div class="col col-50">Total</div>
+                            <div class="col">$17.00</div>
+                            </div>
+                        </div>
 
-    <button class="button bar button-balanced">
-      Back this Project
-    </button>
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Delivery
+                        </div>
+                        <select>
+                            <option selected>Home</option>
+                            <option>Work</option>
+                        </select>
+                    </label>
+                    
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Date
+                        </div>
+                        <select>
+                            <option selected>12 April (Sat)</option>
+                            <option>13 April (Sun)</option>
+                        </select>
+                    </label>
 
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Time
+                        </div>
+                        <select>
+                            <option selected>Select Time</option>
+                                <option>9-11am</option>
+                                <option>2-4pm</option>
+                                <option>7-9pm</option>
+                        </select>
+                    </label>
+                    
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                        Quantity
+                        </div>
+                        <select>
+                            <option selected>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4 (whole cake)</option>
+                        </select>
+                    </label>
+
+                    </div>
+
+                    <button class="button button-block button-positive" ng-click="charge()">
+                        Purchase
+                    </button>
+                    </div>
+            </ion-content>
+        </ion-modal-view>
+      </script>
+   
   </ion-content>
 </ion-view>

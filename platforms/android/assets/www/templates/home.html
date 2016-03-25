@@ -53,37 +53,61 @@
     <!--</div>-->
 
     <!--<div class="item item-body" ng-repeat="category in categories" ui-sref="category({id: category.id})">-->
+    <button ng-click="SetDouble()">Refresh</button>
+    
+    <div class = "row" ng-repeat = "SingleItem in Items" ng-if="$index % 2 === 0">
+        <div class="col col-50" ng-if="$index < Items.length">
+            <div class = "list card" ui-sref ="item({itemData: Items[$index]})">
+                {{Items[$index].foodName}}
+            </div>
+        </div>
+        
+        <div class="col col-50" ng-if="$index + 1 < Items.length">
+            <div class = "list card" ui-sref ="item({itemData: Items[$index + 1]})">
+                {{Items[$index + 1].foodName}}
+            </div>
+        </div>
+    </div>
 
-    <div ng-repeat="category in categories">
+
+
+    <div ng-repeat= "keys in doublecategories">
       <div class="row">
         <div class="col col-50">
-          left
-          <div class="list card" ui-sref="category({id: category.id})">
+          <div class="list card" ui-sref="item({itemData: keys[0]})">
             <div class="item item-image">
-              <img src="{{ category.thumb }}">
+              <img src="{{keys[0]['img1']}}">
+              <img ng-src="data:image/jpeg;base64,{{keys[0]['img1']}}" width="100%" />
+              <h2>{{keys[0]['img1']}}</h2>
             </div>
-            <a class="item dark">
-              {{ category.name }}
-              <p><span class="assertive">5 new</span></p>
-            </a>
           </div>
         </div>
 
         <div class="col col-50">
-          right
-          <div class="list card" ui-sref="category({id: category.id})">
+          <div class="list card" ui-sref="item({itemData: keys[1]})">
             <div class="item item-image">
-              <img src="{{ category.thumb }}">
+              <img src="{{keys[1]['img1']}}">
             </div>
-            <a class="item dark">
-              {{ category.name }}
-              <p><span class="assertive">5 new</span></p>
-            </a>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- 
+    Odd Number is currently having a problem. It will not know when the value is really odd. 
+    So. Database returns me a list of values, but i set it to a List<item[2]> style in c#
+    However, when there is an odd number of items, I am unable to showcase that last item in the row.
+    if(there is a odd nubmer of item in html? What? 
+    -->
+    <div class="row">
+      <div class="col col-50">
+        <div class="list card" ui-sref="item({itemData: oddItem})">
+          <div class="item item-image">
+            <img src="{{oddItem['img1']}}">
+          </div>
+        </div>
+      </div>
+    </div>
 
   </ion-content>
 </ion-view>

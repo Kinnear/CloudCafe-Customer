@@ -1,4 +1,4 @@
-<ion-view view-title="Login" class="light-bg" ng-controller="DeletePreviousNavigation">
+<ion-view view-title="Login" class="light-bg">
   <ion-content class="light-bg">
 
     <div class="login-content">
@@ -15,42 +15,39 @@
 
       <!-- Login form -->
       <div class="list">
-        <label class="item item-input item-stacked-label">
+        <label class="item item-input item-floating-label">
           <span class="input-label">Email</span>
-          <input type="text">
+          <input type="text" placeholder="Email" required>
         </label>
-        <label class="item item-input item-stacked-label">
+        <label class="item item-input item-floating-label">
           <span class="input-label">Password</span>
-          <input type="password">
+          <input type="password" placeholder="Password" required>
         </label>
-
+        
       </div>
 
-      <p class="text-right balanced">Forgot Password? </p>
+      <p class="text-right balanced">Forgot Password?</p>
 
       <div>
-
+          
         <button class="button button-block button button-balanced" ui-sref="register">
-          SIGN IN
+            SIGN IN
         </button>
 
         <p class="text-center dark">Or</p>
 
-        <button class="button button-block twitter-login" ui-sref="home">
+        <button class="button button-block facebook-login" ui-sref="home">
           Sign in with Twitter
         </button>
-        
-        <div ng-controller="FacebookAuthentication">
-            <button class="button button-block facebook-login" ng-click="LoginFacebook('facebook')">
-            Sign in with Facebook
-            </button>
-        </div>
+        <button class="button button-block twitter-login" ui-sref="home">
+          Sign in with Facebook
+        </button>
       </div>
 
 
       <!-- Other links -->
       <div class="text-center">
-        <a ui-sref="register" class="dark">New here? <span class="balanced">Sign up</span></a>
+          <a ui-sref="register" class="dark">New here? <span class="balanced">Sign up</span></a>
       </div>
 
     </div>

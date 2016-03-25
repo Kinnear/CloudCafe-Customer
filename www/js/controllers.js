@@ -76,9 +76,38 @@ app.controller('AuthCtrl', function($scope, $ionicHistory) {
 });
 
 // Home controller
-app.controller('HomeCtrl', function($scope, $state, Categories) {
+app.controller('HomeCtrl', function($scope, $state, Items, $stateParams) {
     // get all categories from service
-    $scope.categories = Categories.all();
+    $scope.Items = Items.all();
+    $scope.doublecategories = [];
+    $scope.oddItem;
+    $scope.havOddItem = false;
+
+    $scope.SetDouble = function () {
+        console.log("Test: " + $scope.Items.length  % 2);
+        $scope.doublecategories = [];
+        var Array = {};
+        var index = 0;
+        for(i = 0; i < $scope.Items.length; i++)
+        {
+            Array[index++] = $scope.Items[i];
+            if(i % 2 == 1)
+            {
+                $scope.doublecategories.push(Array);
+                index = 0;
+                Array = {};
+                console.log($scope.doublecategories)
+            }
+            if(i + 1 == $scope.Items.length && $scope.Items.length % 2 == 1)
+            {
+                console.log("We got a odd number!");
+                $scope.oddItem = $scope.Items[i];
+                $scope.haveOddItem = true;
+            }
+        }
+    }
+
+
 });
 
 // Category controller
@@ -94,16 +123,106 @@ app.controller('CategoryCtrl', function($scope, $state, Categories, $stateParams
 });
 
 // Item controller
-app.controller('ItemCtrl', function($scope, $state, Items, $stateParams) {
-    var id = $stateParams.id;
-
+app.controller('ItemCtrl', function($scope, $state, Items, $stateParams, $firebaseArray, CartItemData, StripeCharge, fbUrl) {
+    var itemData = $stateParams.itemData;
+    console.log($stateParams.itemData);
     // get item from service by item id
-    $scope.item = Items.get(1);
+    $scope.item = itemData;
 
     // toggle favorite
     $scope.toggleFav = function() {
       $scope.item.faved = !$scope.item.faved;
     }
+
+    $scope.getData = function()
+    {
+        console.log($stateParams.itemData);
+    }
+     
+    // Router Thingy
+    var second = this;
+    second.item = CartItemData.getItemData();
+
+    // Stripe JS
+    $scope.ProductMeta = {
+        title: "Awesome product",
+        description: "Yes it really is",
+        priceUSD: 1,
+    };
+
+    $scope.status = {
+        loading: false,
+        message: "",
+    };
+
+    $scope.charge = function() {
+
+        $scope.status['loading'] = true;
+        $scope.status['message'] = "Retrieving your Stripe Token...";
+    
+        second.item = CartItemData.getItemData();
+        // console.log("Log: " + CartItemData.getItemData().foodName);
+        // console.log(second.item.foodName);
+
+        $scope.ProductMeta['title'] = second.item.foodName;
+        $scope.ProductMeta['description'] = second.item.description;
+        $scope.ProductMeta['priceUSD'] = second.item.price;
+
+        // first get the Stripe token
+        StripeCharge.getStripeToken($scope.ProductMeta).then(
+            function(stripeToken){
+            // -->
+            proceedCharge(stripeToken);
+            },
+            function(error){
+            console.log(error)
+
+            $scope.status['loading'] = false;
+            if(error != "ERROR_CANCEL") {
+                $scope.status['message'] = "Oops... something went wrong";
+            } else {
+                $scope.status['message'] = "";
+            }
+            }
+        ); // ./ getStripeToken
+
+        function proceedCharge(stripeToken) {
+
+        $scope.status['message'] = "Processing your payment...";
+
+        // then chare the user through your custom node.js server (server-side)
+        StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
+            function(StripeInvoiceData){
+                $scope.status['loading'] = false;
+                $scope.status['message'] = "Success! Check your Stripe Account";
+                console.log(StripeInvoiceData);
+                console.log(second.item.Key);
+
+                var transactionTable = new Firebase(fbUrl+'/transactions');
+                var transactionTableCollection = $firebaseArray(transactionTable);
+
+                transactionTableCollection.$add({
+                "foodID":second.item.Key,
+                "stripeTransactionID":StripeInvoiceData.id,
+                "timestamp":StripeInvoiceData.created,
+                "quantity":1
+                })
+
+                $state.go('transSuccess', {ItemData: second.item, Result: StripeInvoiceData});
+            },
+            function(error){
+                console.log(error);
+
+                $scope.status['loading'] = false;
+                $scope.status['message'] = "Oops... something went wrong";
+
+                $state.go('transFailure', {'ErrorLog': error});
+            }
+        );
+
+        }; // ./ proceedCharge
+
+    }; 
 });
 
 // Favorite controller
@@ -437,4 +556,50 @@ app.controller("DeletePreviousNavigation", function($scope, $ionicHistory){
                 historyRoot: true
             });
         });
+});
+
+//controller for Support support.html
+app.controller('SupportCtrl', function($scope, $state) {})
+
+app.controller('MyController', function($scope, $ionicModal, CartItemData) {
+  
+  $scope.itemData;  
+  
+
+  $ionicModal.fromTemplateUrl('my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function(item) {
+    $scope.modal.show();
+    $scope.itemData = item; 
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+  
+    var first = this;
+    first.item = CartItemData.getItemData();
+  
+    $scope.addtocart = function(index){
+        console.log(index);
+        CartItemData.setItemData(index);
+        first.item = CartItemData.getItemData();
+        console.log("Log: " + CartItemData.getItemData().foodName);
+        console.log("Log: " + CartItemData.getItemData().foodName)
+    }
 });

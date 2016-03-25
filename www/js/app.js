@@ -71,9 +71,14 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
 
             // Item detail
             .state('item', {
-                url: '/item/:id',
+                url: '/item',
                 templateUrl: 'templates/item.html',
-                controller: 'ItemCtrl'
+                controller: 'ItemCtrl',
+                params: {itemData: null},
+                resolve: {
+                    // checkout.js isn't fetched until this is resolved.
+                    stripe: StripeCheckoutProvider.load
+                }
             })
 
             // View favorite items
@@ -147,6 +152,13 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
                 params: {
                     'ErrorLog':''
                 }
+            })
+            
+            //state for support
+            .state('support', {
+                url: '/support',
+                templateUrl: 'templates/support.html',
+                controller: 'SupportCtrl'
             })
 
         // If others are not matched

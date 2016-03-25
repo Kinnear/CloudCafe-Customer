@@ -76,9 +76,38 @@ app.controller('AuthCtrl', function($scope, $ionicHistory) {
 });
 
 // Home controller
-app.controller('HomeCtrl', function($scope, $state, Categories) {
+app.controller('HomeCtrl', function($scope, $state, Items, $stateParams) {
     // get all categories from service
-    $scope.categories = Categories.all();
+    $scope.Items = Items.all();
+    $scope.doublecategories = [];
+    $scope.oddItem;
+    $scope.havOddItem = false;
+
+    $scope.SetDouble = function () {
+        console.log("Test: " + $scope.Items.length  % 2);
+        $scope.doublecategories = [];
+        var Array = {};
+        var index = 0;
+        for(i = 0; i < $scope.Items.length; i++)
+        {
+            Array[index++] = $scope.Items[i];
+            if(i % 2 == 1)
+            {
+                $scope.doublecategories.push(Array);
+                index = 0;
+                Array = {};
+                console.log($scope.doublecategories)
+            }
+            if(i + 1 == $scope.Items.length && $scope.Items.length % 2 == 1)
+            {
+                console.log("We got a odd number!");
+                $scope.oddItem = $scope.Items[i];
+                $scope.haveOddItem = true;
+            }
+        }
+    }
+
+
 });
 
 // Category controller
@@ -94,16 +123,106 @@ app.controller('CategoryCtrl', function($scope, $state, Categories, $stateParams
 });
 
 // Item controller
-app.controller('ItemCtrl', function($scope, $state, Items, $stateParams) {
-    var id = $stateParams.id;
-
+app.controller('ItemCtrl', function($scope, $state, Items, $stateParams, $firebaseArray, CartItemData, StripeCharge, fbUrl) {
+    var itemData = $stateParams.itemData;
+    console.log($stateParams.itemData);
     // get item from service by item id
-    $scope.item = Items.get(1);
+    $scope.item = itemData;
 
     // toggle favorite
     $scope.toggleFav = function() {
       $scope.item.faved = !$scope.item.faved;
     }
+
+    $scope.getData = function()
+    {
+        console.log($stateParams.itemData);
+    }
+     
+    // Router Thingy
+    var second = this;
+    second.item = CartItemData.getItemData();
+
+    // Stripe JS
+    $scope.ProductMeta = {
+        title: "Awesome product",
+        description: "Yes it really is",
+        priceUSD: 1,
+    };
+
+    $scope.status = {
+        loading: false,
+        message: "",
+    };
+
+    $scope.charge = function() {
+
+        $scope.status['loading'] = true;
+        $scope.status['message'] = "Retrieving your Stripe Token...";
+    
+        second.item = CartItemData.getItemData();
+        // console.log("Log: " + CartItemData.getItemData().foodName);
+        // console.log(second.item.foodName);
+
+        $scope.ProductMeta['title'] = second.item.foodName;
+        $scope.ProductMeta['description'] = second.item.description;
+        $scope.ProductMeta['priceUSD'] = second.item.price;
+
+        // first get the Stripe token
+        StripeCharge.getStripeToken($scope.ProductMeta).then(
+            function(stripeToken){
+            // -->
+            proceedCharge(stripeToken);
+            },
+            function(error){
+            console.log(error)
+
+            $scope.status['loading'] = false;
+            if(error != "ERROR_CANCEL") {
+                $scope.status['message'] = "Oops... something went wrong";
+            } else {
+                $scope.status['message'] = "";
+            }
+            }
+        ); // ./ getStripeToken
+
+        function proceedCharge(stripeToken) {
+
+        $scope.status['message'] = "Processing your payment...";
+
+        // then chare the user through your custom node.js server (server-side)
+        StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
+            function(StripeInvoiceData){
+                $scope.status['loading'] = false;
+                $scope.status['message'] = "Success! Check your Stripe Account";
+                console.log(StripeInvoiceData);
+                console.log(second.item.Key);
+
+                var transactionTable = new Firebase(fbUrl+'/transactions');
+                var transactionTableCollection = $firebaseArray(transactionTable);
+
+                transactionTableCollection.$add({
+                "foodID":second.item.Key,
+                "stripeTransactionID":StripeInvoiceData.id,
+                "timestamp":StripeInvoiceData.created,
+                "quantity":1
+                })
+
+                $state.go('transSuccess', {ItemData: second.item, Result: StripeInvoiceData});
+            },
+            function(error){
+                console.log(error);
+
+                $scope.status['loading'] = false;
+                $scope.status['message'] = "Oops... something went wrong";
+
+                $state.go('transFailure', {'ErrorLog': error});
+            }
+        );
+
+        }; // ./ proceedCharge
+
+    }; 
 });
 
 // Favorite controller
@@ -258,70 +377,117 @@ app.controller('SuccessCtrl', function($scope, $stateParams, $state) {
 app.controller('FailureCtrl', function($scope, $state) {})
 
 // facebook authentication! woo hoo!
-app.controller("FacebookAuthentication", function($scope, $state, CurrentUserData, fbUrl){
+app.controller("FacebookAuthentication", function($scope, Auth, $state, CurrentUserData, fbUrl, $location){
 
-    // $scope.userData = CurrentUserData.getAuthenticationData();
-    // $scope.loginType = null;
-    
-    // console.log("Code in the controller ran.");
-    // console.log("Service says logged in is " + CurrentUserData.getUserLoggedIn());
-    // console.log("$scope.loginType = " + $scope.loginType);
-    // console.log("$scope.userData = below");
-    // console.log($scope.userData);
-    // console.log('\n');
-    
-    // check if the user is logged in straight away
-    var ref = new Firebase(fbUrl);
-    // var runOnce = 0;
-
-    $scope.LoginFacebook = function(value)
+    // run this code only if the current state is 'login'
+    if($state.current.name == "login")
     {
-        
-        
-        
-        
-        
-        
-    //     $scope.loginType = value;
-        
-    //     if(runOnce < 1)
-    //     {
-    //         ref.onAuth(authDataCallback);
-    //         runOnce ++;
-    //     }
-        
-    //     console.log("$scope.loggedIn = " + CurrentUserData.getUserLoggedIn());
-        
-    //     // if($scope.loggedIn == false)
-    //     if(CurrentUserData.getUserLoggedIn() == false)
-    //     {
-    //         ref.authWithOAuthPopup($scope.loginType, function(error, authData) {
-    //                 if (error) {
-    //                     console.log("Login Failed!", error);
-    //                 } else {
-    //                     console.log("Authenticated successfully with payload:", authData);
-    //                     // Apply our scope outside of angular on our html as well.
-    //                     $scope.$apply();
-    //                 }
-    //             });
-    //     }
-    //     else
-    //     {
-    //         $state.go('home');
-    //     }
+        var killAuth = Auth.$onAuth(function(authData)
+        {
+            if(authData != null)
+            {
+                console.log("Redirect to home as, Logged in already before as:", authData.uid);
+                
+                // save our login details to the system over here
+                // checks to see if this facebook user has registered with us before
+                var allUsers = new Firebase(fbUrl).child("users");
+                
+                allUsers.orderByChild(authData.provider).equalTo(authData.uid).once('value', function(snapshot) {
+                    
+                    if(!snapshot.exists())
+                    {
+                        allUsers.push({                            
+                                // the user's username
+                                "username": authData.facebook.displayName,
+                                // the user's provider ID
+                                [authData.provider] : authData.uid
+                        });
+                        console.log("The user doesn't exist! Therefore we have a new user to add.");
+                    }
+                    else 
+                    {
+                        console.log("That user already exists");
+                    }
+                });
+                
+                killAuth();
+                CurrentUserData.setAuthenticationData(authData); 
+                
+                // $location.path('home');
+                $state.go('home');
+            }
+            else
+            {
+                console.log("Currently logged out");     
+            }
+        });
+    }
+    
+    var offAuth = null;
+
+    $scope.LoginFacebook = function(authMethod)
+    {
+        offAuth = Auth.$onAuth(function(authData) 
+        {
+            if (authData === null) 
+            {
+                // console.log("No data was found that the user is logged in.");
+                Auth.$authWithOAuthRedirect(authMethod).then(function(authData)
+                {
+                }).catch(function(error) 
+                {
+                    if (error.code === 'TRANSPORT_UNAVAILABLE') 
+                    {
+                        Auth.$authWithOAuthPopup(authMethod).then(function(error, authData) 
+                        {
+                            if (error) 
+                            {
+                                    console.log("Login Failed!", error);
+                            }
+                            else
+                            {
+                                console.log("Authenticated successfully with payload:", authData);
+                                // Apply our scope outside of angular on our html as well.
+                                // $scope.$apply();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        console.log("Some error has occured");
+                        console.log(error);
+                    }
+                });
+                
+                console.log("Finished trying out the onAuth function");
+            }
+            else
+            {
+                console.log('Successfully attempted to log in. Logged in as', authData.uid);                
+                // $location.path('home');
+            }
+            $scope.authData = authData; // This will display the user's name in our view
+        });
     }
     
     $scope.LogoutAuthentication = function()
     { 
-    //     ref.unauth();
-    //     ref.offAuth(authDataCallback);
+        CurrentUserData.clearAuthenticationData();
+        
+        // if our authentication callback does not exist, we dont need to remove the callback
+        if(offAuth != null)
+        {
+            console.log("OnAuth has been called therefore we remove the callback");
+            offAuth();
+        }
+        Auth.$unauth();
     //     CurrentUserData.clearAuthenticationData();
     //     $scope.userData = null;
     //     // $scope.loggedIn = false;
     //     CurrentUserData.setUserLoggedIn(false);
     //     $scope.loginType = null;
-    //     $state.go('login');
-    //     console.log("Logout Authentication was called.");
+        $location.path('login');
+        console.log("Logout Authentication was called.");
     };
     
     // function authDataCallback(authData)
@@ -390,4 +556,50 @@ app.controller("DeletePreviousNavigation", function($scope, $ionicHistory){
                 historyRoot: true
             });
         });
+});
+
+//controller for Support support.html
+app.controller('SupportCtrl', function($scope, $state) {})
+
+app.controller('MyController', function($scope, $ionicModal, CartItemData) {
+  
+  $scope.itemData;  
+  
+
+  $ionicModal.fromTemplateUrl('my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function(item) {
+    $scope.modal.show();
+    $scope.itemData = item; 
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+  
+    var first = this;
+    first.item = CartItemData.getItemData();
+  
+    $scope.addtocart = function(index){
+        console.log(index);
+        CartItemData.setItemData(index);
+        first.item = CartItemData.getItemData();
+        console.log("Log: " + CartItemData.getItemData().foodName);
+        console.log("Log: " + CartItemData.getItemData().foodName)
+    }
 });
