@@ -10,6 +10,8 @@
     <!-- compiled css output -->
     <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'><link href="css/ionic.app.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/animations.css">
 
     <!-- stripe
       $ bower install angular-stripe-checkout
@@ -17,6 +19,15 @@
     -->
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
+    <!-- jQuery is used for JavaScript animations (include this before angular.js) -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  
+  <!-- required module to enable animation support in AngularJS -->
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  
+  <!-- for JavaScript Animations -->
+  <script src="js/animations.js"></script>
+  
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
@@ -45,6 +56,8 @@
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
     
+    
+    
     <link href='https://fonts.googleapis.com/css?family=RobotoDraft:400,500,700,400italic' rel='stylesheet' type='text/css'>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="lib/ion-md-input/css/ion-md-input.min.css" rel="stylesheet">
@@ -61,7 +74,7 @@
 
       <!-- Center content -->
       <ion-side-menu-content>
-        <ion-nav-bar class="bar-light" align-title="center">
+        <ion-nav-bar class="bar-light" align-title="center" >
           <!-- Back button -->
           <ion-nav-back-button >
             <span class="dark" > </span>
@@ -168,7 +181,7 @@
               Support</span>
             </div>
 
-            <div class="item item-icon-left" ui-sref="login">
+            <div class="item item-icon-left" ui-sref="login" >
               <span class="dark"><i class="icon ion-log-out"></i>
               Logout</span>
             </div>
@@ -191,5 +204,6 @@
       </ion-side-menu>
 
     </ion-side-menus>
+    
   </body>
 </html>

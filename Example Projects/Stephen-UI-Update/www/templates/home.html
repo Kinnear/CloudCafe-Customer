@@ -8,10 +8,16 @@
 <ion-view view-title="Explore">
 
   <ion-content class="stable-bg">
+      
+      <div ng-init="checked=true">
+  <label>
+    <input type="checkbox" ng-model="checked" style="float:left; margin-right:10px;"> Is Visible...
+  </label>
+</div>
 
     <div class="row">
       <div class="col col-50">
-        <div class="list card" ui-sref="item" transitiontype="slide" direction="left" go-native>
+        <div class="list card" ui-sref="item" >
           <div class="item item-image">
             <img src="img/items/thumbs/fried_calamari.jpg">
           </div>
@@ -19,7 +25,7 @@
       </div>
 
       <div class="col col-50">
-        <div class="list card" window.plugins.nativepagetransitions.slide({     ui-sref="item" });>
+        <div class="list card" ui-sref="item" class="check-element sample-show-hide" ng-show="checked" style="clear:both;">
           <div class="item item-image">
             <img src="img/items/thumbs/zuppa.jpg">
           </div>
@@ -28,9 +34,9 @@
     </div>
     
 
-    <div class="row">
-      <div class="col col-50">
-        <div class="list card" window.plugins.nativepagetransitions.slide({     ui-sref="item" });>
+    <div class="row" >
+      <div class="col col-50" >
+        <div class="list card" ui-sref="item">
           <div class="item item-image">
             <img src="img/items/thumbs/brick_chicken.jpg">
           </div>
@@ -38,10 +44,8 @@
       </div>
 
       <div class="col col-50">
-        <div class="list card" window.plugins.nativepagetransitions.slide({
-    window.plugins.nativepagetransitions.slide({     ui-sref="item" });
-});>
-          <div class="item item-image">
+        <div class="list card" ui-sref="item">
+          <div class="item item-image" >
             <img src="img/items/thumbs/rib_eyes.jpg">
           </div>
       </div>
