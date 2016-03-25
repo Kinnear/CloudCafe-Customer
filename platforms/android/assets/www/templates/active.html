@@ -4,7 +4,7 @@
   OffersCtrl pulls data from Items service (service.js)
   The Items service returns array of items data
 -->
-<ion-view view-title="Active" class="offer-page has-footer-buttons">
+<ion-view view-title="Purchased" class="offer-page has-footer-buttons">
 
     <ion-content class="stable-bg">
         <!--temp close
@@ -44,7 +44,7 @@
               </div>
         -->
 
-        <ion-list>
+        <!--<ion-list>
             <div class="list card">
 
                 <div class="item item-avatar">
@@ -67,7 +67,8 @@
 
             </div>
 
-        </ion-list>
+        </ion-list>-->
+        
         <!--temp close
               <div class="col button button-balanced" ui-sref="cart">
                 <i class="text-2x ion-ios-cart-outline"></i>
@@ -76,5 +77,34 @@
             </div>
           </ion-footer-bar>
          -->
-
+         
+         
+        <div class="list">
+            <a class="item item-thumbnail-left item-icon-right" ui-sref="###change">
+                <img src="cover.jpg">
+                <h2>Teh Tarik Cupcakes</h2>
+                <p>Quantity:<br>
+                Delivery Date:<br>
+                Delivery Time:</p>
+                <!--<i class="icon ion-chevron-right"></i>-->
+            </a>
+        
+        <a class="item item-thumbnail-left item-icon-right" ui-sref="###change">
+            <img src="cover.jpg">
+            <h2>Apple Pie</h2>
+            <p>Quantity:<br>
+            Delivery Date:<br>
+            Delivery Time:</p>
+            <!--<i class="icon ion-chevron-right"></i>-->
+        </a>
+        
+        <a class="item item-thumbnail-left item-icon-right" ui-sref="###change">
+            <img src="cover.jpg">
+            <h2>Valentine Tarts</h2>
+            <p>Quantity:<br>
+            Delivery Date:<br>
+            Delivery Time:</p>
+            <!--<i class="icon ion-chevron-right"></i>-->
+        </a>
+    </div>
 </ion-view>

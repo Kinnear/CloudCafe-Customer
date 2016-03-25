@@ -31,6 +31,8 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <allow-intent href="*.firebaseio.com" />
+    <allow-intent href="auth.firebase.com" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
@@ -38,4 +40,5 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
+    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
 </widget>
