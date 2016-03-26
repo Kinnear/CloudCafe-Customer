@@ -9,6 +9,9 @@
     "installed_plugins": {
         "com.telerik.plugins.nativepagetransitions": {
             "PACKAGE_NAME": "com.ionicframework.fooddelivery935160"
+        },
+        "cordova-plugin-screen-orientation": {
+            "PACKAGE_NAME": "com.ionicframework.fooddelivery935160"
         }
     },
     "dependent_plugins": {}

@@ -51,6 +51,20 @@ var app = angular.module('starter.controllers', ["ionic", "firebase", "ngAnimate
 //
 //});
 
+app.controller('MainCtrl', function($scope) {
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady()
+    {
+        // $scope.changeOriantationLandspace = function() {
+        //     screen.lockOrientation('landscape');
+        // }
+         
+        
+            screen.lockOrientation('portrait');
+        
+    }
+});
+
 app.controller('MyController', function($scope, $ionicModal) {
   $ionicModal.fromTemplateUrl('my-modal.html', {
     scope: $scope,

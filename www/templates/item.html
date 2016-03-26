@@ -10,10 +10,11 @@
       
     <!-- Item cover -->
     <div class="item-cover">
+      <img ng-src="data:image/jpeg;base64,{{item.img1}}">
+        
       <ion-slide-box>
         <ion-slide ng-repeat="img in item.images">
           <!--<img class="full-image" src="{{ img }}" alt=""/>-->
-          <img ng-show="item.img1 !== undefined" ng-src="{{item.img1}}">
 
         </ion-slide>
       </ion-slide-box>

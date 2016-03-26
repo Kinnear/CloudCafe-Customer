@@ -1,4 +1,5 @@
-var app = angular.module('starter.services', ["ionic", "firebase"]);
+var app = angular.module('starter.services', ["ionic", "firebase", "ngAnimate"]);
+
 
 // Our Firebase Data Factory retriever
 app.factory("FavouriteData", function($firebaseArray) {

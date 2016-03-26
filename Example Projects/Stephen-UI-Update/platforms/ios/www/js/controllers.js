@@ -1,36 +1,37 @@
-var app = angular.module('starter.controllers', ["ionic", "firebase"]);
+var app = angular.module('starter.controllers', ["ionic", "firebase", "ngAnimate"]);
 
-app.controller(function($scope, $ionicAnimation) {
-   var anim = $ionicAnimation({
-    // A unique, reusable name
-    name: 'popIn',
 
-    // The duration of an auto playthrough
-    duration: 0.5,
+// app.controller(function($scope, $ionicAnimation) {
+//    var anim = $ionicAnimation({
+//     // A unique, reusable name
+//     name: 'popIn',
 
-    // How long to wait before running the animation
-    delay: 0,
+//     // The duration of an auto playthrough
+//     duration: 0.5,
 
-    // Whether to reverse after doing one run through
-    autoReverse: false,
+//     // How long to wait before running the animation
+//     delay: 0,
 
-    // How many times to repeat? -1 or null for infinite
-    repeat: -1,
+//     // Whether to reverse after doing one run through
+//     autoReverse: false,
 
-    // Timing curve to use (same as CSS timing functions), or a function of time "t" to handle it yourself
-    curve: 'ease-in-out',
+//     // How many times to repeat? -1 or null for infinite
+//     repeat: -1,
 
-    onStart: function() {
-      // Callback on start
-    },
-    onEnd: function() {
-      // Callback on end
-    },
-    step: function(amt) {
+//     // Timing curve to use (same as CSS timing functions), or a function of time "t" to handle it yourself
+//     curve: 'ease-in-out',
 
-    }
-  })
-});
+//     onStart: function() {
+//       // Callback on start
+//     },
+//     onEnd: function() {
+//       // Callback on end
+//     },
+//     step: function(amt) {
+
+//     }
+//   })
+// });
 
 //app.service('productService', function() {
 //  var productList = [];
@@ -49,6 +50,20 @@ app.controller(function($scope, $ionicAnimation) {
 //  };
 //
 //});
+
+app.controller('MainCtrl', function($scope) {
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady()
+    {
+        // $scope.changeOriantationLandspace = function() {
+        //     screen.lockOrientation('landscape');
+        // }
+         
+        
+            screen.lockOrientation('portrait');
+        
+    }
+});
 
 app.controller('MyController', function($scope, $ionicModal) {
   $ionicModal.fromTemplateUrl('my-modal.html', {
@@ -377,3 +392,4 @@ app.controller('ShopCtrl', function($scope, $state) {})
 
 //controller for location.html
 app.controller('LocationCtrl', function($scope, $state) {})
+
