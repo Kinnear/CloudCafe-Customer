@@ -8,14 +8,10 @@
             <img src="../img/backgrounds/logo_white.png">
         </div>
         
-        <div class="flip-container">
-            <div class="flipper">
-                <div class="front">
-                    
-                    <div class="card">
-                    <div class="item item-text-wrap">
-                        
-                        <div class="list">
+        <!-- Login form -->
+        
+            <div class="card cardlogin" style="bottom:-500px;">
+                <div class="list">
                     <label class="item item-input item-floating-label">
                     <span class="input-label">Email</span>
                     <input type="text" placeholder="Email" required>
@@ -24,51 +20,37 @@
                     <span class="input-label">Password</span>
                     <input type="password" placeholder="Password" required>
                     </label>
-                    
                 </div>
-
-      <!--<p class="text-right calm">Forgot Password?</p>-->
-
+                
                 <div>
-                    
-                    <button class="button button-block button-calm"  ontouchstart="this.classList.toggle('click');">
-                        SIGN UP
+                    <button class="button button-block button-calm" ui-sref="register">
+                        SIGN IN
                         </button>
-        
-        <!--<button class="button button-block button-positive" ui-sref="home">
-          Sign in with Twitter
-        </button>
-        <button class="button button-block button-positive" ui-sref="home">
-          Sign in with Facebook
-        </button>-->
+                    <p class="text-center dark">Or</p>
+                    <button class="button button-block button-positive" ui-sref="home">
+                    Sign in with Twitter
+                    </button>
+                    <button class="button button-block button-positive" ui-sref="home">
+                    Sign in with Facebook
+                    </button>
                 </div>
+            
+        
+      
+
+      <p class="text-right calm">Forgot Password?</p>
 
 
       <!-- Other links -->
-                <div class="text-center">
-                    <p ui-sref="register" class="dark">Have an account? <span class="calm">Login</span></p>
-                </div>
+      <div class="text-center">
+          <a ui-sref="register" class="dark">New here? <span class="calm">Sign up</span></a>
+      </div>
 
-                </div>
-                        
-                        
-                    </div>
-                    </div>
-                    
-                </div>
-                <div class="back">
-                    <!-- back content -->
-                    hello
-                </div>
-            </div>
-        </div>
-        
-       <!--Login form -->
-       
-       
+    </div>
+    </div>
 
-
-     
+  </ion-content>
+</ion-view>
 
   </ion-content>
 </ion-view>

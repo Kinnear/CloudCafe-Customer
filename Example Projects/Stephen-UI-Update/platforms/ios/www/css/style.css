@@ -347,46 +347,23 @@ progress[value]::-webkit-progress-value {
        padding: 20px;
        margin-left: 10%;
     }
+   
+   .card.cardlogin {
+   
+    position: relative;
+    -webkit-animation: mymove 1s; /* Chrome, Safari, Opera */
+    animation: mymove 1s;
     
-    /* entire container, keeps perspective */
-.flip-container {
-	perspective: 1000;
-}
-	/* flip the pane when hovered */
-	.flip-container:hover .flipper, .flip-container.hover .flipper {
-		transform: rotateY(180deg);
-	}
-
-.flip-container, .front, .back {
-	width: 320px;
-	height: 480px;
+    animation-fill-mode: forwards;
 }
 
-/* flip speed goes here */
-.flipper {
-	transition: 0.6s;
-	transform-style: preserve-3d;
-
-	position: relative;
+/* Chrome, Safari, Opera */
+@-webkit-keyframes mymove {
+    from {bottom: -500px;}
+    to {bottom: 10px;}
 }
 
-/* hide back of pane during swap */
-.front, .back {
-	backface-visibility: hidden;
-
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
-/* front pane, placed above back */
-.front {
-	z-index: 2;
-	/* for firefox 31 */
-	transform: rotateY(0deg);
-}
-
-/* back, initially hidden pane */
-.back {
-	transform: rotateY(180deg);
+@keyframes mymove {
+    from {bottom: -500px;}
+    to {bottom: 10px;}
 }

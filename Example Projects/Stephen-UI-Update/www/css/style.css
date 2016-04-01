@@ -347,49 +347,23 @@ progress[value]::-webkit-progress-value {
        padding: 20px;
        margin-left: 10%;
     }
+   
+   .card.cardlogin {
+   opacity: 0.8;
+    position: relative;
+    -webkit-animation: mymove 1s;
+    animation: mymove 1s;
     
-/*.card {
-  position: relative;
-  float: left;
-  padding-bottom: 25%;
-  width: 25%;
-  text-align: center;
-}*/
-
-.card__front,
-.card__back {
-  position: absolute;
-  width: 80%;
-  height: 420px;
-  margin-left: 10%;
-  padding:5%;
-  border:none;
+    animation-fill-mode: forwards;
 }
 
-.card__front,
-.card__back {
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-  -webkit-transition: -webkit-transform 0.3s;
-          transition: transform 0.3s;
+@-webkit-keyframes mymove {
+    from {bottom: -500px;}
+    to {bottom: 10px;}
 }
 
-.card__front {
-  background-color: #FFFFFF;
+@keyframes mymove {
+    from {bottom: -500px;}
+    to {bottom: 10px;}
 }
 
-.card__back {
-  background-color: #0bd2bc;
-  -webkit-transform: rotateY(-180deg);
-          transform: rotateY(-180deg);
-}
-
-.card.effect__click.flipped .card__front {
-  -webkit-transform: rotateY(-180deg);
-          transform: rotateY(-180deg);
-}
-
-.card.effect__click.flipped .card__back {
-  -webkit-transform: rotateY(0);
-          transform: rotateY(0);
-}
