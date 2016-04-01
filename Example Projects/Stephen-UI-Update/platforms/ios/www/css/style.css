@@ -349,15 +349,14 @@ progress[value]::-webkit-progress-value {
     }
    
    .card.cardlogin {
-   
+   opacity: 0.8;
     position: relative;
-    -webkit-animation: mymove 1s; /* Chrome, Safari, Opera */
+    -webkit-animation: mymove 1s;
     animation: mymove 1s;
     
     animation-fill-mode: forwards;
 }
 
-/* Chrome, Safari, Opera */
 @-webkit-keyframes mymove {
     from {bottom: -500px;}
     to {bottom: 10px;}
@@ -367,3 +366,4 @@ progress[value]::-webkit-progress-value {
     from {bottom: -500px;}
     to {bottom: 10px;}
 }
+
