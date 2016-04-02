@@ -9,9 +9,17 @@
         </div>
         
         <!-- Login form -->
-        
-        
-            <div class="card cardlogin" style="bottom:-500px;">
+        <flippy
+            class="fancy"
+            
+            flip-duration="800"
+            timing-function="ease-in-out">
+
+            <flippy-front>
+                <div>
+                    <div class="card cardlogin" style="bottom:-500px;">
+                
+                
                 
                 <div class="list">
                     <label class="item item-input item-floating-label">
@@ -44,6 +52,21 @@
                         </div>
 
     </div>
+                </div>
+            </flippy-front>
+
+            <flippy-back>
+                <div>
+                    
+                </div>
+            </flippy-back>
+
+        </flippy>
+    
+    <p ng-click="flip()">Click me</p>
+        
+            
+    
     </div>
 
   </ion-content>
