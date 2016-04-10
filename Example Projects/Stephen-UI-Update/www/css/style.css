@@ -474,3 +474,8 @@ flippy.fancy flippy-back {
   height: inherit;
   text-align: center;
 }
+
+/*.home-bg{
+    background-image:url(../img/backgrounds/login_screen.png);
+    
+}*/
