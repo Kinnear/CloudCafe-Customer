@@ -471,3 +471,11 @@ flippy.fancy flippy-back {
   height: inherit;
   text-align: center;
 }
+
+.endTag{
+  border: solid;
+  border-width: 0.05;
+  border-color: grey;
+  border-radius: 3%;
+  margin: 2.5%;
+}
