@@ -165,13 +165,6 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
     controller: 'HistoryCtrl'
   })
 
-  // Chat list
-  .state('chats', {
-    url: '/chats',
-    templateUrl: 'templates/chats.html',
-    controller: 'ChatCtrl'
-  })
-
   .state('chat-detail', {
     url: '/chats/:chatId',
     templateUrl: 'templates/chat-detail.html',
@@ -219,13 +212,6 @@ angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.con
     url: '/shop',
     templateUrl: 'templates/shop.html',
     controller: 'ShopCtrl'
-  })
-  
-//state for my-modal
-.state('my-modal', {
-    url: '/my-modal',
-    templateUrl: 'templates/my-modal.html',
-    controller: 'MyController'
   })
   
   //state for location
