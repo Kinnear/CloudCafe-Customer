@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.ionicframework.fooddelivery935160;
+package com.cloudcafe.customer;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
