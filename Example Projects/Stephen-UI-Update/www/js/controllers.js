@@ -1,233 +1,158 @@
-var app = angular.module('starter.controllers', ["ionic", "firebase", "ngAnimate"])
+var app = angular.module('starter.controllers', ["ionic", "firebase", "ngAnimate"]);
 
-	.directive('flippy', function() {
-		return {
-			restrict: 'EA',
-			link: function($scope, $elem, $attrs) {
+app.directive('flippy', function () {
+  return {
+    restrict: 'EA',
+    link: function ($scope, $elem, $attrs) {
 
-				var options = {
-					flipDuration: ($attrs.flipDuration) ? $attrs.flipDuration : 400,
-					timingFunction: 'ease-in-out',
-				};
+      var options = {
+        flipDuration: ($attrs.flipDuration) ? $attrs.flipDuration : 400,
+        timingFunction: 'ease-in-out',
+      };
 
-				// setting flip options
-				angular.forEach(['flippy-front', 'flippy-back'], function(name) {
-					var el = $elem.find(name);
-					if (el.length == 1) {
-						angular.forEach(['', '-ms-', '-webkit-'], function(prefix) {
-							angular.element(el[0]).css(prefix + 'transition', 'all ' + options.flipDuration/1000 + 's ' + options.timingFunction);
-						});
-					}
-				});
+      // setting flip options
+      angular.forEach(['flippy-front', 'flippy-back'], function (name) {
+        var el = $elem.find(name);
+        if (el.length == 1) {
+          angular.forEach(['', '-ms-', '-webkit-'], function (prefix) {
+            angular.element(el[0]).css(prefix + 'transition', 'all ' + options.flipDuration / 1000 + 's ' + options.timingFunction);
+          });
+        }
+      });
 
-				/**
-				 * behaviour for flipping effect.
-				 */
-				$scope.flip = function() {
-					$elem.toggleClass('flipped');
-				}
+      /**
+       * behaviour for flipping effect.
+       */
+      $scope.flip = function () {
+        $elem.toggleClass('flipped');
+      }
 
-			}
-		};
-	});;
-
-
-
-// app.controller(function($scope, $ionicAnimation) {
-//    var anim = $ionicAnimation({
-//     // A unique, reusable name
-//     name: 'popIn',
-
-//     // The duration of an auto playthrough
-//     duration: 0.5,
-
-//     // How long to wait before running the animation
-//     delay: 0,
-
-//     // Whether to reverse after doing one run through
-//     autoReverse: false,
-
-//     // How many times to repeat? -1 or null for infinite
-//     repeat: -1,
-
-//     // Timing curve to use (same as CSS timing functions), or a function of time "t" to handle it yourself
-//     curve: 'ease-in-out',
-
-//     onStart: function() {
-//       // Callback on start
-//     },
-//     onEnd: function() {
-//       // Callback on end
-//     },
-//     step: function(amt) {
-
-//     }
-//   })
-// });
-
-//app.service('productService', function() {
-//  var productList = [];
-//
-//  var addProduct = function(newObj) {
-//    productList.push(newObj);
-//  };
-//
-//  var getProducts = function(){
-//    return productList;
-//  };
-//
-//  return {
-//    addProduct: addProduct,
-//    getProducts: getProducts
-//  };
-//
-//});
-
-app.controller('MainCtrl', function($scope) {
-    document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady()
-    {
-        // $scope.changeOriantationLandspace = function() {
-        //     screen.lockOrientation('landscape');
-        // }
-         
-        
-            screen.lockOrientation('portrait');
-        
     }
+  };
 });
 
-app.controller('MyController', function($scope, $ionicModal) {
+app.controller('MainCtrl', function ($scope) {
+  document.addEventListener("deviceready", onDeviceReady, false);
+  function onDeviceReady() {
+    // $scope.changeOriantationLandspace = function() {
+    //     screen.lockOrientation('landscape');
+    // }
+    screen.lockOrientation('portrait');
+  }
+});
+
+app.controller('MyController', function ($scope, $ionicModal) {
   $ionicModal.fromTemplateUrl('my-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.modal = modal;
   });
-  $scope.openModal = function() {
+  $scope.openModal = function () {
     $scope.modal.show();
   };
-  $scope.closeModal = function() {
+  $scope.closeModal = function () {
     $scope.modal.hide();
   };
   //Cleanup the modal when we're done with it!
-  $scope.$on('$destroy', function() {
+  $scope.$on('$destroy', function () {
     $scope.modal.remove();
   });
   // Execute action on hide modal
-  $scope.$on('modal.hidden', function() {
+  $scope.$on('modal.hidden', function () {
     // Execute action
   });
   // Execute action on remove modal
-  $scope.$on('modal.removed', function() {
+  $scope.$on('modal.removed', function () {
     // Execute action
   });
 });
 
-app.controller("FavouriteController", function($scope, FavouriteData) {
+app.controller("FavouriteController", function ($scope, FavouriteData) {
   $scope.favouriteFata = FavouriteData;
-//   $scope.addItem = function() {
-//     var name = prompt("What do you need to buy?");
-//     if (name) {
-//       $scope.items.$add({
-//         "name": name
-//       });
-//     }
-//   };
-//
-//  $scope.callToAddToProductList = function(currObj){
-//    console.log("Here!!");
-//    console.log(currObj);
-//    productService.addProduct(currObj);
-//  };
 });
-
 
 // Authentication controller
 // Put your login, register functions here
-app.controller('AuthCtrl', function($scope, $ionicHistory) {
+app.controller('AuthCtrl', function ($scope, $ionicHistory) {
   // hide back button in next view
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
-  
-
 });
 
 // Home controller
-app.controller('HomeCtrl', function($scope, $state, Categories) {
-    // get all categories from service
-    $scope.categories = Categories.all();
-    
-    
+app.controller('HomeCtrl', function ($scope, $state, Categories, Auth) {
+  // get all categories from service
+  $scope.categories = Categories.all();
+
+  // Auth.$unauth();
 });
 
 // Category controller
-app.controller('CategoryCtrl', function($scope, $state, Categories, $stateParams, FavouriteData) {
+app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParams, FavouriteData) {
   var id = $stateParams.id;
 
   // get all items from service by category id
   // for now hardcode the category id to "1"
   $scope.category = Categories.get(1);
-  
+
   // testing only
   $scope.firebaseTest = FavouriteData;
 });
 
 // Item controller
-app.controller('ItemCtrl', function($scope, $state, Items, $stateParams) {
-    var id = $stateParams.id;
+app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams) {
+  var id = $stateParams.id;
 
-    // get item from service by item id
-    $scope.item = Items.get(1);
+  // get item from service by item id
+  $scope.item = Items.get(1);
 
-    // toggle favorite
-    $scope.toggleFav = function() {
-      $scope.item.faved = !$scope.item.faved;
-    }
+  // toggle favorite
+  $scope.toggleFav = function () {
+    $scope.item.faved = !$scope.item.faved;
+  }
 });
 
 // Favorite controller
-app.controller('FavoriteCtrl', function($scope, $state, Items, CartItemData) {
+app.controller('FavoriteCtrl', function ($scope, $state, Items, CartItemData) {
 
   // get all favorite items
   $scope.items = Items.all()
 
   // remove item from favorite
-  $scope.remove = function(index) {
+  $scope.remove = function (index) {
     $scope.items.splice(index, 1);
   }
 
   var first = this;
   first.item = CartItemData.getItemData();
 
-  $scope.addtocart = function(index){
+  $scope.addtocart = function (index) {
     console.log(index);
     CartItemData.setItemData(index);
     first.item = CartItemData.getItemData();
   }
-
-
 });
 
 // Cart controller
-app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
+app.controller('CartCtrl', function ($scope, Cart, CartItemData, StripeCharge) {
   // set cart items
   $scope.cart = Cart.get();
 
   // plus quantity
-  $scope.plusQty = function(item) {
+  $scope.plusQty = function (item) {
     item.quantity++;
   }
 
   // minus quantity
-  $scope.minusQty = function(item) {
-    if(item.quantity > 1)
+  $scope.minusQty = function (item) {
+    if (item.quantity > 1)
       item.quantity--;
   }
 
   // remove item from cart
-  $scope.remove = function(index) {
+  $scope.remove = function (index) {
     $scope.cart.items.splice(index, 1);
   }
 
@@ -247,27 +172,27 @@ app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
     message: "",
   };
 
-  $scope.charge = function() {
+  $scope.charge = function () {
 
     $scope.status['loading'] = true;
     $scope.status['message'] = "Retrieving your Stripe Token...";
 
     // first get the Stripe token
     StripeCharge.getStripeToken($scope.ProductMeta).then(
-        function(stripeToken){
-          // -->
-          proceedCharge(stripeToken);
-        },
-        function(error){
-          console.log(error)
+      function (stripeToken) {
+        // -->
+        proceedCharge(stripeToken);
+      },
+      function (error) {
+        console.log(error)
 
-          $scope.status['loading'] = false;
-          if(error != "ERROR_CANCEL") {
-            $scope.status['message'] = "Oops... something went wrong";
-          } else {
-            $scope.status['message'] = "";
-          }
+        $scope.status['loading'] = false;
+        if (error != "ERROR_CANCEL") {
+          $scope.status['message'] = "Oops... something went wrong";
+        } else {
+          $scope.status['message'] = "";
         }
+      }
     ); // ./ getStripeToken
 
     function proceedCharge(stripeToken) {
@@ -276,17 +201,17 @@ app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
 
       // then chare the user through your custom node.js server (server-side)
       StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
-          function(StripeInvoiceData){
-            $scope.status['loading'] = false;
-            $scope.status['message'] = "Success! Check your Stripe Account";
-            console.log(StripeInvoiceData)
-          },
-          function(error){
-            console.log(error);
+        function (StripeInvoiceData) {
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Success! Check your Stripe Account";
+          console.log(StripeInvoiceData)
+        },
+        function (error) {
+          console.log(error);
 
-            $scope.status['loading'] = false;
-            $scope.status['message'] = "Oops... something went wrong";
-          }
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Oops... something went wrong";
+        }
       );
 
     }; // ./ proceedCharge
@@ -295,12 +220,12 @@ app.controller('CartCtrl', function($scope, Cart, CartItemData, StripeCharge) {
 });
 
 // Active controller
-app.controller('ActiveCtrl', function($scope, $state, Items, $ionicSideMenuDelegate) {
+app.controller('ActiveCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate) {
   // get all items form Items model
   $scope.items = Items.all();
 
   // toggle favorite
-  $scope.toggleFav = function() {
+  $scope.toggleFav = function () {
     $scope.item.faved = !$scope.item.faved;
   }
 
@@ -309,15 +234,15 @@ app.controller('ActiveCtrl', function($scope, $state, Items, $ionicSideMenuDeleg
 });
 
 // Checkout controller
-app.controller('CheckoutCtrl', function($scope, $state) {});
+app.controller('CheckoutCtrl', function ($scope, $state) { });
 
-app.controller('ReviewsCtrl', function($scope, $state) {});
+app.controller('ReviewsCtrl', function ($scope, $state) { });
 
 // Address controller
-app.controller('AddressCtrl', function($scope, $state) {
+app.controller('AddressCtrl', function ($scope, $state) {
   function initialize() {
     // set up begining position
-    var myLatlng = new google.maps.LatLng(21.0227358,105.8194541);
+    var myLatlng = new google.maps.LatLng(21.0227358, 105.8194541);
 
     // set option for map
     var mapOptions = {
@@ -333,37 +258,37 @@ app.controller('AddressCtrl', function($scope, $state) {
     $scope.map = map;
   }
   // load map when the ui is loaded
-  $scope.init = function() {
+  $scope.init = function () {
     initialize();
   }
 });
 
 // User controller
-app.controller('UserCtrl', function($scope, $state) {})
+app.controller('UserCtrl', function ($scope, $state) { })
 
-// History Controller
-.controller('HistoryCtrl', function($scope, $state) {})
+  // History Controller
+  .controller('HistoryCtrl', function ($scope, $state) { })
 
-// Chat controller, view list chats and chat detail
-.controller('ChatCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
+  // Chat controller, view list chats and chat detail
+  .controller('ChatCtrl', function ($scope, Chats) {
+    $scope.chats = Chats.all();
 
-  // remove a conversation
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+    // remove a conversation
+    $scope.remove = function (chat) {
+      Chats.remove(chat);
+    };
 
-  // mute a conversation
-  $scope.mute = function(chat) {
-    // write your code here
-  }
-});
+    // mute a conversation
+    $scope.mute = function (chat) {
+      // write your code here
+    }
+  });
 
-app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
+app.controller('ChatDetailCtrl', function ($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
   //$scope.chat = Chats.get($stateParams.chatId);
   $scope.chat = Chats.get(0);
 
-  $scope.sendMessage = function() {
+  $scope.sendMessage = function () {
     var message = {
       type: 'sent',
       time: 'Just now',
@@ -379,7 +304,7 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScr
   };
 
   // hover menu
-  $scope.onMessageHold = function(e, itemIndex, message) {
+  $scope.onMessageHold = function (e, itemIndex, message) {
     // show hover menu
     $ionicActionSheet.show({
       buttons: [
@@ -389,7 +314,7 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScr
           text: 'Delete Message'
         }
       ],
-      buttonClicked: function(index) {
+      buttonClicked: function (index) {
         switch (index) {
           case 0: // Copy Text
             //cordova.plugins.clipboard.copy(message.text);
@@ -408,24 +333,79 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, $ionicScr
 
 });
 
-
 //empty controllers for new pages here
-
 //controller for settings.html
-app.controller('SettingsCtrl', function($scope, $state) {})
+app.controller('SettingsCtrl', function ($scope, $state) { })
 
 //controller for allreviews.html
-app.controller('AllreviewsCtrl', function($scope, $state) {})
+app.controller('AllreviewsCtrl', function ($scope, $state) { })
 
 //controller for Change Delivery Preferences change.html
-app.controller('ChangeCtrl', function($scope, $state) {})
+app.controller('ChangeCtrl', function ($scope, $state) { })
 
 //controller for Support support.html
-app.controller('SupportCtrl', function($scope, $state) {})
+app.controller('SupportCtrl', function ($scope, $state) { })
 
 //controller for Shop shop.html
-app.controller('ShopCtrl', function($scope, $state) {})
+app.controller('ShopCtrl', function ($scope, $state) { })
 
 //controller for location.html
-app.controller('LocationCtrl', function($scope, $state) {})
+app.controller('LocationCtrl', function ($scope, $state) { })
 
+app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate) {
+
+  $scope.$on('$ionicView.beforeEnter', function () {
+    $ionicSideMenuDelegate.canDragContent(false);
+  });
+  $scope.$on('$ionicView.leave', function () {
+    $ionicSideMenuDelegate.canDragContent(true);
+  });
+});
+
+// Login the customer
+app.controller('LoginCustomer', function ($scope, $state, Auth) {
+
+  var offAuth = null;
+
+  $scope.login = function (loginType) {
+
+    offAuth = Auth.$onAuth(function (authData) {
+      if (authData === null) {
+        // console.log("No data was found that the user is logged in.");
+        Auth.$authWithOAuthRedirect(loginType).then(function (authData) {
+        }).catch(function (error) {
+          if (error.code === 'TRANSPORT_UNAVAILABLE') {
+            Auth.$authWithOAuthPopup(loginType).then(function (error, authData) {
+              if (error) {
+                console.log("Login Failed!", error);
+              }
+              else {
+                console.log("Authenticated successfully with payload:", authData);
+                // Apply our scope outside of angular on our html as well.
+                // $scope.$apply();
+              }
+            });
+          }
+          else {
+            console.log("Some error has occured");
+            console.log(error);
+          }
+        });
+
+        console.log("Finished trying out the onAuth function");
+      }
+      else {
+        console.log('Successfully attempted to log in. Logged in as', authData.uid);
+      }
+      $scope.authData = authData; // This will display the user's name in our view
+    });
+  }
+});
+
+app.controller('LogoutAuth', function ($scope, $state, Auth) {
+
+  $scope.Logout = function () {
+    Auth.$unauth();
+    $state.go('login');
+  }
+})

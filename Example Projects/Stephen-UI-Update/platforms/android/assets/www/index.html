@@ -1,209 +1,124 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <meta http-equiv="Content-Security-Policy">
-    <title>CloudCafe</title>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <meta http-equiv="Content-Security-Policy">
+  <title>CloudCafe</title>
 
 
-    <!-- compiled css output -->
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'><link href="css/ionic.app.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/animations.css">
+  <!-- compiled css output -->
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+  <link href="css/ionic.app.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 
-    <!-- stripe
+  <link rel="stylesheet" href="css/animations.css">
+
+  <!-- stripe
       $ bower install angular-stripe-checkout
       $ npm install angular-stripe-checkout
     -->
-    <script type="text/javascript" src="lib/stripe.js"></script>
+  <script type="text/javascript" src="lib/stripe.js"></script>
 
-    <!-- jQuery is used for JavaScript animations (include this before angular.js) -->
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  
-  <!-- required module to enable animation support in AngularJS -->
-  <script src="bower_components/angular-animate/angular-animate.js"></script>
-  
-  <!-- for JavaScript Animations -->
-  <script src="js/animations.js"></script>
-  
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="lib/angular-ui-router.js"></script>
+  <!-- ionic/angularjs js -->
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="lib/angular-ui-router.js"></script>
 
-    <!-- angular-nl2br js -->
-    <script src="lib/angular-nl2br/angular-nl2br.min.js"></script>
+  <!-- angular-nl2br js -->
+  <script src="lib/angular-nl2br/angular-nl2br.min.js"></script>
 
-    <!-- elastic js-->
-    <script src="lib/angular-elastic/elastic.js"></script>
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+  <!-- elastic js-->
+  <script src="lib/angular-elastic/elastic.js"></script>
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
 
-    <!-- google maps javascript -->
-    <script src="lib/googlemaps.js"></script>
+  <!-- google maps javascript -->
+  <!--<script src="lib/googlemaps.js"></script>-->
 
-    <!-- Firebase -->
-    <script src="lib/firebase.js"></script>
-    <!-- AngularFire -->
-    <script src="lib/angularfire.min.js"></script>
+  <!-- Firebase -->
+  <script src="lib/firebase.js"></script>
+  <!-- AngularFire -->
+  <script src="lib/angularfire.min.js"></script>
 
-    <!-- Stripe.js-->
-    <script src="bower_components/angular-stripe-checkout/angular-stripe-checkout.js"></script>
+  <!-- Stripe.js-->
+  <script src="bower_components/angular-stripe-checkout/angular-stripe-checkout.js"></script>
 
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
-    
-    
-    
-    <link href='https://fonts.googleapis.com/css?family=RobotoDraft:400,500,700,400italic' rel='stylesheet' type='text/css'>
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/ion-md-input/css/ion-md-input.min.css" rel="stylesheet">
-    <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
-    <script src="lib/ion-md-input/js/ion-md-input.min.js"></script>
-    
-    </head>
-  <body ng-app="starter">
+  <!-- your app's js -->
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/services.js"></script>
 
-    <ion-side-menus>
+  <link href='https://fonts.googleapis.com/css?family=RobotoDraft:400,500,700,400italic' rel='stylesheet' type='text/css'>
 
-      <!-- Center content -->
-      <ion-side-menu-content>
-        <ion-nav-bar class="bar-light" align-title="center" >
-          <!-- Back button -->
-          <ion-nav-back-button >
-            <span class="dark" > </span>
-          </ion-nav-back-button>
-          
+</head>
 
-          <!-- Burger button -->
-          <ion-nav-buttons side="left">
-            <button class="button button-icon button-light ion-navicon" menu-toggle="left">
+<body ng-app="starter" class="platform-android platform-cordova platform-webview">
+
+  <ion-side-menus style="background-image:url(img/backgrounds/login_screen.png); background-size:100%;">
+
+    <!-- Center content -->
+    <ion-side-menu-content>
+      <ion-nav-bar class="bar-calm" align-title="center">
+        <!-- Back button -->
+        <ion-nav-back-button>
+          <span class="light"> </span>
+        </ion-nav-back-button>
+
+        <!-- Burger button -->
+        <ion-nav-buttons side="left">
+          <button class="button button-icon ion-navicon" menu-toggle="left">
             </button>
-          </ion-nav-buttons>
-          
+        </ion-nav-buttons>
 
-          <!-- triple button more removed temp
-          <ion-nav-buttons side="right">
-            <button class="button button-icon button-clear ion-android-more-vertical" ui-sref="home">
-            </button>
-          </ion-nav-buttons>
-        </ion-nav-bar>
-           -->
-          <!--should add a filter button in place of triple button-->
+      </ion-nav-bar>
 
-        <!-- Main view content -->
-        <ion-nav-view ></ion-nav-view>
-      </ion-side-menu-content>
+      <!-- Main view content -->
+      <!--<ion-nav-view></ion-nav-view>-->
+    <!--</ion-side-menu-content>-->
 
-      <!-- Left menu -->
-      <ion-side-menu side="left">
-        <ion-content>
+    <!-- Main view content -->
+    <ion-nav-view animation="slide-left-right"></ion-nav-view>
+    </ion-side-menu-content>
 
-          <!-- User profile -->
-          <div class="text-center">
-              <img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">
-              <span class="dark"><h4>User One</h4>
-              <h5>location</h5></span>
-          </div>
+    <!-- Left menu -->
+    <ion-side-menu side="left">
+      <ion-content ng-controller="MainCtrl">
 
-          <!-- Menu -->
-          <!--temp remove to see logout button
-          <div class="list" menu-close="">
-              <div class="item item-icon-left" ui-sref="home">
-                  <i class="icon ion-film-marker"></i>
-                  Staff Picks
-              </div>
-            
-        
+        <!-- User profile -->
+        <div class="text-center">
+          <img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">
+          <span class="dark"><h4>User One</h4>
+              <h5>Location</h5></span>
+        </div>
+
         <div class="list" menu-close="">
-            <div class="item item-icon-left" ui-sref="home">
-                <i class="icon ion-arrow-graph-up-right"></i>
-                Popular
-            </div>
-          -->
-          <div class="list" menu-close="">
-            <div class="item item-icon-left" ui-sref="home">
-              <span class="dark"><i class="icon ion-compass"></i>
+          <div class="item item-icon-left" ui-sref="home">
+            <span class="dark"><i class="icon ion-compass"></i>
               Explore</span>
-            </div>
-
-            <!--<div class="item item-icon-left"ui-sref="last_orders">
-              <span class="dark"><i class="icon ion-ribbon-b "></i>
-              Rewards</span>
-              <span class="badge badge-balanced">5</span>
-            </div>-->
-
-            <div class="item item-icon-left" ui-sref="active">
-              <span class="dark"><i class="icon ion-checkmark-circled"></i>
-              Purchased</span>
-            </div>
-
-            <!--<div class="item item-icon-left" ui-sref="cart">
-              <span class="dark"><i class="icon ion-ios-timer-outline"></i>
-              Stripe</span>
-            </div>
-
-            <div class="item item-icon-left" ui-sref="favorite">
-              <span class="dark"><i class="icon ion-ios-heart"></i>
-              Favorites</span>
-            </div>
-
-            <div class="item item-icon-left" ui-sref="history">
-              <span class="dark"><i class="icon ion-clock"></i>
-              History</span>
-            </div>
-
-            <div class="item item-icon-left" ui-sref="settings">
-              <span class="dark"><i class="icon ion-gear-b"></i>
-              Settings</span>
-            </div>-->
-            
-            <!--for alpha. After that switch back into settings. used to populate the sidemenu-->
-            
-            <div class="item item-icon-left" ui-sref="user">
-              <span class="dark"><i class="icon ion-person"></i>
-              Profile</span>
-            </div>
-            
-            <!--<div class="item item-icon-left" ui-sref="#">
-              <span class="dark"><i class="icon ion-card"></i>
-              Payment</span>
-            </div>-->
-
-            <div class="item item-icon-left" ui-sref="support">
-              <span class="dark"><i class="icon ion-information-circled"></i>
-              Support</span>
-            </div>
-
-            <div class="item item-icon-left" ui-sref="login" >
-              <span class="dark"><i class="icon ion-log-out"></i>
-              Logout</span>
-            </div>
-
-            
-            <!--file under settings
-            <div class="item item-icon-left" ui-sref="reviews">
-                <span class="dark"><i class="icon ion-ios-help-outline"></i>
-                    Reviews</span>
-            </div>
-            
-            <div class="item item-icon-left" ui-sref="login">
-              <span class="dark"><i class="icon ion-log-out"></i>
-              Logout</span>
-            </div>
           </div>
--->
-        </ion-content>
 
-      </ion-side-menu>
+          <div class="item item-icon-left" ui-sref="active">
+            <span class="dark"><i class="icon ion-checkmark-circled"></i>
+              Purchased</span>
+          </div>
 
-    </ion-side-menus>
-    
-  </body>
+          <div class="item item-icon-left" ui-sref="support">
+            <span class="dark"><i class="icon ion-information-circled"></i>
+              Support</span>
+          </div>
+
+          <div class="item item-icon-left" ng-controller="LogoutAuth" ng-click="Logout()">
+            <span class="dark"><i class="icon ion-log-out"></i>
+              Logout</span>
+          </div>
+
+      </ion-content>
+
+    </ion-side-menu>
+
+  </ion-side-menus>
+
+</body>
+
 </html>

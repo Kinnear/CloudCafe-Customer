@@ -1,15 +1,20 @@
 var app = angular.module('starter.services', ["ionic", "firebase", "ngAnimate"]);
 
+// our authenticated user details
+app.factory("Auth", function ($firebaseAuth) {
+  var ref = new Firebase("https://burning-heat-7015.firebaseio.com/");
+  return $firebaseAuth(ref);
+});
 
 // Our Firebase Data Factory retriever
-app.factory("FavouriteData", function($firebaseArray) {
+app.factory("FavouriteData", function ($firebaseArray) {
   var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/");
   return $firebaseArray(itemsRef);
-})
+});
 
-app.factory('Categories', function() {
+app.factory('Categories', function () {
   // Might use a resource here that returns a JSON array
-  
+
   // Some fake testing data
   var categories = [
     {
@@ -88,13 +93,13 @@ app.factory('Categories', function() {
   ];
 
   return {
-    all: function() {
+    all: function () {
       return categories;
     },
-    remove: function(cat) {
+    remove: function (cat) {
       categories.splice(categories.indexOf(cat), 1);
     },
-    get: function(catId) {
+    get: function (catId) {
       for (var i = 0; i < categories.length; i++) {
         if (categories[i].id === parseInt(catId)) {
           return categories[i];
@@ -105,8 +110,7 @@ app.factory('Categories', function() {
   };
 });
 
-
-app.factory('Items', function() {
+app.factory('Items', function () {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
@@ -182,13 +186,13 @@ app.factory('Items', function() {
   ];
 
   return {
-    all: function() {
+    all: function () {
       return items;
     },
-    remove: function(item) {
+    remove: function (item) {
       items.splice(items.indexOf(item), 1);
     },
-    get: function(itemId) {
+    get: function (itemId) {
       for (var i = 0; i < items.length; i++) {
         if (items[i].id === parseInt(itemId)) {
           return items[i];
@@ -199,7 +203,7 @@ app.factory('Items', function() {
   };
 });
 
-app.factory('Cart', function() {
+app.factory('Cart', function () {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
@@ -239,13 +243,15 @@ app.factory('Cart', function() {
   };
 
   return {
-    get: function() {
+    get: function () {
       return cart;
     }
   };
 });
 
 app.factory('Chats', function () {
+
+
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
@@ -345,7 +351,7 @@ app.factory('Chats', function () {
   };
 })
 
-.factory('StripeCharge', function($q, $http, StripeCheckout) {
+app.factory('StripeCharge', function ($q, $http, StripeCheckout) {
   var self = this;
 
   /**
@@ -357,29 +363,29 @@ app.factory('Chats', function () {
    * retrieve the price from the back-end (thus the server-side). In this way the client
    * cannot write his own application and choose a price that he/she prefers
    */
-  self.chargeUser = function(stripeToken, ProductMeta) {
+  self.chargeUser = function (stripeToken, ProductMeta) {
     var qCharge = $q.defer();
 
     var chargeUrl = SERVER_SIDE_URL + "/charge";
     var curlData = {
-      stripeCurrency:         "usd",
-      stripeAmount:           Math.floor(ProductMeta.priceUSD*100),  // charge handles transactions in cents
-      stripeSource:           stripeToken,
-      stripeDescription:      "Your custom description here"
+      stripeCurrency: "usd",
+      stripeAmount: Math.floor(ProductMeta.priceUSD * 100),  // charge handles transactions in cents
+      stripeSource: stripeToken,
+      stripeDescription: "Your custom description here"
     };
     $http.post(chargeUrl, curlData)
-        .success(
-            function(StripeInvoiceData){
-              qCharge.resolve(StripeInvoiceData);
-              // you can store the StripeInvoiceData for your own administration
-            }
-        )
-        .error(
-            function(error){
-              console.log(error)
-              qCharge.reject(error);
-            }
-        );
+      .success(
+      function (StripeInvoiceData) {
+        qCharge.resolve(StripeInvoiceData);
+        // you can store the StripeInvoiceData for your own administration
+      }
+      )
+      .error(
+      function (error) {
+        console.log(error)
+        qCharge.reject(error);
+      }
+      );
     return qCharge.promise;
   };
 
@@ -387,40 +393,40 @@ app.factory('Chats', function () {
   /**
    * Get a stripe token through the checkout handler
    */
-  self.getStripeToken = function(ProductMeta) {
+  self.getStripeToken = function (ProductMeta) {
     var qToken = $q.defer();
 
     var handlerOptions = {
       name: ProductMeta.title,
       description: ProductMeta.description,
-      amount: Math.floor(ProductMeta.priceUSD*100),
+      amount: Math.floor(ProductMeta.priceUSD * 100),
       image: "img/perry.png",
     };
 
     var handler = StripeCheckout.configure({
       name: ProductMeta.title,
-      token: function(token, args) {
+      token: function (token, args) {
         //console.log(token.id)
       }
     })
 
     handler.open(handlerOptions).then(
-        function(result) {
-          var stripeToken = result[0].id;
-          if(stripeToken != undefined && stripeToken != null && stripeToken != "") {
-            //console.log("handler success - defined")
-            qToken.resolve(stripeToken);
-          } else {
-            //console.log("handler success - undefined")
-            qToken.reject("ERROR_STRIPETOKEN_UNDEFINED");
-          }
-        }, function(error) {
-          if(error == undefined) {
-            qToken.reject("ERROR_CANCEL");
-          } else {
-            qToken.reject(error);
-          }
-        } // ./ error
+      function (result) {
+        var stripeToken = result[0].id;
+        if (stripeToken != undefined && stripeToken != null && stripeToken != "") {
+          //console.log("handler success - defined")
+          qToken.resolve(stripeToken);
+        } else {
+          //console.log("handler success - undefined")
+          qToken.reject("ERROR_STRIPETOKEN_UNDEFINED");
+        }
+      }, function (error) {
+        if (error == undefined) {
+          qToken.reject("ERROR_CANCEL");
+        } else {
+          qToken.reject(error);
+        }
+      } // ./ error
     ); // ./ handler
     return qToken.promise;
   };

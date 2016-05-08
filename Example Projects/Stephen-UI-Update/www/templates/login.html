@@ -1,4 +1,4 @@
-<ion-view view-title="Login" class="light-bg">
+<ion-view view-title="Login" class="light-bg" ng-controller="HideSideBarOnThisView" hide-nav-bar="true">
   <ion-content overflow-scroll="false" style="background-image:url(img/backgrounds/login_screen.png); background-size:100%;">
 
     <div class="login-content">
@@ -23,11 +23,12 @@
                                 <br><span ng-click="flip()" class="calm">Start planning your party now!</span></a>
                         </div>
                         <p> <br>or login to enjoy your rewards programme</p>
-                         <div>
+                         <div ng-controller="LoginCustomer">
                             <button class="button button-block button-positive" ng-click="flip()">
                             Sign in with Twitter
                             </button>
-                            <button class="button button-block button-positive" ng-click="flip()">
+                            
+                            <button class="button button-block button-positive" ng-click="login('facebook')">
                             Sign in with Facebook
                             </button>
                         </div>

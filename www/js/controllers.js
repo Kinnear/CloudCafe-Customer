@@ -413,7 +413,6 @@ app.controller("FacebookAuthentication", function($scope, Auth, $state, CurrentU
                 killAuth();
                 CurrentUserData.setAuthenticationData(authData); 
                 
-                // $location.path('home');
                 $state.go('home');
             }
             else
@@ -481,57 +480,9 @@ app.controller("FacebookAuthentication", function($scope, Auth, $state, CurrentU
             offAuth();
         }
         Auth.$unauth();
-    //     CurrentUserData.clearAuthenticationData();
-    //     $scope.userData = null;
-    //     // $scope.loggedIn = false;
-    //     CurrentUserData.setUserLoggedIn(false);
-    //     $scope.loginType = null;
         $location.path('login');
         console.log("Logout Authentication was called.");
     };
-    
-    // function authDataCallback(authData)
-    // {
-    //     if (authData) 
-    //     {
-    //         CurrentUserData.setAuthenticationData(authData);
-            
-    //         $scope.userData = CurrentUserData.getAuthenticationData();
-    //         // $scope.loggedIn = true;
-    //         CurrentUserData.setUserLoggedIn(true);
-            
-    //         // checks to see if this facebook user has registered with us before
-    //         var allUsers = new Firebase(fbUrl).child("users");
-            
-    //         allUsers.orderByChild(CurrentUserData.getAuthenticationData().provider).equalTo(CurrentUserData.getAuthenticationData().uid).once('value', function(snapshot) {
-                
-    //             if(!snapshot.exists())
-    //             {
-    //                 allUsers.push({                            
-    //                         // the user's username
-    //                         "username": CurrentUserData.getAuthenticationData().facebook.displayName,
-    //                         // the user's provider ID
-    //                         [CurrentUserData.getAuthenticationData().provider] : CurrentUserData.getAuthenticationData().uid
-    //                 });
-    //                 console.log("The user doesn't exist! Therefore we have a new user to add.");
-    //             }
-    //             else 
-    //             {
-    //                 console.log("That user already exists");
-    //             }
-    //         });
-            
-    //         // change over to the login page when the user has successfully logged in
-    //         $state.go('home');
-    //     }
-    //     else 
-    //     {
-    //         console.log("AuthData callback was called. ");
-    //         CurrentUserData.clearAuthenticationData();
-    //         // $scope.loggedIn = false;
-    //         CurrentUserData.setUserLoggedIn(false);
-    //     }
-    // }
 });
 
 app.controller("HideNavaigation", function($scope, $state, $ionicHistory){
