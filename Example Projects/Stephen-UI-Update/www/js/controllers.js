@@ -363,42 +363,76 @@ app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate
 });
 
 // Login the customer
-app.controller('LoginCustomer', function ($scope, $state, Auth) {
+app.controller('LoginCustomer', function ($scope, $state, Auth, $ionicLoading, $ionicHistory) {
 
-  var offAuth = null;
+  // perform authentication here the moment the controller loads
+  var test = Auth.$onAuth(function (getAuth) {
 
-  $scope.login = function (loginType) {
+    if (getAuth) {
+      console.log("Logged in as:", getAuth.uid);
 
-    offAuth = Auth.$onAuth(function (authData) {
-      if (authData === null) {
-        // console.log("No data was found that the user is logged in.");
-        Auth.$authWithOAuthRedirect(loginType).then(function (authData) {
-        }).catch(function (error) {
-          if (error.code === 'TRANSPORT_UNAVAILABLE') {
-            Auth.$authWithOAuthPopup(loginType).then(function (error, authData) {
-              if (error) {
-                console.log("Login Failed!", error);
-              }
-              else {
-                console.log("Authenticated successfully with payload:", authData);
-                // Apply our scope outside of angular on our html as well.
-                // $scope.$apply();
-              }
-            });
-          }
-          else {
-            console.log("Some error has occured");
-            console.log(error);
-          }
+      $ionicHistory.nextViewOptions({
+        disableBack: false,
+        historyRoot: true
+      });
+      AddPossibleUser(getAuth.provider, getAuth);
+
+      $state.go("home");
+    } else {
+      console.log("Logged out");
+    }
+  });
+
+  $scope.LoginFacebook = function (authMethod) {
+
+    $ionicLoading.show();
+
+    Auth.$authWithOAuthRedirect(authMethod).then(function (authData) {
+      // User successfully logged in
+      // $state.go("home");
+
+    }).catch(function (error) {
+      if (error.code === "TRANSPORT_UNAVAILABLE") {
+        Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
+          // User successfully logged in. We can log to the console
+          // since we’re using a popup here
+
+          // check if we have added this user to the database yet or not.
+          AddPossibleUser(getAuth.provider, authData);
+
+          $ionicLoading.hide();
+          $state.go("home");
         });
+      } else {
+        // Another error occurred
+        console.log(error);
+        $ionicLoading.hide();
+      }
+    });
+  }
 
-        console.log("Finished trying out the onAuth function");
+  function AddPossibleUser(authMethod, authenticationData) {
+    var customerUser = new Firebase("https://burning-heat-7015.firebaseio.com/users/");
+
+    customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
+      console.log(dataSnapshot.val());
+
+      if (dataSnapshot.val() == null) {
+        console.log("the user is not yet inside the database");
+        
+        
+        
       }
       else {
-        console.log('Successfully attempted to log in. Logged in as', authData.uid);
+        console.log("The user is alr inside the database");
       }
-      $scope.authData = authData; // This will display the user's name in our view
     });
+  }
+
+  $scope.LogoutAuthentication = function () {
+    Auth.$unauth();
+    $state.go('login');
+    console.log("Logout Authentication was called.");
   }
 });
 
@@ -408,4 +442,15 @@ app.controller('LogoutAuth', function ($scope, $state, Auth) {
     Auth.$unauth();
     $state.go('login');
   }
-})
+});
+
+// app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
+
+//     $scope.NextViewIsNavRoot = function () {
+//         // remove your nav router history
+//         $ionicHistory.nextViewOptions({
+//             disableBack: false,
+//             historyRoot: true
+//         });
+//     }
+// });

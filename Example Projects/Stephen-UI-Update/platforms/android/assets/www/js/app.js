@@ -64,7 +64,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
   $stateProvider.state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
-    controller: 'AuthCtrl',
+    controller: 'LoginCustomer',
     resolve: {
       // controller will not be loaded until $waitForAuth resolves
       // Auth refers to our $firebaseAuth wrapper in the example above
@@ -73,7 +73,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
 
         return Auth.$waitForAuth().then(function (authData) {
           if (authData != null) {
-            $state.go('home');
+            // $state.go('home');
           }
         });
       }
