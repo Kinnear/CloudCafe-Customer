@@ -352,6 +352,10 @@ app.controller('ShopCtrl', function ($scope, $state) { })
 //controller for location.html
 app.controller('LocationCtrl', function ($scope, $state) { })
 
+app.controller('HomeCtrl', function ($scope, $state) {
+
+});
+
 app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate) {
 
   $scope.$on('$ionicView.beforeEnter', function () {
@@ -363,15 +367,24 @@ app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate
 });
 
 // Login the customer
-app.controller('LoginCustomer', function ($scope, $state, Auth, $ionicLoading) {
+app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, $ionicLoading, $ionicHistory) {
 
   // perform authentication here the moment the controller loads
   var test = Auth.$onAuth(function (getAuth) {
 
     if (getAuth) {
       console.log("Logged in as:", getAuth.uid);
+
+      $ionicHistory.nextViewOptions({
+        disableBack: false,
+        historyRoot: true
+      });
+      
+      AddPossibleUser(getAuth.provider, getAuth);
+      
+      $ionicLoading.hide();
+
       $state.go("home");
-      // AddPossibleUser(authMethod, authData);
     } else {
       console.log("Logged out");
     }
@@ -383,7 +396,7 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $ionicLoading) {
 
     Auth.$authWithOAuthRedirect(authMethod).then(function (authData) {
       // User successfully logged in
-      $state.go("home");
+      // $state.go("home");
 
     }).catch(function (error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
@@ -392,7 +405,7 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $ionicLoading) {
           // since we’re using a popup here
 
           // check if we have added this user to the database yet or not.
-          // AddPossibleUser(authMethod, authData);
+          AddPossibleUser(getAuth.provider, authData);
 
           $ionicLoading.hide();
           $state.go("home");
@@ -403,8 +416,6 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $ionicLoading) {
         $ionicLoading.hide();
       }
     });
-
-
   }
 
   function AddPossibleUser(authMethod, authenticationData) {
@@ -415,6 +426,17 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $ionicLoading) {
 
       if (dataSnapshot.val() == null) {
         console.log("the user is not yet inside the database");
+
+        var usersArray = $firebaseArray(customerUser);
+
+        var addUserInfo = {};
+        addUserInfo[authenticationData.provider] = authenticationData.uid;
+        addUserInfo["username"] = authenticationData.facebook.displayName;
+
+        // add the new user
+        usersArray.$add(addUserInfo).then(function (response) {
+          console.log("Successfully added a new user with key " + ref.key() + " to the database!");
+        });
       }
       else {
         console.log("The user is alr inside the database");
@@ -435,4 +457,15 @@ app.controller('LogoutAuth', function ($scope, $state, Auth) {
     Auth.$unauth();
     $state.go('login');
   }
-})
+});
+
+// app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
+
+//     $scope.NextViewIsNavRoot = function () {
+//         // remove your nav router history
+//         $ionicHistory.nextViewOptions({
+//             disableBack: false,
+//             historyRoot: true
+//         });
+//     }
+// });

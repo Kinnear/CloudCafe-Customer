@@ -352,6 +352,10 @@ app.controller('ShopCtrl', function ($scope, $state) { })
 //controller for location.html
 app.controller('LocationCtrl', function ($scope, $state) { })
 
+app.controller('HomeCtrl', function ($scope, $state) {
+
+});
+
 app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate) {
 
   $scope.$on('$ionicView.beforeEnter', function () {
@@ -375,7 +379,10 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
         disableBack: false,
         historyRoot: true
       });
+      
       AddPossibleUser(getAuth.provider, getAuth);
+      
+      $ionicLoading.hide();
 
       $state.go("home");
     } else {
