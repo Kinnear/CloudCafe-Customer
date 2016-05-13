@@ -72,13 +72,9 @@
         </ion-nav-buttons>
 
       </ion-nav-bar>
-
+      
       <!-- Main view content -->
-      <!--<ion-nav-view></ion-nav-view>-->
-    <!--</ion-side-menu-content>-->
-
-    <!-- Main view content -->
-    <ion-nav-view animation="slide-left-right"></ion-nav-view>
+      <ion-nav-view animation="slide-left-right"></ion-nav-view>
     </ion-side-menu-content>
 
     <!-- Left menu -->
@@ -86,10 +82,13 @@
       <ion-content ng-controller="MainCtrl">
 
         <!-- User profile -->
-        <div class="text-center">
-          <img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">
-          <span class="dark"><h4>User One</h4>
-              <h5>Location</h5></span>
+        <div class="text-center" ng-controller="DisplayCustomerSideInfo">
+          <!--<img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">-->
+          <img class="profile-picture circle" menu-close="" ng-show="userAuthentication.profilePicture !== undefined" ng-src="{{userAuthentication.profilePicture}}">
+          <img class="profile-picture circle" menu-close="" ng-show="userAuthentication.profilePicture === undefined" ng-src="http://placehold.it/100x100">
+
+          <span class="dark"><h4>{{userAuthentication.displayName}}</h4>
+          </span>
         </div>
 
         <div class="list" menu-close="">

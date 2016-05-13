@@ -379,11 +379,9 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
         disableBack: false,
         historyRoot: true
       });
-      
-      AddPossibleUser(getAuth.provider, getAuth);
-      
-      $ionicLoading.hide();
 
+      AddPossibleUser(getAuth.provider, getAuth);
+      $ionicLoading.hide();
       $state.go("home");
     } else {
       console.log("Logged out");
@@ -395,18 +393,18 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
     $ionicLoading.show();
 
     Auth.$authWithOAuthRedirect(authMethod).then(function (authData) {
-      // User successfully logged in
-      // $state.go("home");
-
     }).catch(function (error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
           // User successfully logged in. We can log to the console
           // since we’re using a popup here
+          $ionicHistory.nextViewOptions({
+            disableBack: false,
+            historyRoot: true
+          });
 
           // check if we have added this user to the database yet or not.
           AddPossibleUser(getAuth.provider, authData);
-
           $ionicLoading.hide();
           $state.go("home");
         });
@@ -457,6 +455,21 @@ app.controller('LogoutAuth', function ($scope, $state, Auth) {
     Auth.$unauth();
     $state.go('login');
   }
+});
+
+app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
+
+  $scope.userAuthentication = { displayName: null, profilePicture: null };
+
+  $scope.userBakerProfile = Auth.$onAuth(function (authData) {
+    if (authData) {
+      $scope.userAuthentication.displayName = authData.facebook.displayName;
+      $scope.userAuthentication.profilePicture = authData.facebook.profileImageURL;
+    } else {
+      $scope.userAuthentication = { displayName: null, profilePicture: null };
+      console.log("delete previous user info");
+    }
+  });
 });
 
 // app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
