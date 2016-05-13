@@ -363,7 +363,7 @@ app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate
 });
 
 // Login the customer
-app.controller('LoginCustomer', function ($scope, $state, Auth, $ionicLoading, $ionicHistory) {
+app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, $ionicLoading, $ionicHistory) {
 
   // perform authentication here the moment the controller loads
   var test = Auth.$onAuth(function (getAuth) {
@@ -419,9 +419,17 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $ionicLoading, $
 
       if (dataSnapshot.val() == null) {
         console.log("the user is not yet inside the database");
-        
-        
-        
+
+        var usersArray = $firebaseArray(customerUser);
+
+        var addUserInfo = {};
+        addUserInfo[authenticationData.provider] = authenticationData.uid;
+        addUserInfo["username"] = authenticationData.facebook.displayName;
+
+        // add the new user
+        usersArray.$add(addUserInfo).then(function (response) {
+          console.log("Successfully added a new user with key " + ref.key() + " to the database!");
+        });
       }
       else {
         console.log("The user is alr inside the database");
