@@ -82,15 +82,16 @@
       <ion-content ng-controller="MainCtrl">
 
         <!-- User profile -->
-        <div class="text-center" ng-controller="DisplayCustomerSideInfo">
+        <div class="userPic" style="text-align:center;" ng-controller="DisplayCustomerSideInfo">
           <!--<img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">-->
           <img class="profile-picture circle" menu-close="" ng-show="userAuthentication.profilePicture !== undefined" ng-src="{{userAuthentication.profilePicture}}">
           <img class="profile-picture circle" menu-close="" ng-show="userAuthentication.profilePicture === undefined" ng-src="http://placehold.it/100x100">
 
-          <span class="dark"><h4>{{userAuthentication.displayName}}</h4>
-          </span>
+          <h4><span class="dark">{{userAuthentication.displayName}}</span></h4>
+          
         </div>
-
+        
+        <div class="userPanel">
         <div class="list" menu-close="">
           <div class="item item-icon-left" ui-sref="home">
             <span class="dark"><i class="icon ion-compass"></i>
@@ -110,6 +111,8 @@
           <div class="item item-icon-left" ng-controller="LogoutAuth" ng-click="Logout()">
             <span class="dark"><i class="icon ion-log-out"></i>
               Logout</span>
+          </div>
+          </div>
           </div>
 
       </ion-content>
