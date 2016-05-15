@@ -491,3 +491,9 @@ flippy.fancy flippy-back {
 .userPanel{
   padding-left:2%;
 }
+
+.half{
+  width:50%;
+  border-color: none;
+  border-width: none;
+  text-align:center;}
