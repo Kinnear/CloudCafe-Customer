@@ -23,6 +23,10 @@
                         {
                             "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -40,6 +44,9 @@
             "PACKAGE_NAME": "com.cloudcafe.customer"
         },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.cloudcafe.customer"
+        },
+        "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.cloudcafe.customer"
         }
     },
@@ -77,12 +84,21 @@
                 "cordova.InAppBrowser.open",
                 "window.open"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+            "id": "cordova-plugin-splashscreen.SplashScreen",
+            "pluginId": "cordova-plugin-splashscreen",
+            "clobbers": [
+                "navigator.splashscreen"
+            ]
         }
     ],
     "plugin_metadata": {
         "com.telerik.plugins.nativepagetransitions": "0.6.3",
         "cordova-plugin-screen-orientation": "1.4.0",
         "cordova-plugin-inappbrowser": "1.4.0",
-        "cordova-plugin-whitelist": "1.2.3-dev"
+        "cordova-plugin-whitelist": "1.2.3-dev",
+        "cordova-plugin-splashscreen": "3.2.2"
     }
 }

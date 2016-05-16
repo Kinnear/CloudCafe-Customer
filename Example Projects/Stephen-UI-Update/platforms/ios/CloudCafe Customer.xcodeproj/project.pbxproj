@@ -43,6 +43,8 @@
 		BADB0E82B67B45B0B5EB6BE3 /* YoikScreenOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = F997158B6A394B73AB7DA6A3 /* YoikScreenOrientation.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		BDDDF63543AA467B8BD5ECB4 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8821D80A55874AAC8E494D6F /* CDVInAppBrowser.m */; };
+		BECE5AC34E344777A55FB37E /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF032089B040678D38870C /* CDVSplashScreen.m */; };
+		4FC36663A50E45539C18A3F7 /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F11F038252B94F8D83F2E112 /* CDVViewController+SplashScreen.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +116,10 @@
 		FB6899AACAD84E6C8C56A65C /* NativePageTransitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NativePageTransitions.m; path = com.telerik.plugins.nativepagetransitions/NativePageTransitions.m; sourceTree = "<group>"; };
 		8821D80A55874AAC8E494D6F /* CDVInAppBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVInAppBrowser.m"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		0D023DD54BD342F4AE0D266C /* CDVInAppBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVInAppBrowser.h"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		CFEF032089B040678D38870C /* CDVSplashScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVSplashScreen.m"; path = "cordova-plugin-splashscreen/CDVSplashScreen.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		F11F038252B94F8D83F2E112 /* CDVViewController+SplashScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVViewController+SplashScreen.m"; path = "cordova-plugin-splashscreen/CDVViewController+SplashScreen.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		3381F7343EE44C43B4DB9EA2 /* CDVSplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVSplashScreen.h"; path = "cordova-plugin-splashscreen/CDVSplashScreen.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		A1B840D074CF4B64856C398B /* CDVViewController+SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVViewController+SplashScreen.h"; path = "cordova-plugin-splashscreen/CDVViewController+SplashScreen.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +226,10 @@
 				542D743222F44CEA9FBD88EC /* YoikScreenOrientation.h */,
 				8821D80A55874AAC8E494D6F /* CDVInAppBrowser.m */,
 				0D023DD54BD342F4AE0D266C /* CDVInAppBrowser.h */,
+				CFEF032089B040678D38870C /* CDVSplashScreen.m */,
+				F11F038252B94F8D83F2E112 /* CDVViewController+SplashScreen.m */,
+				3381F7343EE44C43B4DB9EA2 /* CDVSplashScreen.h */,
+				A1B840D074CF4B64856C398B /* CDVViewController+SplashScreen.h */,
 			);
 			name = Plugins;
 			path = CloudCafe Customer/Plugins;
@@ -408,6 +418,8 @@
 				7DBDB59C2C7948078B8BADF1 /* AppDelegate+nativepagetransitions.m in Sources */,
 				BADB0E82B67B45B0B5EB6BE3 /* YoikScreenOrientation.m in Sources */,
 				BDDDF63543AA467B8BD5ECB4 /* CDVInAppBrowser.m in Sources */,
+				BECE5AC34E344777A55FB37E /* CDVSplashScreen.m in Sources */,
+				4FC36663A50E45539C18A3F7 /* CDVViewController+SplashScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

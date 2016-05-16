@@ -32,6 +32,14 @@ module.exports = [
             "cordova.InAppBrowser.open",
             "window.open"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -40,7 +48,8 @@ module.exports.metadata =
     "com.telerik.plugins.nativepagetransitions": "0.6.3",
     "cordova-plugin-screen-orientation": "1.4.0",
     "cordova-plugin-inappbrowser": "1.4.0",
-    "cordova-plugin-whitelist": "1.2.3-dev"
+    "cordova-plugin-whitelist": "1.2.3-dev",
+    "cordova-plugin-splashscreen": "3.2.2"
 }
 // BOTTOM OF METADATA
 });
