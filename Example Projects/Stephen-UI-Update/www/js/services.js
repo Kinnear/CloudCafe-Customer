@@ -1,14 +1,16 @@
 var app = angular.module('starter.services', ["ionic", "firebase", "ngAnimate"]);
 
+app.constant('_firebaseReference', "https://burning-heat-7015.firebaseio.com/");
+
 // our authenticated user details
-app.factory("Auth", function ($firebaseAuth) {
-  var ref = new Firebase("https://burning-heat-7015.firebaseio.com/");
+app.factory("Auth", function ($firebaseAuth, _firebaseReference) {
+  var ref = new Firebase(_firebaseReference);
   return $firebaseAuth(ref);
 });
 
 // Our Firebase Data Factory retriever
 app.factory("FavouriteData", function ($firebaseArray) {
-  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/");
+  var itemsRef = new Firebase(_firebaseReference);
   return $firebaseArray(itemsRef);
 });
 
