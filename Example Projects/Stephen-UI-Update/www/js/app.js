@@ -194,10 +194,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
       }
     })
 
-    .state('active', {
-      url: '/active',
-      templateUrl: 'templates/active.html',
-      controller: 'ActiveCtrl',
+    .state('purchased', {
+      url: '/purchased',
+      templateUrl: 'templates/purchased.html',
+      controller: 'PurchasedCtrl',
       resolve: {
         // controller will not be loaded until $requireAuth resolves
         // Auth refers to our $firebaseAuth wrapper in the example above

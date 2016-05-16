@@ -219,8 +219,8 @@ app.controller('CartCtrl', function ($scope, Cart, CartItemData, StripeCharge) {
   };
 });
 
-// Active controller
-app.controller('ActiveCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate) {
+// Purchased controller
+app.controller('PurchasedCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate) {
   // get all items form Items model
   $scope.items = Items.all();
 

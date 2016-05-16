@@ -1,4 +1,5 @@
-cordova.define("com.telerik.plugins.nativepagetransitions.NativePageTransitions", function(require, exports, module) { function NativePageTransitions() {
+cordova.define("com.telerik.plugins.nativepagetransitions.NativePageTransitions", function(require, exports, module) {
+function NativePageTransitions() {
 }
 
 NativePageTransitions.prototype.globalOptions =  {

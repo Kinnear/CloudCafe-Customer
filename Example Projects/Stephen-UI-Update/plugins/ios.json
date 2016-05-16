@@ -8,18 +8,18 @@
     },
     "installed_plugins": {
         "com.telerik.plugins.nativepagetransitions": {
-            "PACKAGE_NAME": "com.ionicframework.fooddelivery935160"
-        },
-        "cordova-plugin-screen-orientation": {
-            "PACKAGE_NAME": "com.ionicframework.fooddelivery935160"
+            "PACKAGE_NAME": "com.cloudcafe.customer"
         },
         "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+            "PACKAGE_NAME": "com.cloudcafe.customer"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-screen-orientation": {
             "PACKAGE_NAME": "com.cloudcafe.customer"
         },
         "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.cloudcafe.customer"
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.cloudcafe.customer"
         }
     },

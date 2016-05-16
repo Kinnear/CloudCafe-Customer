@@ -17,7 +17,7 @@
  under the License.
  */
 //
-// Prefix header for all source files of the 'food_delivery' target in the 'food_delivery' project
+// Prefix header for all source files of the 'CloudCafe Customer' target in the 'CloudCafe Customer' project
 //
 
 #ifdef __OBJC__
