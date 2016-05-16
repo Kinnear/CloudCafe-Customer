@@ -34,25 +34,12 @@ app.run(["$rootScope", "$state", "$ionicPlatform", function ($rootScope, $state,
   });
 }]);
 
-app.service("CartItemData", function Item() {
-  var item = this;
-  //item.message = "DefaultHello (Service)/";
-  this.setItemData = function (SetValue) {
-    console.log("Setting Values");
-    item = SetValue;
-  }
-
-  this.getItemData = function () {
-    return item;
-  }
-})
-
 app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, StripeCheckoutProvider) {
-
-
 
   // Define your STRIPE_API_PUBLISHABLE_KEY
   StripeCheckoutProvider.defaults({ key: STRIPE_API_PUBLISHABLE_KEY });
+  
+  $ionicConfigProvider.scrolling.jsScrolling(false);
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router

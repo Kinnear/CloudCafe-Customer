@@ -436,3 +436,17 @@ app.factory('StripeCharge', function ($q, $http, StripeCheckout) {
 
   return self;
 })
+
+
+app.service("CartItemData", function Item() {
+  var item = this;
+  //item.message = "DefaultHello (Service)/";
+  this.setItemData = function (SetValue) {
+    console.log("Setting Values");
+    item = SetValue;
+  }
+
+  this.getItemData = function () {
+    return item;
+  }
+})

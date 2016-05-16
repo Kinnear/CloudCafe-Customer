@@ -441,12 +441,6 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
       }
     });
   }
-
-  $scope.LogoutAuthentication = function () {
-    Auth.$unauth();
-    $state.go('login');
-    console.log("Logout Authentication was called.");
-  }
 });
 
 app.controller('LogoutAuth', function ($scope, $state, Auth) {
