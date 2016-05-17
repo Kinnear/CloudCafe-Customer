@@ -4,7 +4,7 @@ app.constant('_firebaseReference', "https://burning-heat-7015.firebaseio.com/");
 
 // our authenticated user details
 app.factory("Auth", function ($firebaseAuth, _firebaseReference) {
-  var ref = new Firebase(_firebaseReference);
+  var ref = new Firebase("https://burning-heat-7015.firebaseio.com/");
   return $firebaseAuth(ref);
 });
 

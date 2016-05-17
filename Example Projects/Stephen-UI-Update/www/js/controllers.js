@@ -382,6 +382,7 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
 
       AddPossibleUser(getAuth.provider, getAuth);
       $ionicLoading.hide();
+      console.log("Going home");
       $state.go("home");
     } else {
       console.log("Logged out");
@@ -406,6 +407,7 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
           // check if we have added this user to the database yet or not.
           AddPossibleUser(authData.provider, authData);
           $ionicLoading.hide();
+          console.log("Going home");
           $state.go("home");
         });
       } else {
