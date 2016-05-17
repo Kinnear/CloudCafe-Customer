@@ -219,8 +219,8 @@ app.controller('CartCtrl', function ($scope, Cart, CartItemData, StripeCharge) {
   };
 });
 
-// Active controller
-app.controller('ActiveCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate) {
+// Purchased controller
+app.controller('PurchasedCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate) {
   // get all items form Items model
   $scope.items = Items.all();
 
@@ -367,7 +367,7 @@ app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate
 });
 
 // Login the customer
-app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, $ionicLoading, $ionicHistory) {
+app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, $ionicLoading, $ionicHistory, _firebaseReference) {
 
   // perform authentication here the moment the controller loads
   var test = Auth.$onAuth(function (getAuth) {
@@ -404,7 +404,7 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
           });
 
           // check if we have added this user to the database yet or not.
-          AddPossibleUser(getAuth.provider, authData);
+          AddPossibleUser(authData.provider, authData);
           $ionicLoading.hide();
           $state.go("home");
         });
@@ -417,7 +417,7 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
   }
 
   function AddPossibleUser(authMethod, authenticationData) {
-    var customerUser = new Firebase("https://burning-heat-7015.firebaseio.com/users/");
+    var customerUser = new Firebase(_firebaseReference + "users/");
 
     customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
       console.log(dataSnapshot.val());
@@ -440,12 +440,6 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
         console.log("The user is alr inside the database");
       }
     });
-  }
-
-  $scope.LogoutAuthentication = function () {
-    Auth.$unauth();
-    $state.go('login');
-    console.log("Logout Authentication was called.");
   }
 });
 

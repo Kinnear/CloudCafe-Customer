@@ -44,6 +44,12 @@ module.exports = [
 ];
 module.exports.metadata = 
 // TOP OF METADATA
-{}
+{
+    "com.telerik.plugins.nativepagetransitions": "0.6.3",
+    "cordova-plugin-inappbrowser": "1.4.0",
+    "cordova-plugin-screen-orientation": "1.4.0",
+    "cordova-plugin-splashscreen": "3.2.2",
+    "cordova-plugin-whitelist": "1.2.3-dev"
+}
 // BOTTOM OF METADATA
 });
