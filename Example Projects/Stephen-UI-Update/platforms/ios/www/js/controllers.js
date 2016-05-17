@@ -102,7 +102,13 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 });
 
 // Item controller
-app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams) {
+app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicHistory) {
+<<<<<<< Updated upstream
+=======
+  
+  console.log($ionicHistory.backView());
+>>>>>>> Stashed changes
+
   var id = $stateParams.id;
 
   // get item from service by item id
@@ -352,10 +358,6 @@ app.controller('ShopCtrl', function ($scope, $state) { })
 //controller for location.html
 app.controller('LocationCtrl', function ($scope, $state) { })
 
-app.controller('HomeCtrl', function ($scope, $state) {
-
-});
-
 app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate) {
 
   $scope.$on('$ionicView.beforeEnter', function () {
@@ -374,12 +376,19 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
 
     if (getAuth) {
       console.log("Logged in as:", getAuth.uid);
+<<<<<<< Updated upstream
+
+      // must launch for PC
 
       $ionicHistory.nextViewOptions({
         disableBack: false,
         historyRoot: true
       });
 
+      console.log("next view will be the our root. From OnAuth");
+
+=======
+>>>>>>> Stashed changes
       AddPossibleUser(getAuth.provider, getAuth);
       $ionicLoading.hide();
       $state.go("home");
@@ -396,17 +405,28 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
     }).catch(function (error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
+<<<<<<< Updated upstream
+=======
+
           // User successfully logged in. We can log to the console
           // since we’re using a popup here
           $ionicHistory.nextViewOptions({
             disableBack: false,
             historyRoot: true
           });
+>>>>>>> Stashed changes
 
-          // check if we have added this user to the database yet or not.
-          AddPossibleUser(authData.provider, authData);
-          $ionicLoading.hide();
-          $state.go("home");
+          // $ionicHistory.nextViewOptions({
+          //   disableBack: false,
+          //   historyRoot: true
+          // });
+          
+          // console.log("next view will be the our root. From Popup Redirect");
+
+          // // check if we have added this user to the database yet or not.
+          // AddPossibleUser(authData.provider, authData);
+          // $ionicLoading.hide();
+          // $state.go("home");
         });
       } else {
         // Another error occurred
@@ -420,7 +440,6 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
     var customerUser = new Firebase(_firebaseReference + "users/");
 
     customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
-      console.log(dataSnapshot.val());
 
       if (dataSnapshot.val() == null) {
         console.log("the user is not yet inside the database");
@@ -459,9 +478,10 @@ app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
     if (authData) {
       $scope.userAuthentication.displayName = authData.facebook.displayName;
       $scope.userAuthentication.profilePicture = authData.facebook.profileImageURL;
+      // console.log(authData);
     } else {
       $scope.userAuthentication = { displayName: null, profilePicture: null };
-      console.log("delete previous user info");
+      console.log("Deleted Previous SideBar Personalized Items.");
     }
   });
 });
