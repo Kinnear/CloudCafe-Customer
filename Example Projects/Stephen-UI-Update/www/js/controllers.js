@@ -102,7 +102,10 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 });
 
 // Item controller
-app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams) {
+app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicHistory) {
+  
+  console.log($ionicHistory.backView());
+
   var id = $stateParams.id;
 
   // get item from service by item id
@@ -352,10 +355,6 @@ app.controller('ShopCtrl', function ($scope, $state) { })
 //controller for location.html
 app.controller('LocationCtrl', function ($scope, $state) { })
 
-app.controller('HomeCtrl', function ($scope, $state) {
-
-});
-
 app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate) {
 
   $scope.$on('$ionicView.beforeEnter', function () {
@@ -374,12 +373,6 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
 
     if (getAuth) {
       console.log("Logged in as:", getAuth.uid);
-
-      $ionicHistory.nextViewOptions({
-        disableBack: false,
-        historyRoot: true
-      });
-
       AddPossibleUser(getAuth.provider, getAuth);
       $ionicLoading.hide();
       $state.go("home");
@@ -396,6 +389,7 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
     }).catch(function (error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
+
           // User successfully logged in. We can log to the console
           // since we’re using a popup here
           $ionicHistory.nextViewOptions({
@@ -459,6 +453,7 @@ app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
     if (authData) {
       $scope.userAuthentication.displayName = authData.facebook.displayName;
       $scope.userAuthentication.profilePicture = authData.facebook.profileImageURL;
+      // console.log(authData);
     } else {
       $scope.userAuthentication = { displayName: null, profilePicture: null };
       console.log("delete previous user info");
