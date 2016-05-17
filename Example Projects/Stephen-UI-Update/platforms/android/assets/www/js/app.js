@@ -34,25 +34,12 @@ app.run(["$rootScope", "$state", "$ionicPlatform", function ($rootScope, $state,
   });
 }]);
 
-app.service("CartItemData", function Item() {
-  var item = this;
-  //item.message = "DefaultHello (Service)/";
-  this.setItemData = function (SetValue) {
-    console.log("Setting Values");
-    item = SetValue;
-  }
-
-  this.getItemData = function () {
-    return item;
-  }
-})
-
 app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, StripeCheckoutProvider) {
-
-
 
   // Define your STRIPE_API_PUBLISHABLE_KEY
   StripeCheckoutProvider.defaults({ key: STRIPE_API_PUBLISHABLE_KEY });
+  
+  $ionicConfigProvider.scrolling.jsScrolling(false);
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -64,13 +51,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
   $stateProvider.state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
-    // controller: 'LoginCustomer',
+    controller: 'LoginCustomer',
     // resolve: {
     //   // controller will not be loaded until $waitForAuth resolves
     //   // Auth refers to our $firebaseAuth wrapper in the example above
     //   currentAuth: function (Auth, $state) {
     //     // $waitForAuth returns a promise so the resolve waits for it to complete
-
     //     return Auth.$waitForAuth().then(function (authData) {
     //       if (authData != null) {
     //         // $state.go('home');
@@ -398,5 +384,5 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
     })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/home');
+  $urlRouterProvider.otherwise('/login');
 });
