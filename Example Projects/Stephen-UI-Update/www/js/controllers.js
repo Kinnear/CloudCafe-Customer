@@ -103,8 +103,6 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 
 // Item controller
 app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicHistory) {
-  
-  console.log($ionicHistory.backView());
 
   var id = $stateParams.id;
 
@@ -373,9 +371,18 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
 
     if (getAuth) {
       console.log("Logged in as:", getAuth.uid);
+
+      // must launch for PC
+
+      $ionicHistory.nextViewOptions({
+        disableBack: false,
+        historyRoot: true
+      });
+
+      console.log("next view will be the our root. From OnAuth");
+
       AddPossibleUser(getAuth.provider, getAuth);
       $ionicLoading.hide();
-      console.log("Going home");
       $state.go("home");
     } else {
       console.log("Logged out");
@@ -391,18 +398,17 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
 
-          // User successfully logged in. We can log to the console
-          // since we’re using a popup here
-          $ionicHistory.nextViewOptions({
-            disableBack: false,
-            historyRoot: true
-          });
+          // $ionicHistory.nextViewOptions({
+          //   disableBack: false,
+          //   historyRoot: true
+          // });
+          
+          // console.log("next view will be the our root. From Popup Redirect");
 
-          // check if we have added this user to the database yet or not.
-          AddPossibleUser(authData.provider, authData);
-          $ionicLoading.hide();
-          console.log("Going home");
-          $state.go("home");
+          // // check if we have added this user to the database yet or not.
+          // AddPossibleUser(authData.provider, authData);
+          // $ionicLoading.hide();
+          // $state.go("home");
         });
       } else {
         // Another error occurred
@@ -416,7 +422,6 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
     var customerUser = new Firebase(_firebaseReference + "users/");
 
     customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
-      console.log(dataSnapshot.val());
 
       if (dataSnapshot.val() == null) {
         console.log("the user is not yet inside the database");
@@ -458,7 +463,7 @@ app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
       // console.log(authData);
     } else {
       $scope.userAuthentication = { displayName: null, profilePicture: null };
-      console.log("delete previous user info");
+      console.log("Deleted Previous SideBar Personalized Items.");
     }
   });
 });
