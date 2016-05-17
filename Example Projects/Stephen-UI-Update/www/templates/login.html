@@ -16,18 +16,43 @@
               Login page under renovation
             </div>
            
-            <div>
+            <div ng-controller="TermsController">
 
               <button class="button button-block button-positive" ng-click="LoginFacebook('facebook')">
                             Sign in with Facebook
                             </button>
+                            
+                            <button class="button button-block button-positive" ng-click="openModal(class)">
+                            Read T&Cs
+                            </button>
+                            
             </div>
 
           </div>
+          
+          
     </div>
-
-  </ion-content>
-</ion-view>
-
+    
+   <script id = "my-terms.html" type = "text/ng-template">
+    <ion-modal-view>
+        
+        <ion-header-bar class="bar bar-header bar-balanced">
+            <div class="text-center">
+                <h4 class="title">T & Cs</h4>
+            </div>
+            <button class = "button button-icon icon-left" ng-click = "closeModal()">Close</button>
+            <button class = "button button-icon" ng-click = "closeModal()">Accept</button>
+        </ion-header-bar>
+            
+        <ion-content class="stable-bg" style="text-align: justify; padding: 2%;">
+            Terms and Conditions<br>
+            
+           
+        </ion-content>
+        
+    </ion-modal-view>
+    </script>
+    
+    
 </ion-content>
 </ion-view>
