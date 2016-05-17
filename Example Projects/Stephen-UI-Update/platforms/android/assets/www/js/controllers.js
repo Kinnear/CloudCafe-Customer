@@ -102,12 +102,9 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 });
 
 // Item controller
-app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams) {
-
-  $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-    viewData.enableBack = true;
-  });
-
+app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicHistory) {
+  
+  console.log($ionicHistory.backView());
 
   var id = $stateParams.id;
 
@@ -376,12 +373,6 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
 
     if (getAuth) {
       console.log("Logged in as:", getAuth.uid);
-
-      $ionicHistory.nextViewOptions({
-        disableBack: false,
-        historyRoot: true
-      });
-
       AddPossibleUser(getAuth.provider, getAuth);
       $ionicLoading.hide();
       $state.go("home");
