@@ -37,8 +37,6 @@ app.controller('MainCtrl', function ($scope) {
   }
 });
 
-
-
 app.controller('MyController', function ($scope, $ionicModal) {
   $ionicModal.fromTemplateUrl('my-modal.html', {
     scope: $scope,
@@ -263,25 +261,25 @@ app.controller('AddressCtrl', function ($scope, $state) {
 });
 
 // User controller
-app.controller('UserCtrl', function ($scope, $state) { })
+app.controller('UserCtrl', function ($scope, $state) { });
 
-  // History Controller
-  .controller('HistoryCtrl', function ($scope, $state) { })
+// History Controller
+app.controller('HistoryCtrl', function ($scope, $state) { });
 
-  // Chat controller, view list chats and chat detail
-  .controller('ChatCtrl', function ($scope, Chats) {
-    $scope.chats = Chats.all();
+// Chat controller, view list chats and chat detail
+app.controller('ChatCtrl', function ($scope, Chats) {
+  $scope.chats = Chats.all();
 
-    // remove a conversation
-    $scope.remove = function (chat) {
-      Chats.remove(chat);
-    };
+  // remove a conversation
+  $scope.remove = function (chat) {
+    Chats.remove(chat);
+  };
 
-    // mute a conversation
-    $scope.mute = function (chat) {
-      // write your code here
-    }
-  });
+  // mute a conversation
+  $scope.mute = function (chat) {
+    // write your code here
+  }
+});
 
 app.controller('ChatDetailCtrl', function ($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
   //$scope.chat = Chats.get($stateParams.chatId);
@@ -370,14 +368,10 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
     if (getAuth) {
       console.log("Logged in as:", getAuth.uid);
 
-      // must launch for PC
-
       $ionicHistory.nextViewOptions({
         disableBack: false,
         historyRoot: true
       });
-
-      console.log("next view will be the our root. From OnAuth");
 
       AddPossibleUser(getAuth.provider, getAuth);
       $ionicLoading.hide();
@@ -395,18 +389,6 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
     }).catch(function (error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
-
-          // $ionicHistory.nextViewOptions({
-          //   disableBack: false,
-          //   historyRoot: true
-          // });
-          
-          // console.log("next view will be the our root. From Popup Redirect");
-
-          // // check if we have added this user to the database yet or not.
-          // AddPossibleUser(authData.provider, authData);
-          // $ionicLoading.hide();
-          // $state.go("home");
         });
       } else {
         // Another error occurred
@@ -458,7 +440,6 @@ app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
     if (authData) {
       $scope.userAuthentication.displayName = authData.facebook.displayName;
       $scope.userAuthentication.profilePicture = authData.facebook.profileImageURL;
-      // console.log(authData);
     } else {
       $scope.userAuthentication = { displayName: null, profilePicture: null };
       console.log("Deleted Previous SideBar Personalized Items.");
