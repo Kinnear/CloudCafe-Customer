@@ -408,17 +408,3 @@ progress[value]::-webkit-progress-value {
   border-color: none;
   border-width: none;
   text-align:center;}
-  
-  .dateclass{
-width:100%;
-}
-
-.dateclass.placeholderclass::before{
-width:100%;
-content:attr(placeholder);
-}
-
-.dateclass.placeholderclass:hover::before{
-width:0%;
-content:"";
-}
