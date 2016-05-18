@@ -394,12 +394,13 @@ progress[value]::-webkit-progress-value {
   background-color: #f8f8f8; }
   
  .userPic{
-    margin:5%;
+    margin-top:12%;
+    margin-bottom:8%;
     padding: 0%;
 }
 
 .userPanel{
-  padding-left:2%;
+  padding-left:6%;
 }
 
 .half{
@@ -407,3 +408,17 @@ progress[value]::-webkit-progress-value {
   border-color: none;
   border-width: none;
   text-align:center;}
+  
+  .dateclass{
+width:100%;
+}
+
+.dateclass.placeholderclass::before{
+width:100%;
+content:attr(placeholder);
+}
+
+.dateclass.placeholderclass:hover::before{
+width:0%;
+content:"";
+}
