@@ -1,34 +1,30 @@
 var app = angular.module('starter.controllers', ["ionic", "firebase", "ngAnimate"]);
 
-app.directive('flippy', function () {
-  return {
-    restrict: 'EA',
-    link: function ($scope, $elem, $attrs) {
-
-      var options = {
-        flipDuration: ($attrs.flipDuration) ? $attrs.flipDuration : 400,
-        timingFunction: 'ease-in-out',
-      };
-
-      // setting flip options
-      angular.forEach(['flippy-front', 'flippy-back'], function (name) {
-        var el = $elem.find(name);
-        if (el.length == 1) {
-          angular.forEach(['', '-ms-', '-webkit-'], function (prefix) {
-            angular.element(el[0]).css(prefix + 'transition', 'all ' + options.flipDuration / 1000 + 's ' + options.timingFunction);
-          });
-        }
-      });
-
-      /**
-       * behaviour for flipping effect.
-       */
-      $scope.flip = function () {
-        $elem.toggleClass('flipped');
-      }
-
-    }
+app.controller('TermsController', function ($scope, $ionicModal) {
+  $ionicModal.fromTemplateUrl('my-terms.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function () {
+    $scope.modal.show();
   };
+  $scope.closeModal = function () {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function () {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function () {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function () {
+    // Execute action
+  });
 });
 
 app.controller('MainCtrl', function ($scope) {
@@ -103,11 +99,6 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 
 // Item controller
 app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicHistory) {
-<<<<<<< Updated upstream
-=======
-  
-  console.log($ionicHistory.backView());
->>>>>>> Stashed changes
 
   var id = $stateParams.id;
 
@@ -270,25 +261,25 @@ app.controller('AddressCtrl', function ($scope, $state) {
 });
 
 // User controller
-app.controller('UserCtrl', function ($scope, $state) { })
+app.controller('UserCtrl', function ($scope, $state) { });
 
-  // History Controller
-  .controller('HistoryCtrl', function ($scope, $state) { })
+// History Controller
+app.controller('HistoryCtrl', function ($scope, $state) { });
 
-  // Chat controller, view list chats and chat detail
-  .controller('ChatCtrl', function ($scope, Chats) {
-    $scope.chats = Chats.all();
+// Chat controller, view list chats and chat detail
+app.controller('ChatCtrl', function ($scope, Chats) {
+  $scope.chats = Chats.all();
 
-    // remove a conversation
-    $scope.remove = function (chat) {
-      Chats.remove(chat);
-    };
+  // remove a conversation
+  $scope.remove = function (chat) {
+    Chats.remove(chat);
+  };
 
-    // mute a conversation
-    $scope.mute = function (chat) {
-      // write your code here
-    }
-  });
+  // mute a conversation
+  $scope.mute = function (chat) {
+    // write your code here
+  }
+});
 
 app.controller('ChatDetailCtrl', function ($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
   //$scope.chat = Chats.get($stateParams.chatId);
@@ -376,19 +367,12 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
 
     if (getAuth) {
       console.log("Logged in as:", getAuth.uid);
-<<<<<<< Updated upstream
-
-      // must launch for PC
 
       $ionicHistory.nextViewOptions({
         disableBack: false,
         historyRoot: true
       });
 
-      console.log("next view will be the our root. From OnAuth");
-
-=======
->>>>>>> Stashed changes
       AddPossibleUser(getAuth.provider, getAuth);
       $ionicLoading.hide();
       $state.go("home");
@@ -405,28 +389,6 @@ app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, 
     }).catch(function (error) {
       if (error.code === "TRANSPORT_UNAVAILABLE") {
         Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
-<<<<<<< Updated upstream
-=======
-
-          // User successfully logged in. We can log to the console
-          // since we’re using a popup here
-          $ionicHistory.nextViewOptions({
-            disableBack: false,
-            historyRoot: true
-          });
->>>>>>> Stashed changes
-
-          // $ionicHistory.nextViewOptions({
-          //   disableBack: false,
-          //   historyRoot: true
-          // });
-          
-          // console.log("next view will be the our root. From Popup Redirect");
-
-          // // check if we have added this user to the database yet or not.
-          // AddPossibleUser(authData.provider, authData);
-          // $ionicLoading.hide();
-          // $state.go("home");
         });
       } else {
         // Another error occurred
@@ -478,7 +440,6 @@ app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
     if (authData) {
       $scope.userAuthentication.displayName = authData.facebook.displayName;
       $scope.userAuthentication.profilePicture = authData.facebook.profileImageURL;
-      // console.log(authData);
     } else {
       $scope.userAuthentication = { displayName: null, profilePicture: null };
       console.log("Deleted Previous SideBar Personalized Items.");
