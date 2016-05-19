@@ -7,7 +7,7 @@ var STRIPE_API_PUBLISHABLE_KEY = "pk_test_h57hQy5dRjVjlM7SoNVYG8Mn";
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.controllers', 'starter.services', 'nl2br', 'monospaced.elastic', "ngAnimate"]);
+var app = angular.module('starter', ['ionic', 'ui.router', 'stripe.checkout', 'starter.controllers', 'starter.services', 'nl2br', 'monospaced.elastic', "ngAnimate", 'ionic-native-transitions']);
 
 app.run(["$rootScope", "$state", "$ionicPlatform", function ($rootScope, $state, $ionicPlatform) {
 
@@ -34,18 +34,31 @@ app.run(["$rootScope", "$state", "$ionicPlatform", function ($rootScope, $state,
   });
 }]);
 
-app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, StripeCheckoutProvider) {
+app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, StripeCheckoutProvider, $ionicNativeTransitionsProvider) {
 
   // Define your STRIPE_API_PUBLISHABLE_KEY
   StripeCheckoutProvider.defaults({ key: STRIPE_API_PUBLISHABLE_KEY });
-  
+
+  // Enables NATIVE SCROLLING!
   $ionicConfigProvider.scrolling.jsScrolling(false);
+  
+  // set our Ionic-Native-Scrolling transitions option parameters
+  $ionicNativeTransitionsProvider.setDefaultOptions({
+        duration: 500, // in milliseconds (ms), default 400, 
+        slowdownfactor: 4, // overlap views (higher number is more) or no overlap (1), default 4 
+        iosdelay: -1, // ms to wait for the iOS webview to update before animation kicks in, default -1 
+        androiddelay: 100, // same as above but for Android, default -1 
+        winphonedelay: -1, // same as above but for Windows Phone, default -1, 
+        fixedPixelsTop: 0, // the number of pixels of your fixed header, default 0 (iOS and Android) 
+        fixedPixelsBottom: 0, // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android) 
+        triggerTransitionEvent: '$ionicView.afterEnter', // internal ionic-native-transitions option 
+        backInOppositeDirection: false // Takes over default back transition and state back transition to use the opposite direction transition to go back 
+    });
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
-
 
   // login screen
   $stateProvider.state('login', {

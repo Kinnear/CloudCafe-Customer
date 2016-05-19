@@ -37,8 +37,6 @@ app.controller('MainCtrl', function ($scope) {
   }
 });
 
-
-
 app.controller('MyController', function ($scope, $ionicModal) {
   $ionicModal.fromTemplateUrl('my-modal.html', {
     scope: $scope,
@@ -74,9 +72,9 @@ app.controller("FavouriteController", function ($scope, FavouriteData) {
 // Put your login, register functions here
 app.controller('AuthCtrl', function ($scope, $ionicHistory) {
   // hide back button in next view
-  $ionicHistory.nextViewOptions({
-    disableBack: true
-  });
+  // $ionicHistory.nextViewOptions({
+  //   disableBack: true
+  // });
 });
 
 // Home controller
@@ -263,25 +261,25 @@ app.controller('AddressCtrl', function ($scope, $state) {
 });
 
 // User controller
-app.controller('UserCtrl', function ($scope, $state) { })
+app.controller('UserCtrl', function ($scope, $state) { });
 
-  // History Controller
-  .controller('HistoryCtrl', function ($scope, $state) { })
+// History Controller
+app.controller('HistoryCtrl', function ($scope, $state) { });
 
-  // Chat controller, view list chats and chat detail
-  .controller('ChatCtrl', function ($scope, Chats) {
-    $scope.chats = Chats.all();
+// Chat controller, view list chats and chat detail
+app.controller('ChatCtrl', function ($scope, Chats) {
+  $scope.chats = Chats.all();
 
-    // remove a conversation
-    $scope.remove = function (chat) {
-      Chats.remove(chat);
-    };
+  // remove a conversation
+  $scope.remove = function (chat) {
+    Chats.remove(chat);
+  };
 
-    // mute a conversation
-    $scope.mute = function (chat) {
-      // write your code here
-    }
-  });
+  // mute a conversation
+  $scope.mute = function (chat) {
+    // write your code here
+  }
+});
 
 app.controller('ChatDetailCtrl', function ($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
   //$scope.chat = Chats.get($stateParams.chatId);
@@ -362,84 +360,77 @@ app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate
 });
 
 // Login the customer
-app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, $ionicLoading, $ionicHistory, _firebaseReference) {
+app.controller('LoginCustomer', function ($scope, LoginAuthenticatedCheck) {
 
-  // perform authentication here the moment the controller loads
-  var test = Auth.$onAuth(function (getAuth) {
+  // perform authentication here the moment the controller load
+  // console.log("This should only print once.");
 
-    if (getAuth) {
-      console.log("Logged in as:", getAuth.uid);
+  // var test = Auth.$onAuth(function (getAuth) {
 
-      // must launch for PC
+  //   if (getAuth) {
+  //     console.log("Logged in as:", getAuth.uid);
 
-      $ionicHistory.nextViewOptions({
-        disableBack: false,
-        historyRoot: true
-      });
+  //     $ionicHistory.nextViewOptions({
+  //       disableBack: false,
+  //       historyRoot: true
+  //     });
+  //     // console.log("Okay Next view will be root.");
 
-      console.log("next view will be the our root. From OnAuth");
+  //     AddPossibleUser(getAuth.provider, getAuth);
+  //     $ionicLoading.hide();
+  //     $state.go("home");
+  //   } else {
+  //     console.log("Logged out");
+  //   }
 
-      AddPossibleUser(getAuth.provider, getAuth);
-      $ionicLoading.hide();
-      $state.go("home");
-    } else {
-      console.log("Logged out");
-    }
-  });
+  //   console.log("onAuth being ran once");
+  // });
 
   $scope.LoginFacebook = function (authMethod) {
+    LoginAuthenticatedCheck.AttemptUserLogin(authMethod);
+  };
 
-    $ionicLoading.show();
+  // $scope.LoginFacebook = function (authMethod) {
 
-    Auth.$authWithOAuthRedirect(authMethod).then(function (authData) {
-    }).catch(function (error) {
-      if (error.code === "TRANSPORT_UNAVAILABLE") {
-        Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
+  //   $ionicLoading.show();
 
-          // $ionicHistory.nextViewOptions({
-          //   disableBack: false,
-          //   historyRoot: true
-          // });
-          
-          // console.log("next view will be the our root. From Popup Redirect");
+  //   Auth.$authWithOAuthRedirect(authMethod).then(function (authData) {
+  //   }).catch(function (error) {
+  //     if (error.code === "TRANSPORT_UNAVAILABLE") {
+  //       Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
+  //       });
+  //     } else {
+  //       // Another error occurred
+  //       console.log(error);
+  //       $ionicLoading.hide();
+  //     }
+  //   });
+  // }
 
-          // // check if we have added this user to the database yet or not.
-          // AddPossibleUser(authData.provider, authData);
-          // $ionicLoading.hide();
-          // $state.go("home");
-        });
-      } else {
-        // Another error occurred
-        console.log(error);
-        $ionicLoading.hide();
-      }
-    });
-  }
+  // function AddPossibleUser(authMethod, authenticationData) {
+  //   var customerUser = new Firebase(_firebaseReference + "users/");
 
-  function AddPossibleUser(authMethod, authenticationData) {
-    var customerUser = new Firebase(_firebaseReference + "users/");
+  //   customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
 
-    customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
+  //     if (dataSnapshot.val() == null) {
+  //       console.log("the user is not yet inside the database");
 
-      if (dataSnapshot.val() == null) {
-        console.log("the user is not yet inside the database");
+  //       var usersArray = $firebaseArray(customerUser);
 
-        var usersArray = $firebaseArray(customerUser);
+  //       var addUserInfo = {};
+  //       addUserInfo[authenticationData.provider] = authenticationData.uid;
+  //       addUserInfo["username"] = authenticationData.facebook.displayName;
 
-        var addUserInfo = {};
-        addUserInfo[authenticationData.provider] = authenticationData.uid;
-        addUserInfo["username"] = authenticationData.facebook.displayName;
-
-        // add the new user
-        usersArray.$add(addUserInfo).then(function (response) {
-          console.log("Successfully added a new user with key " + ref.key() + " to the database!");
-        });
-      }
-      else {
-        console.log("The user is alr inside the database");
-      }
-    });
-  }
+  //       // add the new user
+  //       usersArray.$add(addUserInfo).then(function (response) {
+  //         console.log("Successfully added a new user with key " + ref.key() + " to the database!");
+  //       });
+  //     }
+  //     else {
+  //       console.log("The user is alr inside the database");
+  //     }
+  //   });
+  // }
 });
 
 app.controller('LogoutAuth', function ($scope, $state, Auth) {
@@ -458,7 +449,6 @@ app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
     if (authData) {
       $scope.userAuthentication.displayName = authData.facebook.displayName;
       $scope.userAuthentication.profilePicture = authData.facebook.profileImageURL;
-      // console.log(authData);
     } else {
       $scope.userAuthentication = { displayName: null, profilePicture: null };
       console.log("Deleted Previous SideBar Personalized Items.");
