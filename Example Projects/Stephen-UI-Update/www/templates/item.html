@@ -21,23 +21,28 @@
     
 
    <div class="dishnamebox" style="margin-left: 9%; margin-right: 5%;">
-               <h1 class="dishname">{{ item.name }}</h1>
-   <div>
+               <h1 class="dishname">{{ item.foodName }}</h1>
+   </div>
        
-        <i class="button icon ion-ios-information-outline"></i>
-        <div class="dishwriteup">
-            {{ item.description }}
+   <div style="width: 100%; overflow: hidden;">
+       
+        <div style="width: 10%; float: left; margin-left:0%;">
+         <span style="background-color:none;"><i class="icon ion-ios-information-outline"></i></span>
         </div>
+        
+    <div style="margin-left: 15%; margin-right: 5%;">
+            {{ item.description }}
+      </div>
+
     </div>
     
-    </div>
     
 
          <div ng-controller="MyController">
-      <button class="button button-block button-calm button-bottom" ng-click="openModal(class,item); addtocart(item)">
-               Place Order</button>
-
-     </div>
+                <button class="button button-block button-calm button-bottom"
+                ng-click="openModal(class,item); addtocart(item)">
+                Place Order</button>
+        </div>
 
       
     <script id="my-modal.html" type ="text/ng-template">
@@ -92,34 +97,41 @@
                   <div class="input-label" style="width:50%;">
                     Collection Date
                   </div>
-                  <input type="date" placeholder="Select Date"
+                  <input type="date"
                 
                 ng-model="newFood.endDate" required style="padding-right:0%;">
                  </label>
 
 
                     <label class="item item-input item-select">
-                        <div class="input-label">
+                        <div class="input-label" style="width:50%;">
                             Time
                         </div>
                         <select>
-                            <option selected>Select Time</option>
-                                <option>9-11am</option>
+                            
+                                <option selected>9-11am</option>
                                 <option>2-4pm</option>
                                 <option>7-9pm</option>
                         </select>
                     </label>
                     
                     <label class="item item-input item-select">
-                        <div class="input-label">
-                        Quantity
+                        <div class="input-label" style="width:50%;">
+                            Location
                         </div>
                         <select>
-                            <option selected>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4 (whole cake)</option>
+                            
+                                <option selected>Baker Input Location 1</option>
+                                <option>Baker Input Location 2</option>
+                                <option>Baker Input Location 1</option>
                         </select>
+                    </label>
+                    
+                    <label class="item item-input item-select">
+                        <div class="input-label" style="width:50%;">
+                        Quantity
+                        </div>
+                        <input type="tel" required style="padding-right:0%;">
                     </label>
 
                     </div>

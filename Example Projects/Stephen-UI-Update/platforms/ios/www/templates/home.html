@@ -17,11 +17,12 @@
         <div class="list card" ui-sref="item({itemData: Items[$index].id})">
           <img ng-src="{{Items[$index].img1}}" width="100%" height="100%">
 
-          <div class="text-centre">
-            <p>{{Items[$index].foodName}}
+          <div>
+            <p>
+              <span style="margin-left:2%;">{{Items[$index].foodName}}</span>
               <br>
-              <span style="color:grey;float:left;">@{{Items[$index].stallID}}</span>
-              <span style="color:grey;float:right;">${{Items[$index].price}}</span>
+              <span style="color:grey;float:left; margin:2%;">@{{Items[$index].stallID}}</span>
+              <span style="color:grey;float:right; margin:2%;">${{Items[$index].price}}</span>
             </p>
           </div>
         </div>
@@ -31,107 +32,18 @@
         <div class="list card" ui-sref="item({itemData: Items[$index + 1].id})">
           <img ng-src="{{Items[$index + 1].img1}}" width="100%" height="100%">
 
-          <div class="text-centre">
-            <p>{{Items[$index + 1].foodName}}
+          <div>
+            <p>
+              <span style="margin-left:2%;">{{Items[$index + 1].foodName}}</span>
               <br>
-              <span style="color:grey;float:left;">@{{Items[$index + 1].stallID}}</span>
-              <span style="color:grey;float:right;">${{Items[$index + 1].price}}</span>
+              <span style="color:grey;float:left; margin:2%;">@{{Items[$index + 1].stallID}}</span>
+              <span style="color:grey;float:right; margin:2%;">${{Items[$index + 1].price}}</span>
             </p>
           </div>
         </div>
       </div>
     </div>
 
-    <!--<div class="row">
-      <div class="col col-50">
-        <div class="list card" ui-sref="item">
-          <div class="item item-image">
-            <img src="img/items/thumbs/cake1.jpg">
-          </div>
-          <a ui-sref="item">
-            <div class="text-centre">
-              <p>Macaron Wonderland Cake<br>
-                <span style="color:grey;float:left;">@abcBakery</span>
-                <span style="color:grey;float:right;">$35</span>
-              </p>
-
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <div class="col col-50">
-        <div class="list card" ui-sref="item">
-          <div class="item item-image">
-            <img src="img/items/thumbs/cake2.jpg">
-          </div>
-          <a ui-sref="item">
-            <div class="text-centre">
-              <p>Macaron Wonderland Cake<br>
-                <span style="color:grey;float:left;">@abcBakery</span>
-                <span style="color:grey;float:right;">$35</span>
-              </p>
-
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col col-50">
-        <div class="list card" ui-sref="item">
-          <div class="item item-image">
-            <img src="img/items/thumbs/cake3.jpg">
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-50">
-        <div class="list card" ui-sref="item">
-          <div class="item item-image">
-            <img src="img/items/thumbs/cake4.jpg">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col col-50">
-        <div class="list card" ui-sref="item">
-          <div class="item item-image">
-            <img src="img/items/thumbs/cake5.jpg">
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-50">
-        <div class="list card" ui-sref="item">
-          <div class="item item-image">
-            <img src="img/items/thumbs/cake6.jpg">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col col-50">
-        <div class="list card" ui-sref="item">
-          <div class="item item-image">
-            <img src="img/items/thumbs/cake7.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-50">
-        <div class="list card" ui-sref="item">
-          <div class="item item-image">
-            <img src="img/items/thumbs/cake8.jpg">
-          </div>
-        </div>
-      </div>
-    </div>-->
 
 
     <div class="endTag" style="opacity:0.6;">
