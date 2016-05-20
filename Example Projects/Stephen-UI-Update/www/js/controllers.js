@@ -78,11 +78,9 @@ app.controller('AuthCtrl', function ($scope, $ionicHistory) {
 });
 
 // Home controller
-app.controller('HomeCtrl', function ($scope, $state, Categories, Auth) {
-  // get all categories from service
-  $scope.categories = Categories.all();
+app.controller('HomeCtrl', function ($scope, $state, Items, $stateParams) {
+  $scope.Items = Items.all();
 
-  // Auth.$unauth();
 });
 
 // Category controller
@@ -98,17 +96,98 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 });
 
 // Item controller
-app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicHistory) {
+app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, StripeCharge, $stateParams, $ionicHistory, $firebaseArray) {
+  var itemData = $stateParams.itemData;
+  $scope.item = {};
+  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food/"+itemData);
+  itemsRef.on('value', function(dataSnapshot){
+    $scope.item = dataSnapshot.val();
+  })
+  
+   // Router Thingy
+  var second = this;
+  second.item = CartItemData.getItemData();
 
-  var id = $stateParams.id;
+  // Stripe JS
+  $scope.ProductMeta = {
+    title: "Awesome product",
+    description: "Yes it really is",
+    priceUSD: 1,
+  };
 
-  // get item from service by item id
-  $scope.item = Items.get(1);
+  $scope.status = {
+    loading: false,
+    message: "",
+  };
 
-  // toggle favorite
-  $scope.toggleFav = function () {
-    $scope.item.faved = !$scope.item.faved;
-  }
+  $scope.charge = function () {
+
+    $scope.status['loading'] = true;
+    $scope.status['message'] = "Retrieving your Stripe Token...";
+
+    second.item = CartItemData.getItemData();
+    console.log("Log: " + CartItemData.getItemData().foodName);
+    console.log(second.item);
+
+    $scope.ProductMeta['title'] = second.item.foodName;
+    $scope.ProductMeta['description'] = second.item.description;
+    $scope.ProductMeta['priceUSD'] = second.item.price;
+
+    // first get the Stripe token
+    StripeCharge.getStripeToken($scope.ProductMeta).then(
+      function (stripeToken) {
+        // -->
+        proceedCharge(stripeToken);
+      },
+      function (error) {
+        console.log(error)
+
+        $scope.status['loading'] = false;
+        if (error != "ERROR_CANCEL") {
+          $scope.status['message'] = "Oops... something went wrong";
+        } else {
+          $scope.status['message'] = "";
+        }
+      }
+    ); // ./ getStripeToken
+
+    function proceedCharge(stripeToken) {
+
+      $scope.status['message'] = "Processing your payment...";
+
+      // then chare the user through your custom node.js server (server-side)
+      StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
+        function (StripeInvoiceData) {
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Success! Check your Stripe Account";
+          console.log(StripeInvoiceData);
+          console.log(second.item.id);
+
+          var transactionTable = new Firebase('https://burning-heat-7015.firebaseio.com/transactions');
+          var transactionTableCollection = $firebaseArray(transactionTable);
+
+          transactionTableCollection.$add({
+            "foodID": second.item.id,
+            "stripeTransactionID": StripeInvoiceData.id,
+            "timestamp": StripeInvoiceData.created,
+            "quantity": 1
+          })
+
+          $state.go('transSuccess', { ItemData: second.item, Result: StripeInvoiceData });
+        },
+        function (error) {
+          console.log(error);
+
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Oops... something went wrong";
+
+          $state.go('transFailure', { 'ErrorLog': error });
+        }
+      );
+
+    }; // ./ proceedCharge
+
+  };
 });
 
 // Favorite controller
@@ -173,6 +252,8 @@ app.controller('CartCtrl', function ($scope, Cart, CartItemData, StripeCharge) {
 
     $scope.status['loading'] = true;
     $scope.status['message'] = "Retrieving your Stripe Token...";
+
+    console.log(second.item.foodName);
 
     // first get the Stripe token
     StripeCharge.getStripeToken($scope.ProductMeta).then(
@@ -389,6 +470,58 @@ app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
     }
   });
 });
+
+app.controller('MyController', function ($scope, $ionicModal, CartItemData) {
+
+  $scope.itemData;
+
+
+  $ionicModal.fromTemplateUrl('my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function (item) {
+    console.log("Called");
+    $scope.modal.show();
+    $scope.itemData = item;
+  };
+  $scope.closeModal = function () {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function () {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function () {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function () {
+    // Execute action
+  });
+
+  var first = this;
+  first.item = CartItemData.getItemData();
+
+  $scope.addtocart = function (index) {
+    console.log(index);
+    CartItemData.setItemData(index);
+    first.item = CartItemData.getItemData();
+    console.log("Log: " + CartItemData.getItemData().foodName);
+  }
+});
+
+//controller for Transaction Success/Failure
+app.controller('SuccessCtrl', function ($scope, $stateParams, $state) {
+  $scope.var1 = $stateParams.ItemData;
+  $scope.var2 = $stateParams.StripeData;
+})
+
+app.controller('FailureCtrl', function ($scope, $state) { })
+
 
 // app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
 
