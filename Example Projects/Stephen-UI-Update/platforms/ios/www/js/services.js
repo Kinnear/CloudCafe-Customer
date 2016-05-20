@@ -4,8 +4,74 @@ app.constant('_firebaseReference', "https://burning-heat-7015.firebaseio.com/");
 
 // our authenticated user details
 app.factory("Auth", function ($firebaseAuth, _firebaseReference) {
-  var ref = new Firebase(_firebaseReference);
+  var ref = new Firebase("https://burning-heat-7015.firebaseio.com/");
   return $firebaseAuth(ref);
+});
+
+app.service("LoginAuthenticatedCheck", function ($state, Auth, $firebaseArray, $ionicLoading, $ionicHistory, _firebaseReference) {
+
+  // perform authentication here the moment the controller load
+  var uponAuthChange = Auth.$onAuth(function (getAuth) {
+
+    if (getAuth) {
+      console.log("Logged in as:", getAuth.uid);
+
+      $ionicHistory.nextViewOptions({
+        disableBack: false,
+        historyRoot: true
+      });
+
+      AddPossibleUser(getAuth.provider, getAuth);
+      $ionicLoading.hide();
+      $state.go("home");
+    } else {
+      console.log("Logged out");
+    }
+  });
+
+  return {
+    AttemptUserLogin: function (authMethod) {
+
+      $ionicLoading.show();
+
+      Auth.$authWithOAuthRedirect(authMethod).then(function (authData) {
+      }).catch(function (error) {
+        if (error.code === "TRANSPORT_UNAVAILABLE") {
+          Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
+          });
+        } else {
+          // Another error occurred
+          console.log(error);
+          $ionicLoading.hide();
+        }
+      });
+    }
+  };
+
+  function AddPossibleUser(authMethod, authenticationData) {
+    var customerUser = new Firebase(_firebaseReference + "users/");
+
+    customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
+
+      if (dataSnapshot.val() == null) {
+        console.log("the user is not yet inside the database");
+
+        var usersArray = $firebaseArray(customerUser);
+
+        var addUserInfo = {};
+        addUserInfo[authenticationData.provider] = authenticationData.uid;
+        addUserInfo["username"] = authenticationData.facebook.displayName;
+
+        // add the new user
+        usersArray.$add(addUserInfo).then(function (response) {
+          console.log("Successfully added a new user with key " + ref.key() + " to the database!");
+        });
+      }
+      else {
+        console.log("The user is alr inside the database");
+      }
+    });
+  }
 });
 
 // Our Firebase Data Factory retriever
@@ -112,81 +178,11 @@ app.factory('Categories', function () {
   };
 });
 
-app.factory('Items', function () {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var items = [
-    {
-      id: 1,
-      name: "Rib eye steak",
-      price: 14.20,
-      offer: 40,
-      thumb: "img/items/thumbs/rib_eyes.jpg",
-      images: [
-        "img/items/rib_eye_2.jpg",
-        "img/items/rib_eye_3.jpg",
-        "img/items/rib_eye_4.jpg"
-      ],
-      description: "Beef steak, sauce, french fries",
-      faved: true,
-      reviews: [
-        {
-          id: 1,
-          user_id: 1,
-          username: "Adam",
-          face: "img/people/adam.jpg",
-          text: "Incredibly delicious tender steak! Be sure to order more",
-          images: []
-        },
-        {
-          id: 2,
-          user_id: 3,
-          username: "Ben",
-          face: "img/people/ben.png",
-          text: "Mmm.... Amazing! Steaks are very good",
-          images: []
-        },
-        {
-          id: 3,
-          user_id: 3,
-          username: "Max",
-          face: "img/people/max.png",
-          text: "Incredibly delicious tender steak! Be sure to order more",
-          images: []
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: "Seared Tuna",
-      price: 15.20,
-      offer: 20,
-      thumb: "img/items/thumbs/seared_tuna.jpg"
-    },
-    {
-      id: 3,
-      name: "Brick chicken",
-      price: 16.20,
-      offer: 40,
-      thumb: "img/items/thumbs/brick_chicken.jpg"
-    },
-    {
-      id: 4,
-      name: "Fried calamari",
-      price: 17.20,
-      offer: 50,
-      thumb: "img/items/thumbs/fried_calamari.jpg"
-    },
-    {
-      id: 5,
-      name: "Zuppa",
-      price: 17.20,
-      offer: 20,
-      thumb: "img/items/thumbs/zuppa.jpg"
-    }
-  ];
-
+app.factory('Items', function ($firebaseArray) {
+ 
+  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food");
+  var items = $firebaseArray(itemsRef);
+  
   return {
     all: function () {
       return items;
@@ -353,7 +349,7 @@ app.factory('Chats', function () {
   };
 })
 
-app.factory('StripeCharge', function ($q, $http, StripeCheckout) {
+app.factory('StripeCharge', function($q, $http, StripeCheckout) {
   var self = this;
 
   /**
@@ -365,29 +361,29 @@ app.factory('StripeCharge', function ($q, $http, StripeCheckout) {
    * retrieve the price from the back-end (thus the server-side). In this way the client
    * cannot write his own application and choose a price that he/she prefers
    */
-  self.chargeUser = function (stripeToken, ProductMeta) {
+  self.chargeUser = function(stripeToken, ProductMeta) {
     var qCharge = $q.defer();
 
     var chargeUrl = SERVER_SIDE_URL + "/charge";
     var curlData = {
-      stripeCurrency: "usd",
-      stripeAmount: Math.floor(ProductMeta.priceUSD * 100),  // charge handles transactions in cents
-      stripeSource: stripeToken,
-      stripeDescription: "Your custom description here"
+      stripeCurrency:         "usd",
+      stripeAmount:           Math.floor(ProductMeta.priceUSD*100),  // charge handles transactions in cents
+      stripeSource:           stripeToken,
+      stripeDescription:      "Your custom description here"
     };
     $http.post(chargeUrl, curlData)
-      .success(
-      function (StripeInvoiceData) {
-        qCharge.resolve(StripeInvoiceData);
-        // you can store the StripeInvoiceData for your own administration
-      }
-      )
-      .error(
-      function (error) {
-        console.log(error)
-        qCharge.reject(error);
-      }
-      );
+        .success(
+            function(StripeInvoiceData){
+              qCharge.resolve(StripeInvoiceData);
+              // you can store the StripeInvoiceData for your own administration
+            }
+        )
+        .error(
+            function(error){
+              console.log(error)
+              qCharge.reject(error);
+            }
+        );
     return qCharge.promise;
   };
 
@@ -395,40 +391,40 @@ app.factory('StripeCharge', function ($q, $http, StripeCheckout) {
   /**
    * Get a stripe token through the checkout handler
    */
-  self.getStripeToken = function (ProductMeta) {
+  self.getStripeToken = function(ProductMeta) {
     var qToken = $q.defer();
 
     var handlerOptions = {
       name: ProductMeta.title,
       description: ProductMeta.description,
-      amount: Math.floor(ProductMeta.priceUSD * 100),
+      amount: Math.floor(ProductMeta.priceUSD*100),
       image: "img/perry.png",
     };
 
     var handler = StripeCheckout.configure({
       name: ProductMeta.title,
-      token: function (token, args) {
+      token: function(token, args) {
         //console.log(token.id)
       }
     })
 
     handler.open(handlerOptions).then(
-      function (result) {
-        var stripeToken = result[0].id;
-        if (stripeToken != undefined && stripeToken != null && stripeToken != "") {
-          //console.log("handler success - defined")
-          qToken.resolve(stripeToken);
-        } else {
-          //console.log("handler success - undefined")
-          qToken.reject("ERROR_STRIPETOKEN_UNDEFINED");
-        }
-      }, function (error) {
-        if (error == undefined) {
-          qToken.reject("ERROR_CANCEL");
-        } else {
-          qToken.reject(error);
-        }
-      } // ./ error
+        function(result) {
+          var stripeToken = result[0].id;
+          if(stripeToken != undefined && stripeToken != null && stripeToken != "") {
+            //console.log("handler success - defined")
+            qToken.resolve(stripeToken);
+          } else {
+            //console.log("handler success - undefined")
+            qToken.reject("ERROR_STRIPETOKEN_UNDEFINED");
+          }
+        }, function(error) {
+          if(error == undefined) {
+            qToken.reject("ERROR_CANCEL");
+          } else {
+            qToken.reject(error);
+          }
+        } // ./ error
     ); // ./ handler
     return qToken.promise;
   };

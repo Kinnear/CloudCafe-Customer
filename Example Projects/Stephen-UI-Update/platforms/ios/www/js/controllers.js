@@ -72,17 +72,15 @@ app.controller("FavouriteController", function ($scope, FavouriteData) {
 // Put your login, register functions here
 app.controller('AuthCtrl', function ($scope, $ionicHistory) {
   // hide back button in next view
-  $ionicHistory.nextViewOptions({
-    disableBack: true
-  });
+  // $ionicHistory.nextViewOptions({
+  //   disableBack: true
+  // });
 });
 
 // Home controller
-app.controller('HomeCtrl', function ($scope, $state, Categories, Auth) {
-  // get all categories from service
-  $scope.categories = Categories.all();
+app.controller('HomeCtrl', function ($scope, $state, Items, $stateParams) {
+  $scope.Items = Items.all();
 
-  // Auth.$unauth();
 });
 
 // Category controller
@@ -98,17 +96,98 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 });
 
 // Item controller
-app.controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicHistory) {
+app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, StripeCharge, $stateParams, $ionicHistory, $firebaseArray) {
+  var itemData = $stateParams.itemData;
+  $scope.item = {};
+  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food/"+itemData);
+  itemsRef.on('value', function(dataSnapshot){
+    $scope.item = dataSnapshot.val();
+  })
+  
+   // Router Thingy
+  var second = this;
+  second.item = CartItemData.getItemData();
 
-  var id = $stateParams.id;
+  // Stripe JS
+  $scope.ProductMeta = {
+    title: "Awesome product",
+    description: "Yes it really is",
+    priceUSD: 1,
+  };
 
-  // get item from service by item id
-  $scope.item = Items.get(1);
+  $scope.status = {
+    loading: false,
+    message: "",
+  };
 
-  // toggle favorite
-  $scope.toggleFav = function () {
-    $scope.item.faved = !$scope.item.faved;
-  }
+  $scope.charge = function () {
+
+    $scope.status['loading'] = true;
+    $scope.status['message'] = "Retrieving your Stripe Token...";
+
+    second.item = CartItemData.getItemData();
+    console.log("Log: " + CartItemData.getItemData().foodName);
+    console.log(second.item);
+
+    $scope.ProductMeta['title'] = second.item.foodName;
+    $scope.ProductMeta['description'] = second.item.description;
+    $scope.ProductMeta['priceUSD'] = second.item.price;
+
+    // first get the Stripe token
+    StripeCharge.getStripeToken($scope.ProductMeta).then(
+      function (stripeToken) {
+        // -->
+        proceedCharge(stripeToken);
+      },
+      function (error) {
+        console.log(error)
+
+        $scope.status['loading'] = false;
+        if (error != "ERROR_CANCEL") {
+          $scope.status['message'] = "Oops... something went wrong";
+        } else {
+          $scope.status['message'] = "";
+        }
+      }
+    ); // ./ getStripeToken
+
+    function proceedCharge(stripeToken) {
+
+      $scope.status['message'] = "Processing your payment...";
+
+      // then chare the user through your custom node.js server (server-side)
+      StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
+        function (StripeInvoiceData) {
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Success! Check your Stripe Account";
+          console.log(StripeInvoiceData);
+          console.log(second.item.id);
+
+          var transactionTable = new Firebase('https://burning-heat-7015.firebaseio.com/transactions');
+          var transactionTableCollection = $firebaseArray(transactionTable);
+
+          transactionTableCollection.$add({
+            "foodID": second.item.id,
+            "stripeTransactionID": StripeInvoiceData.id,
+            "timestamp": StripeInvoiceData.created,
+            "quantity": 1
+          })
+
+          $state.go('transSuccess', { ItemData: second.item, Result: StripeInvoiceData });
+        },
+        function (error) {
+          console.log(error);
+
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Oops... something went wrong";
+
+          $state.go('transFailure', { 'ErrorLog': error });
+        }
+      );
+
+    }; // ./ proceedCharge
+
+  };
 });
 
 // Favorite controller
@@ -173,6 +252,8 @@ app.controller('CartCtrl', function ($scope, Cart, CartItemData, StripeCharge) {
 
     $scope.status['loading'] = true;
     $scope.status['message'] = "Retrieving your Stripe Token...";
+
+    console.log(second.item.foodName);
 
     // first get the Stripe token
     StripeCharge.getStripeToken($scope.ProductMeta).then(
@@ -360,68 +441,11 @@ app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate
 });
 
 // Login the customer
-app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, $ionicLoading, $ionicHistory, _firebaseReference) {
-
-  // perform authentication here the moment the controller loads
-  var test = Auth.$onAuth(function (getAuth) {
-
-    if (getAuth) {
-      console.log("Logged in as:", getAuth.uid);
-
-      $ionicHistory.nextViewOptions({
-        disableBack: false,
-        historyRoot: true
-      });
-
-      AddPossibleUser(getAuth.provider, getAuth);
-      $ionicLoading.hide();
-      $state.go("home");
-    } else {
-      console.log("Logged out");
-    }
-  });
+app.controller('LoginCustomer', function ($scope, LoginAuthenticatedCheck) {
 
   $scope.LoginFacebook = function (authMethod) {
-
-    $ionicLoading.show();
-
-    Auth.$authWithOAuthRedirect(authMethod).then(function (authData) {
-    }).catch(function (error) {
-      if (error.code === "TRANSPORT_UNAVAILABLE") {
-        Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
-        });
-      } else {
-        // Another error occurred
-        console.log(error);
-        $ionicLoading.hide();
-      }
-    });
-  }
-
-  function AddPossibleUser(authMethod, authenticationData) {
-    var customerUser = new Firebase(_firebaseReference + "users/");
-
-    customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
-
-      if (dataSnapshot.val() == null) {
-        console.log("the user is not yet inside the database");
-
-        var usersArray = $firebaseArray(customerUser);
-
-        var addUserInfo = {};
-        addUserInfo[authenticationData.provider] = authenticationData.uid;
-        addUserInfo["username"] = authenticationData.facebook.displayName;
-
-        // add the new user
-        usersArray.$add(addUserInfo).then(function (response) {
-          console.log("Successfully added a new user with key " + ref.key() + " to the database!");
-        });
-      }
-      else {
-        console.log("The user is alr inside the database");
-      }
-    });
-  }
+    LoginAuthenticatedCheck.AttemptUserLogin(authMethod);
+  };
 });
 
 app.controller('LogoutAuth', function ($scope, $state, Auth) {
@@ -446,6 +470,58 @@ app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
     }
   });
 });
+
+app.controller('MyController', function ($scope, $ionicModal, CartItemData) {
+
+  $scope.itemData;
+
+
+  $ionicModal.fromTemplateUrl('my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function (item) {
+    console.log("Called");
+    $scope.modal.show();
+    $scope.itemData = item;
+  };
+  $scope.closeModal = function () {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function () {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function () {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function () {
+    // Execute action
+  });
+
+  var first = this;
+  first.item = CartItemData.getItemData();
+
+  $scope.addtocart = function (index) {
+    console.log(index);
+    CartItemData.setItemData(index);
+    first.item = CartItemData.getItemData();
+    console.log("Log: " + CartItemData.getItemData().foodName);
+  }
+});
+
+//controller for Transaction Success/Failure
+app.controller('SuccessCtrl', function ($scope, $stateParams, $state) {
+  $scope.var1 = $stateParams.ItemData;
+  $scope.var2 = $stateParams.StripeData;
+})
+
+app.controller('FailureCtrl', function ($scope, $state) { })
+
 
 // app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
 

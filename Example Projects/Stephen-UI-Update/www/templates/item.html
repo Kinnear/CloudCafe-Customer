@@ -10,20 +10,20 @@
       
     <!-- Item cover -->
     <div class="item-cover">
-      <img ng-src="{{item.img1}}">
+      <img ng-src="{{item.img1}}" class="full-image">
         
       <ion-slide-box>
-        <ion-slide ng-repeat="img in item.images">
-          <!--<img class="full-image" src="{{ img }}" alt=""/>-->
+        <ion-slide ng-repeat="img in item.images" >
+          <!--<img  src="{{ img }}" alt=""/>-->
         </ion-slide>
       </ion-slide-box>
     </div>
     
-    <div class="dishnamebox">
-        <h1 class="dishname">{{ item.name }}</h1>
-    </div>
-    
+
+   <div class="dishnamebox" style="margin-left: 9%; margin-right: 5%;">
+               <h1 class="dishname">{{ item.name }}</h1>
    <div>
+       
         <i class="button icon ion-ios-information-outline"></i>
         <div class="dishwriteup">
             {{ item.description }}
@@ -33,9 +33,12 @@
     </div>
     
 
-    <div ng-controller="MyController">
-        <button class="bar bar-footer bar-calm" ng-click="openModal(class,item); addtocart(item)">Back this Project</button>
-    </div>
+         <div ng-controller="MyController">
+      <button class="button button-block button-calm button-bottom" ng-click="openModal(class,item); addtocart(item)">
+               Place Order</button>
+
+     </div>
+
       
     <script id="my-modal.html" type ="text/ng-template">
         <ion-modal-view>
@@ -75,7 +78,7 @@
                             </div>
                         </div>
 
-                    <label class="item item-input item-select">
+                    <!--<label class="item item-input item-select">
                         <div class="input-label">
                             Delivery
                         </div>
@@ -83,17 +86,17 @@
                             <option selected>Home</option>
                             <option>Work</option>
                         </select>
-                    </label>
+                    </label>-->
                     
-                    <label class="item item-input item-select">
-                        <div class="input-label">
-                            Date
-                        </div>
-                        <select>
-                            <option selected>12 April (Sat)</option>
-                            <option>13 April (Sun)</option>
-                        </select>
-                    </label>
+                <label class="item item-input item-select">
+                  <div class="input-label" style="width:50%;">
+                    Collection Date
+                  </div>
+                  <input type="date" placeholder="Select Date"
+                
+                ng-model="newFood.endDate" required style="padding-right:0%;">
+                 </label>
+
 
                     <label class="item item-input item-select">
                         <div class="input-label">
