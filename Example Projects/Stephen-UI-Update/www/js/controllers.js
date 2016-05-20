@@ -1,34 +1,30 @@
 var app = angular.module('starter.controllers', ["ionic", "firebase", "ngAnimate"]);
 
-app.directive('flippy', function () {
-  return {
-    restrict: 'EA',
-    link: function ($scope, $elem, $attrs) {
-
-      var options = {
-        flipDuration: ($attrs.flipDuration) ? $attrs.flipDuration : 400,
-        timingFunction: 'ease-in-out',
-      };
-
-      // setting flip options
-      angular.forEach(['flippy-front', 'flippy-back'], function (name) {
-        var el = $elem.find(name);
-        if (el.length == 1) {
-          angular.forEach(['', '-ms-', '-webkit-'], function (prefix) {
-            angular.element(el[0]).css(prefix + 'transition', 'all ' + options.flipDuration / 1000 + 's ' + options.timingFunction);
-          });
-        }
-      });
-
-      /**
-       * behaviour for flipping effect.
-       */
-      $scope.flip = function () {
-        $elem.toggleClass('flipped');
-      }
-
-    }
+app.controller('TermsController', function ($scope, $ionicModal) {
+  $ionicModal.fromTemplateUrl('my-terms.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function () {
+    $scope.modal.show();
   };
+  $scope.closeModal = function () {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function () {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function () {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function () {
+    // Execute action
+  });
 });
 
 app.controller('MainCtrl', function ($scope) {
@@ -76,9 +72,9 @@ app.controller("FavouriteController", function ($scope, FavouriteData) {
 // Put your login, register functions here
 app.controller('AuthCtrl', function ($scope, $ionicHistory) {
   // hide back button in next view
-  $ionicHistory.nextViewOptions({
-    disableBack: true
-  });
+  // $ionicHistory.nextViewOptions({
+  //   disableBack: true
+  // });
 });
 
 // Home controller
@@ -265,25 +261,25 @@ app.controller('AddressCtrl', function ($scope, $state) {
 });
 
 // User controller
-app.controller('UserCtrl', function ($scope, $state) { })
+app.controller('UserCtrl', function ($scope, $state) { });
 
-  // History Controller
-  .controller('HistoryCtrl', function ($scope, $state) { })
+// History Controller
+app.controller('HistoryCtrl', function ($scope, $state) { });
 
-  // Chat controller, view list chats and chat detail
-  .controller('ChatCtrl', function ($scope, Chats) {
-    $scope.chats = Chats.all();
+// Chat controller, view list chats and chat detail
+app.controller('ChatCtrl', function ($scope, Chats) {
+  $scope.chats = Chats.all();
 
-    // remove a conversation
-    $scope.remove = function (chat) {
-      Chats.remove(chat);
-    };
+  // remove a conversation
+  $scope.remove = function (chat) {
+    Chats.remove(chat);
+  };
 
-    // mute a conversation
-    $scope.mute = function (chat) {
-      // write your code here
-    }
-  });
+  // mute a conversation
+  $scope.mute = function (chat) {
+    // write your code here
+  }
+});
 
 app.controller('ChatDetailCtrl', function ($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
   //$scope.chat = Chats.get($stateParams.chatId);
@@ -364,84 +360,11 @@ app.controller("HideSideBarOnThisView", function ($scope, $ionicSideMenuDelegate
 });
 
 // Login the customer
-app.controller('LoginCustomer', function ($scope, $state, Auth, $firebaseArray, $ionicLoading, $ionicHistory, _firebaseReference) {
-
-  // perform authentication here the moment the controller loads
-  var test = Auth.$onAuth(function (getAuth) {
-
-    if (getAuth) {
-      console.log("Logged in as:", getAuth.uid);
-
-      // must launch for PC
-
-      $ionicHistory.nextViewOptions({
-        disableBack: false,
-        historyRoot: true
-      });
-
-      console.log("next view will be the our root. From OnAuth");
-
-      AddPossibleUser(getAuth.provider, getAuth);
-      $ionicLoading.hide();
-      $state.go("home");
-    } else {
-      console.log("Logged out");
-    }
-  });
+app.controller('LoginCustomer', function ($scope, LoginAuthenticatedCheck) {
 
   $scope.LoginFacebook = function (authMethod) {
-
-    $ionicLoading.show();
-
-    Auth.$authWithOAuthRedirect(authMethod).then(function (authData) {
-    }).catch(function (error) {
-      if (error.code === "TRANSPORT_UNAVAILABLE") {
-        Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
-
-          // $ionicHistory.nextViewOptions({
-          //   disableBack: false,
-          //   historyRoot: true
-          // });
-          
-          // console.log("next view will be the our root. From Popup Redirect");
-
-          // // check if we have added this user to the database yet or not.
-          // AddPossibleUser(authData.provider, authData);
-          // $ionicLoading.hide();
-          // $state.go("home");
-        });
-      } else {
-        // Another error occurred
-        console.log(error);
-        $ionicLoading.hide();
-      }
-    });
-  }
-
-  function AddPossibleUser(authMethod, authenticationData) {
-    var customerUser = new Firebase(_firebaseReference + "users/");
-
-    customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
-
-      if (dataSnapshot.val() == null) {
-        console.log("the user is not yet inside the database");
-
-        var usersArray = $firebaseArray(customerUser);
-
-        var addUserInfo = {};
-        addUserInfo[authenticationData.provider] = authenticationData.uid;
-        addUserInfo["username"] = authenticationData.facebook.displayName;
-
-        // add the new user
-        usersArray.$add(addUserInfo).then(function (response) {
-          console.log("Successfully added a new user with key " + ref.key() + " to the database!");
-        });
-      }
-      else {
-        console.log("The user is alr inside the database");
-      }
-    });
-  }
+    LoginAuthenticatedCheck.AttemptUserLogin(authMethod);
+  };
 });
 
 app.controller('LogoutAuth', function ($scope, $state, Auth) {
@@ -460,7 +383,6 @@ app.controller("DisplayCustomerSideInfo", function ($scope, Auth) {
     if (authData) {
       $scope.userAuthentication.displayName = authData.facebook.displayName;
       $scope.userAuthentication.profilePicture = authData.facebook.profileImageURL;
-      // console.log(authData);
     } else {
       $scope.userAuthentication = { displayName: null, profilePicture: null };
       console.log("Deleted Previous SideBar Personalized Items.");

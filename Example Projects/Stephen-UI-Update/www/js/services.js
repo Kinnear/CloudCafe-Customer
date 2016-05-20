@@ -8,6 +8,72 @@ app.factory("Auth", function ($firebaseAuth, _firebaseReference) {
   return $firebaseAuth(ref);
 });
 
+app.service("LoginAuthenticatedCheck", function ($state, Auth, $firebaseArray, $ionicLoading, $ionicHistory, _firebaseReference) {
+
+  // perform authentication here the moment the controller load
+  var uponAuthChange = Auth.$onAuth(function (getAuth) {
+
+    if (getAuth) {
+      console.log("Logged in as:", getAuth.uid);
+
+      $ionicHistory.nextViewOptions({
+        disableBack: false,
+        historyRoot: true
+      });
+
+      AddPossibleUser(getAuth.provider, getAuth);
+      $ionicLoading.hide();
+      $state.go("home");
+    } else {
+      console.log("Logged out");
+    }
+  });
+
+  return {
+    AttemptUserLogin: function (authMethod) {
+
+      $ionicLoading.show();
+
+      Auth.$authWithOAuthRedirect(authMethod).then(function (authData) {
+      }).catch(function (error) {
+        if (error.code === "TRANSPORT_UNAVAILABLE") {
+          Auth.$authWithOAuthPopup(authMethod).then(function (authData) {
+          });
+        } else {
+          // Another error occurred
+          console.log(error);
+          $ionicLoading.hide();
+        }
+      });
+    }
+  };
+
+  function AddPossibleUser(authMethod, authenticationData) {
+    var customerUser = new Firebase(_firebaseReference + "users/");
+
+    customerUser.orderByChild(authMethod).equalTo(authenticationData.uid).once('value', function (dataSnapshot) {
+
+      if (dataSnapshot.val() == null) {
+        console.log("the user is not yet inside the database");
+
+        var usersArray = $firebaseArray(customerUser);
+
+        var addUserInfo = {};
+        addUserInfo[authenticationData.provider] = authenticationData.uid;
+        addUserInfo["username"] = authenticationData.facebook.displayName;
+
+        // add the new user
+        usersArray.$add(addUserInfo).then(function (response) {
+          console.log("Successfully added a new user with key " + ref.key() + " to the database!");
+        });
+      }
+      else {
+        console.log("The user is alr inside the database");
+      }
+    });
+  }
+});
+
 // Our Firebase Data Factory retriever
 app.factory("FavouriteData", function ($firebaseArray) {
   var itemsRef = new Firebase(_firebaseReference);

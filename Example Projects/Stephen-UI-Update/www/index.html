@@ -44,6 +44,9 @@
   <!-- Stripe.js-->
   <script src="bower_components/angular-stripe-checkout/angular-stripe-checkout.js"></script>
 
+  <!--Ionic-Native-Transitions-->
+  <script src="lib/ionic-native-transitions.min.js"></script>
+
   <!-- your app's js -->
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
@@ -72,48 +75,47 @@
         </ion-nav-buttons>
 
       </ion-nav-bar>
-      
+
       <!-- Main view content -->
       <ion-nav-view animation="slide-left-right"></ion-nav-view>
     </ion-side-menu-content>
 
     <!-- Left menu -->
     <ion-side-menu side="left">
-      <ion-content ng-controller="MainCtrl">
+      <ion-content ng-controller="MainCtrl" style="background-image:url(img/backgrounds/LimpetSquares.png); background-size:100%; background-repeat:none;">
 
         <!-- User profile -->
         <div class="userPic" style="text-align:center;" ng-controller="DisplayCustomerSideInfo">
-          <!--<img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">-->
           <img class="profile-picture circle" menu-close="" ng-show="userAuthentication.profilePicture !== undefined" ng-src="{{userAuthentication.profilePicture}}">
           <img class="profile-picture circle" menu-close="" ng-show="userAuthentication.profilePicture === undefined" ng-src="http://placehold.it/100x100">
 
           <h4><span class="dark">{{userAuthentication.displayName}}</span></h4>
-          
+
         </div>
-        
+
         <div class="userPanel">
-        <div class="list" menu-close="">
-          <div class="item item-icon-left" ui-sref="home">
-            <span class="dark"><i class="icon ion-compass"></i>
+          <div class="list" menu-close="">
+            <div class="item item-icon-left" ui-sref="home">
+              <span class="dark"><i class="icon ion-compass"></i>
               Explore</span>
-          </div>
+            </div>
 
-          <div class="item item-icon-left" ui-sref="purchased">
-            <span class="dark"><i class="icon ion-checkmark-circled"></i>
+            <div class="item item-icon-left" ui-sref="purchased">
+              <span class="dark"><i class="icon ion-checkmark-circled"></i>
               Purchased</span>
-          </div>
+            </div>
 
-          <div class="item item-icon-left" ui-sref="support">
-            <span class="dark"><i class="icon ion-information-circled"></i>
+            <div class="item item-icon-left" ui-sref="support">
+              <span class="dark"><i class="icon ion-information-circled"></i>
               Support</span>
-          </div>
+            </div>
 
-          <div class="item item-icon-left" ng-controller="LogoutAuth" ng-click="Logout()">
-            <span class="dark"><i class="icon ion-log-out"></i>
+            <div class="item item-icon-left" ng-controller="LogoutAuth" ng-click="Logout()">
+              <span class="dark"><i class="icon ion-log-out"></i>
               Logout</span>
+            </div>
           </div>
-          </div>
-          </div>
+        </div>
 
       </ion-content>
     </ion-side-menu>
