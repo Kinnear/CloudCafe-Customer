@@ -64,7 +64,7 @@
                             
                             <div class="row">
                             <div class="col col-70">Price</div>
-                            <div class="col">{{item.price}}</div>
+                            <div class="col">${{item.price}}</div>
                             </div> 
                             
                             <div class="row">
@@ -72,14 +72,14 @@
                             <div class="col">x 1</div>
                             </div> 
                             
-                            <div class="row">
+                            <!--<div class="row">
                             <div class="col col-50">Delivery</div>
                             <div class="col">$3.00</div>
-                            </div> 
+                            </div> -->
                             
                             <div class="row">
                             <div class="col col-50">Total</div>
-                            <div class="col">$17.00</div>
+                            <div class="col">${{item.price}}</div>
                             </div>
                         </div>
 
@@ -136,7 +136,7 @@
 
                     </div>
 
-                    <button class="button button-block button-positive" ng-click="charge()">
+                    <button class="button button-block button-positive" ng-click="charge(); closeModal();">
                         Purchase
                     </button>
                     </div>
