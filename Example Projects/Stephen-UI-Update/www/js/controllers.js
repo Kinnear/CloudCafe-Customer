@@ -27,6 +27,17 @@ app.controller('TermsController', function ($scope, $ionicModal) {
   });
 });
 
+app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
+
+    $scope.NextViewIsNavRoot = function () {
+        // remove your nav router history
+        $ionicHistory.nextViewOptions({
+            disableBack: false,
+            historyRoot: true
+        });
+    }
+});
+
 app.controller('MainCtrl', function ($scope) {
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
