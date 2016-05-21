@@ -176,6 +176,102 @@ app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, Auth, 
   };
 });
 
+app.controller('ItemDetailCtrl', function ($scope, $state, Items, CartItemData, Auth, StripeCharge, $stateParams, $ionicHistory, $firebaseArray) {
+  var itemData = $stateParams.itemData;
+  $scope.item = {};
+  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food/" + itemData);
+  itemsRef.on('value', function (dataSnapshot) {
+    $scope.item = dataSnapshot.val();
+  })
+
+  // Router Thingy
+  var second = this;
+  second.item = CartItemData.getItemData();
+
+  // Stripe JS
+  $scope.ProductMeta = {
+    title: "Awesome product",
+    description: "Yes it really is",
+    priceUSD: 1,
+  };
+
+  $scope.status = {
+    loading: false,
+    message: "",
+  };
+
+  $scope.charge = function () {
+
+    $scope.status['loading'] = true;
+    $scope.status['message'] = "Retrieving your Stripe Token...";
+
+    second.item = CartItemData.getItemData();
+    console.log("Log: " + CartItemData.getItemData().foodName);
+    console.log(second.item);
+
+    $scope.ProductMeta['title'] = second.item.foodName;
+    $scope.ProductMeta['description'] = second.item.description;
+    $scope.ProductMeta['priceUSD'] = second.item.price;
+
+    // first get the Stripe token
+    StripeCharge.getStripeToken($scope.ProductMeta).then(
+      function (stripeToken) {
+        // -->
+        proceedCharge(stripeToken);
+      },
+      function (error) {
+        console.log(error)
+
+        $scope.status['loading'] = false;
+        if (error != "ERROR_CANCEL") {
+          $scope.status['message'] = "Oops... something went wrong";
+        } else {
+          $scope.status['message'] = "";
+        }
+      }
+    ); // ./ getStripeToken
+
+    function proceedCharge(stripeToken) {
+
+      $scope.status['message'] = "Processing your payment...";
+
+      // then chare the user through your custom node.js server (server-side)
+      StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
+        function (StripeInvoiceData) {
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Success! Check your Stripe Account";
+          console.log(StripeInvoiceData);
+          console.log(second.item.id);
+
+          var transactionTable = new Firebase('https://burning-heat-7015.firebaseio.com/transactions');
+          var transactionTableCollection = $firebaseArray(transactionTable);
+
+          transactionTableCollection.$add({
+            "customerID":Auth.$getAuth().uid,
+            "foodID": second.item.id,
+            "stripeTransactionID": StripeInvoiceData.id,
+            "pickuptimestamp":1471351021,
+            "timestamp": StripeInvoiceData.created,
+            "quantity": 1
+          })
+
+          $state.go('transSuccess', { ItemData: second.item, Result: StripeInvoiceData });
+        },
+        function (error) {
+          console.log(error);
+
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Oops... something went wrong";
+
+          $state.go('transFailure', { 'ErrorLog': error });
+        }
+      );
+
+    }; // ./ proceedCharge
+
+  };
+});
+
 // Favorite controller
 app.controller('FavoriteCtrl', function ($scope, $state, Items, CartItemData) {
 
@@ -320,7 +416,7 @@ app.controller('ChatDetailCtrl', function ($scope, $stateParams, Chats, $ionicSc
 
 //empty controllers for new pages here
 //controller for settings.html
-app.controller('ItemDetailCtrl', function ($scope, $state) { })
+// app.controller('ItemDetailCtrl', function ($scope, $state) { })
 
 //controller for allreviews.html
 app.controller('AllreviewsCtrl', function ($scope, $state) { })
@@ -428,15 +524,3 @@ app.controller('SuccessCtrl', function ($scope, $stateParams, $state) {
 })
 
 app.controller('FailureCtrl', function ($scope, $state) { })
-
-
-// app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
-
-//     $scope.NextViewIsNavRoot = function () {
-//         // remove your nav router history
-//         $ionicHistory.nextViewOptions({
-//             disableBack: false,
-//             historyRoot: true
-//         });
-//     }
-// });
