@@ -96,15 +96,15 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 });
 
 // Item controller
-app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, StripeCharge, $stateParams, $ionicHistory, $firebaseArray) {
+app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, Auth, StripeCharge, $stateParams, $ionicHistory, $firebaseArray) {
   var itemData = $stateParams.itemData;
   $scope.item = {};
-  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food/"+itemData);
-  itemsRef.on('value', function(dataSnapshot){
+  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food/" + itemData);
+  itemsRef.on('value', function (dataSnapshot) {
     $scope.item = dataSnapshot.val();
   })
-  
-   // Router Thingy
+
+  // Router Thingy
   var second = this;
   second.item = CartItemData.getItemData();
 
@@ -167,8 +167,10 @@ app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, Stripe
           var transactionTableCollection = $firebaseArray(transactionTable);
 
           transactionTableCollection.$add({
+            "customerID":Auth.$getAuth().uid,
             "foodID": second.item.id,
             "stripeTransactionID": StripeInvoiceData.id,
+            "pickuptimestamp":1471351021,
             "timestamp": StripeInvoiceData.created,
             "quantity": 1
           })
@@ -213,15 +215,21 @@ app.controller('FavoriteCtrl', function ($scope, $state, Items, CartItemData) {
 
 
 // Purchased controller
-app.controller('PurchasedCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate) {
-  // get all items form Items model
-  $scope.items = Items.all();
+app.controller('PurchasedCtrl', function ($scope, $state, PurchasedItems, Auth, $ionicSideMenuDelegate) {
 
-  // toggle favorite
-  $scope.toggleFav = function () {
-    $scope.item.faved = !$scope.item.faved;
+  $scope.products = {};
+  $scope.products = PurchasedItems.all();
+
+  $scope.$watch(function () { return PurchasedItems.all() }, function (newVal, oldVal) {
+    if (typeof newVal !== 'undefined') {
+      $scope.products = PurchasedItems.all();
+    }
+  });
+  console.log(Auth.$getAuth().key);
+  console.log(Auth.$getAuth().uid);
+  $scope.testfunc = function () {
+    console.log($scope.products.transactions);
   }
-
   // disabled swipe menu
   $ionicSideMenuDelegate.canDragContent(false);
 });
