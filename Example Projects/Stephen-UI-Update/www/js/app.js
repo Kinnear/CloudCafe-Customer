@@ -303,11 +303,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
 
     //states for new pages
 
-    //state for settings.html
-    .state('settings', {
-      url: '/settings',
-      templateUrl: 'templates/settings.html',
-      controller: 'SettingsCtrl',
+    //state for ItemDetail.html
+    .state('ItemDetail', {
+      url: '/ItemDetail.html',
+      templateUrl: 'templates/ItemDetail.html',
+      controller: 'ItemDetailCtrl',
       resolve: {
         // controller will not be loaded until $requireAuth resolves
         // Auth refers to our $firebaseAuth wrapper in the example above
