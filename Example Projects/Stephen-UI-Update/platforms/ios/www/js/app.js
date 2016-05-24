@@ -128,11 +128,29 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
       }
     })
 
-    // Item detail
+    // Item
     .state('item', {
       url: '/item/:id',
       templateUrl: 'templates/item.html',
       controller: 'ItemCtrl',
+      params: { itemData: null },
+      resolve: {
+        // controller will not be loaded until $requireAuth resolves
+        // Auth refers to our $firebaseAuth wrapper in the example above
+        "currentAuth": ["Auth", function (Auth) {
+          // $requireAuth returns a promise so the resolve waits for it to complete
+          // If the promise is rejected, it will throw a $stateChangeError (see above)
+          return Auth.$requireAuth();
+        }],
+        stripe: StripeCheckoutProvider.load
+      }
+    })
+    
+    //state for ItemDetail.html
+    .state('ItemDetail', {
+      url: '/ItemDetail.html',
+      templateUrl: 'templates/ItemDetail.html',
+      controller: 'ItemDetailCtrl',
       params: { itemData: null },
       resolve: {
         // controller will not be loaded until $requireAuth resolves
@@ -303,21 +321,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
 
     //states for new pages
 
-    //state for ItemDetail.html
-    .state('ItemDetail', {
-      url: '/ItemDetail.html',
-      templateUrl: 'templates/ItemDetail.html',
-      controller: 'ItemDetailCtrl',
-      resolve: {
-        // controller will not be loaded until $requireAuth resolves
-        // Auth refers to our $firebaseAuth wrapper in the example above
-        "currentAuth": ["Auth", function (Auth) {
-          // $requireAuth returns a promise so the resolve waits for it to complete
-          // If the promise is rejected, it will throw a $stateChangeError (see above)
-          return Auth.$requireAuth();
-        }]
-      }
-    })
+    
 
     //state for allreviews
     .state('allreviews', {

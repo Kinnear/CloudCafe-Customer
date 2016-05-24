@@ -433,6 +433,7 @@ app.factory('StripeCharge', function ($q, $http, StripeCheckout) {
   return self;
 })
 
+// contributes to item and itemdetail modal data
 app.service("CartItemData", function Item() {
   var item = this;
   //item.message = "DefaultHello (Service)/";
