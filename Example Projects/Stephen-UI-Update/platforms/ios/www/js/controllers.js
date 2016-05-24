@@ -29,13 +29,13 @@ app.controller('TermsController', function ($scope, $ionicModal) {
 
 app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
 
-    $scope.NextViewIsNavRoot = function () {
-        // remove your nav router history
-        $ionicHistory.nextViewOptions({
-            disableBack: false,
-            historyRoot: true
-        });
-    }
+  $scope.NextViewIsNavRoot = function () {
+    // remove your nav router history
+    $ionicHistory.nextViewOptions({
+      disableBack: false,
+      historyRoot: true
+    });
+  }
 });
 
 app.controller('MainCtrl', function ($scope) {
@@ -82,10 +82,14 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 // Item controller
 app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, Auth, StripeCharge, $stateParams, $ionicHistory, $firebaseArray) {
   var itemData = $stateParams.itemData;
+  
   $scope.item = {};
+  
+  
   var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food/" + itemData);
   itemsRef.on('value', function (dataSnapshot) {
     $scope.item = dataSnapshot.val();
+    console.log($scope.item);
   })
 
   // Router Thingy
@@ -151,10 +155,10 @@ app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, Auth, 
           var transactionTableCollection = $firebaseArray(transactionTable);
 
           transactionTableCollection.$add({
-            "customerID":Auth.$getAuth().uid,
+            "customerID": Auth.$getAuth().uid,
             "foodID": second.item.id,
             "stripeTransactionID": StripeInvoiceData.id,
-            "pickuptimestamp":1471351021,
+            "pickuptimestamp": 1471351021,
             "timestamp": StripeInvoiceData.created,
             "quantity": 1
           })
@@ -247,10 +251,10 @@ app.controller('ItemDetailCtrl', function ($scope, $state, Items, CartItemData, 
           var transactionTableCollection = $firebaseArray(transactionTable);
 
           transactionTableCollection.$add({
-            "customerID":Auth.$getAuth().uid,
+            "customerID": Auth.$getAuth().uid,
             "foodID": second.item.id,
             "stripeTransactionID": StripeInvoiceData.id,
-            "pickuptimestamp":1471351021,
+            "pickuptimestamp": 1471351021,
             "timestamp": StripeInvoiceData.created,
             "quantity": 1
           })
