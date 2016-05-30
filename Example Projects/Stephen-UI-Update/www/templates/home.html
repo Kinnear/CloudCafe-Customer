@@ -8,10 +8,15 @@
 <ion-view view-title="Explore">
 
   <ion-content class="stable-bg">
-    <div class="row" ng-repeat="SingleItem in Items">
-      {{Object.keys(SingleItem)[0]}}
-    </div>  
-    
+    <div class="input-label" style="width:50%;" ng-controller="HomeCtrl">
+      Collection Date
+      <input type="date" ng-model="date">
+      <input type="time" ng-model="time">
+      <p>
+        <button class="button button-full button-positive" ng-click="print()">print</button>
+      </p>
+    </div>
+      
     <div class="row" ng-repeat="SingleItem in Items" ng-if="$index % 2 === 0">
       <div class="col col-50" ng-if="$index < Items.length">
         <div class="list card" ui-sref="item({itemData: Items[$index].id})">

@@ -78,9 +78,20 @@ app.controller('AuthCtrl', function ($scope, $ionicHistory) {
 });
 
 // Home controller
-app.controller('HomeCtrl', function ($scope, $state, Items, $stateParams) {
+app.controller('HomeCtrl', function ($scope, $state, $filter, Items, $stateParams) {
   $scope.Items = Items.all();
-
+  
+  $scope.date;
+  $scope.time;
+  
+  var date;
+  $scope.print = function(){
+    var timestamp = new Date($scope.date);
+    timestamp.setHours($filter('date')($scope.time, "H"));
+    timestamp.setMinutes($filter('date')($scope.time, "m"));
+    var epoch = timestamp.getTime();
+    console.log($scope.date + " - " + $scope.time + " - " + epoch);
+  }
 });
 
 // Category controller
@@ -103,6 +114,8 @@ app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, Auth, 
   itemsRef.on('value', function (dataSnapshot) {
     $scope.item = dataSnapshot.val();
   })
+
+  $scope.dateOrdered;
 
   // Router Thingy
   var second = this;
@@ -128,6 +141,7 @@ app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, Auth, 
     second.item = CartItemData.getItemData();
     console.log("Log: " + CartItemData.getItemData().foodName);
     console.log(second.item);
+    console.log($scope.dateOrdered);
 
     $scope.ProductMeta['title'] = second.item.foodName;
     $scope.ProductMeta['description'] = second.item.description;
@@ -213,91 +227,91 @@ app.controller('FavoriteCtrl', function ($scope, $state, Items, CartItemData) {
   }
 });
 
-// Cart controller
-app.controller('CartCtrl', function ($scope, Cart, CartItemData, StripeCharge) {
-  // set cart items
-  $scope.cart = Cart.get();
+// // Cart controller
+// app.controller('CartCtrl', function ($scope, Cart, CartItemData, StripeCharge) {
+//   // set cart items
+//   $scope.cart = Cart.get();
 
-  // plus quantity
-  $scope.plusQty = function (item) {
-    item.quantity++;
-  }
+//   // plus quantity
+//   $scope.plusQty = function (item) {
+//     item.quantity++;
+//   }
 
-  // minus quantity
-  $scope.minusQty = function (item) {
-    if (item.quantity > 1)
-      item.quantity--;
-  }
+//   // minus quantity
+//   $scope.minusQty = function (item) {
+//     if (item.quantity > 1)
+//       item.quantity--;
+//   }
 
-  // remove item from cart
-  $scope.remove = function (index) {
-    $scope.cart.items.splice(index, 1);
-  }
+//   // remove item from cart
+//   $scope.remove = function (index) {
+//     $scope.cart.items.splice(index, 1);
+//   }
 
-  // Router Thingy
-  var second = this;
-  second.item = CartItemData.getItemData();
+//   // Router Thingy
+//   var second = this;
+//   second.item = CartItemData.getItemData();
 
-  // Stripe JS
-  $scope.ProductMeta = {
-    title: "Awesome product",
-    description: "Yes it really is",
-    priceUSD: 1,
-  };
+//   // Stripe JS
+//   $scope.ProductMeta = {
+//     title: "Awesome product",
+//     description: "Yes it really is",
+//     priceUSD: 1,
+//   };
 
-  $scope.status = {
-    loading: false,
-    message: "",
-  };
+//   $scope.status = {
+//     loading: false,
+//     message: "",
+//   };
 
-  $scope.charge = function () {
+//   $scope.charge = function () {
 
-    $scope.status['loading'] = true;
-    $scope.status['message'] = "Retrieving your Stripe Token...";
+//     $scope.status['loading'] = true;
+//     $scope.status['message'] = "Retrieving your Stripe Token...";
 
-    console.log(second.item.foodName);
+//     console.log(second.item.foodName);
 
-    // first get the Stripe token
-    StripeCharge.getStripeToken($scope.ProductMeta).then(
-      function (stripeToken) {
-        // -->
-        proceedCharge(stripeToken);
-      },
-      function (error) {
-        console.log(error)
+//     // first get the Stripe token
+//     StripeCharge.getStripeToken($scope.ProductMeta).then(
+//       function (stripeToken) {
+//         // -->
+//         proceedCharge(stripeToken);
+//       },
+//       function (error) {
+//         console.log(error)
 
-        $scope.status['loading'] = false;
-        if (error != "ERROR_CANCEL") {
-          $scope.status['message'] = "Oops... something went wrong";
-        } else {
-          $scope.status['message'] = "";
-        }
-      }
-    ); // ./ getStripeToken
+//         $scope.status['loading'] = false;
+//         if (error != "ERROR_CANCEL") {
+//           $scope.status['message'] = "Oops... something went wrong";
+//         } else {
+//           $scope.status['message'] = "";
+//         }
+//       }
+//     ); // ./ getStripeToken
 
-    function proceedCharge(stripeToken) {
+//     function proceedCharge(stripeToken) {
 
-      $scope.status['message'] = "Processing your payment...";
+//       $scope.status['message'] = "Processing your payment...";
 
-      // then chare the user through your custom node.js server (server-side)
-      StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
-        function (StripeInvoiceData) {
-          $scope.status['loading'] = false;
-          $scope.status['message'] = "Success! Check your Stripe Account";
-          console.log(StripeInvoiceData)
-        },
-        function (error) {
-          console.log(error);
+//       // then chare the user through your custom node.js server (server-side)
+//       StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
+//         function (StripeInvoiceData) {
+//           $scope.status['loading'] = false;
+//           $scope.status['message'] = "Success! Check your Stripe Account";
+//           console.log(StripeInvoiceData)
+//         },
+//         function (error) {
+//           console.log(error);
 
-          $scope.status['loading'] = false;
-          $scope.status['message'] = "Oops... something went wrong";
-        }
-      );
+//           $scope.status['loading'] = false;
+//           $scope.status['message'] = "Oops... something went wrong";
+//         }
+//       );
 
-    }; // ./ proceedCharge
+//     }; // ./ proceedCharge
 
-  };
-});
+//   };
+// });
 
 // Purchased controller
 app.controller('PurchasedCtrl', function ($scope, $state, PurchasedItems, Auth, $ionicSideMenuDelegate) {
