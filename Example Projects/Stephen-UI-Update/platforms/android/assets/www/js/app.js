@@ -1,6 +1,7 @@
 // Ionic Starter App
-var SERVER_SIDE_URL = "sleepy-refuge-89064.herokuapp.com";
-var STRIPE_API_PUBLISHABLE_KEY = "pk_test_h57hQy5dRjVjlM7SoNVYG8Mn";
+var SERVER_SIDE_URL             = "https://sleepy-refuge-89064.herokuapp.com/";
+var STRIPE_API_PUBLISHABLE_KEY  = "pk_test_h57hQy5dRjVjlM7SoNVYG8Mn";
+
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -41,19 +42,19 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
 
   // Enables NATIVE SCROLLING!
   $ionicConfigProvider.scrolling.jsScrolling(false);
-  
+
   // set our Ionic-Native-Scrolling transitions option parameters
   $ionicNativeTransitionsProvider.setDefaultOptions({
-        duration: 500, // in milliseconds (ms), default 400, 
-        slowdownfactor: 4, // overlap views (higher number is more) or no overlap (1), default 4 
-        iosdelay: -1, // ms to wait for the iOS webview to update before animation kicks in, default -1 
-        androiddelay: 100, // same as above but for Android, default -1 
-        winphonedelay: -1, // same as above but for Windows Phone, default -1, 
-        fixedPixelsTop: 0, // the number of pixels of your fixed header, default 0 (iOS and Android) 
-        fixedPixelsBottom: 0, // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android) 
-        triggerTransitionEvent: '$ionicView.afterEnter', // internal ionic-native-transitions option 
-        backInOppositeDirection: false // Takes over default back transition and state back transition to use the opposite direction transition to go back 
-    });
+    duration: 500, // in milliseconds (ms), default 400, 
+    slowdownfactor: 4, // overlap views (higher number is more) or no overlap (1), default 4 
+    iosdelay: -1, // ms to wait for the iOS webview to update before animation kicks in, default -1 
+    androiddelay: 100, // same as above but for Android, default -1 
+    winphonedelay: -1, // same as above but for Windows Phone, default -1, 
+    fixedPixelsTop: 0, // the number of pixels of your fixed header, default 0 (iOS and Android) 
+    fixedPixelsBottom: 0, // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android) 
+    triggerTransitionEvent: '$ionicView.afterEnter', // internal ionic-native-transitions option 
+    backInOppositeDirection: false // Takes over default back transition and state back transition to use the opposite direction transition to go back 
+  });
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -127,11 +128,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
       }
     })
 
-    // Item detail
+    // Item
     .state('item', {
       url: '/item/:id',
       templateUrl: 'templates/item.html',
       controller: 'ItemCtrl',
+      params: { itemData: null },
       resolve: {
         // controller will not be loaded until $requireAuth resolves
         // Auth refers to our $firebaseAuth wrapper in the example above
@@ -139,7 +141,26 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
           // $requireAuth returns a promise so the resolve waits for it to complete
           // If the promise is rejected, it will throw a $stateChangeError (see above)
           return Auth.$requireAuth();
-        }]
+        }],
+        stripe: StripeCheckoutProvider.load
+      }
+    })
+    
+    //state for ItemDetail.html
+    .state('ItemDetail', {
+      url: '/ItemDetail.html',
+      templateUrl: 'templates/ItemDetail.html',
+      controller: 'ItemDetailCtrl',
+      params: { itemData: null },
+      resolve: {
+        // controller will not be loaded until $requireAuth resolves
+        // Auth refers to our $firebaseAuth wrapper in the example above
+        "currentAuth": ["Auth", function (Auth) {
+          // $requireAuth returns a promise so the resolve waits for it to complete
+          // If the promise is rejected, it will throw a $stateChangeError (see above)
+          return Auth.$requireAuth();
+        }],
+        stripe: StripeCheckoutProvider.load
       }
     })
 
@@ -300,21 +321,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
 
     //states for new pages
 
-    //state for settings.html
-    .state('settings', {
-      url: '/settings',
-      templateUrl: 'templates/settings.html',
-      controller: 'SettingsCtrl',
-      resolve: {
-        // controller will not be loaded until $requireAuth resolves
-        // Auth refers to our $firebaseAuth wrapper in the example above
-        "currentAuth": ["Auth", function (Auth) {
-          // $requireAuth returns a promise so the resolve waits for it to complete
-          // If the promise is rejected, it will throw a $stateChangeError (see above)
-          return Auth.$requireAuth();
-        }]
-      }
-    })
+    
 
     //state for allreviews
     .state('allreviews', {
@@ -385,6 +392,40 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, S
       url: '/location',
       templateUrl: 'templates/location.html',
       controller: 'LocationCtrl',
+      resolve: {
+        // controller will not be loaded until $requireAuth resolves
+        // Auth refers to our $firebaseAuth wrapper in the example above
+        "currentAuth": ["Auth", function (Auth) {
+          // $requireAuth returns a promise so the resolve waits for it to complete
+          // If the promise is rejected, it will throw a $stateChangeError (see above)
+          return Auth.$requireAuth();
+        }]
+      }
+    })
+    
+    .state('transSuccess', {
+      url: '/success',
+      templateUrl: 'templates/success.html',
+      controller: 'SuccessCtrl',
+      params: { 'ItemData': null, 'StripeData': null },
+      resolve: {
+        // controller will not be loaded until $requireAuth resolves
+        // Auth refers to our $firebaseAuth wrapper in the example above
+        "currentAuth": ["Auth", function (Auth) {
+          // $requireAuth returns a promise so the resolve waits for it to complete
+          // If the promise is rejected, it will throw a $stateChangeError (see above)
+          return Auth.$requireAuth();
+        }]
+      }
+    })
+
+    .state('transFailure', {
+      url: '/failure',
+      templateUrl: 'templates/failure.html',
+      controller: 'FailureCtrl',
+      params: {
+        'ErrorLog': ''
+      },
       resolve: {
         // controller will not be loaded until $requireAuth resolves
         // Auth refers to our $firebaseAuth wrapper in the example above

@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
 		0BD770FF24464E28B57F6840 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E7E325CF8F64CB9B6CDAC80 /* CDVInAppBrowser.m */; };
@@ -22,6 +21,10 @@
 		3047A5141AB8059700498E2A /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5111AB8059700498E2A /* build.xcconfig */; };
 		31D6F1B24BA54399A6D04666 /* YoikScreenOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEB6450C2E943139F70C235 /* YoikScreenOrientation.m */; };
 		BEDA969E44AA4FF292D3F98F /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 239343B95EBF416886FB2482 /* CDVSplashScreen.m */; };
+		CA6F8A3CEB80419486EA6B45 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 223EF4F99ED2487F90CF8F05 /* NSString+URLEncoding.m */; };
+		E846678A2B29426D99A3AE22 /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5179C5AD1B6A411CBB6FE2C2 /* SocialSharing.m */; };
+		F31BEAFA632F42E7B97A0B7E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 555FB5C291264653A9351209 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3959DB21BC854669B7B21A67 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFABF3817DDB4629B4C4993C /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +76,12 @@
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F1180F5FC3A1437A9C1E9E40 /* CDVViewController+SplashScreen.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "CDVViewController+SplashScreen.h"; path = "cordova-plugin-splashscreen/CDVViewController+SplashScreen.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "CloudCafe Customer/config.xml"; sourceTree = "<group>"; };
+		223EF4F99ED2487F90CF8F05 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; name = "NSString+URLEncoding.m"; path = "cordova-plugin-x-socialsharing/NSString+URLEncoding.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		5179C5AD1B6A411CBB6FE2C2 /* SocialSharing.m */ = {isa = PBXFileReference; name = "SocialSharing.m"; path = "cordova-plugin-x-socialsharing/SocialSharing.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		02B081D9461845D2AD9CC738 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; name = "NSString+URLEncoding.h"; path = "cordova-plugin-x-socialsharing/NSString+URLEncoding.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		47045D000DDE49999560549B /* SocialSharing.h */ = {isa = PBXFileReference; name = "SocialSharing.h"; path = "cordova-plugin-x-socialsharing/SocialSharing.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		555FB5C291264653A9351209 /* Social.framework */ = {isa = PBXFileReference; name = "Social.framework"; path = "System/Library/Frameworks/Social.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		CFABF3817DDB4629B4C4993C /* MessageUI.framework */ = {isa = PBXFileReference; name = "MessageUI.framework"; path = "System/Library/Frameworks/MessageUI.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +90,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
+				F31BEAFA632F42E7B97A0B7E /* Social.framework in Frameworks */,
+				3959DB21BC854669B7B21A67 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +161,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				555FB5C291264653A9351209 /* Social.framework */,
+				CFABF3817DDB4629B4C4993C /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -187,6 +200,10 @@
 				8F743953276D478388FE9A43 /* CDVViewController+SplashScreen.m */,
 				4D60CCDE60DF43779D55C121 /* CDVSplashScreen.h */,
 				F1180F5FC3A1437A9C1E9E40 /* CDVViewController+SplashScreen.h */,
+				223EF4F99ED2487F90CF8F05 /* NSString+URLEncoding.m */,
+				5179C5AD1B6A411CBB6FE2C2 /* SocialSharing.m */,
+				02B081D9461845D2AD9CC738 /* NSString+URLEncoding.h */,
+				47045D000DDE49999560549B /* SocialSharing.h */,
 			);
 			name = Plugins;
 			path = "CloudCafe Customer/Plugins";
@@ -315,6 +332,8 @@
 				31D6F1B24BA54399A6D04666 /* YoikScreenOrientation.m in Sources */,
 				BEDA969E44AA4FF292D3F98F /* CDVSplashScreen.m in Sources */,
 				18E7D8181572442582738A53 /* CDVViewController+SplashScreen.m in Sources */,
+				CA6F8A3CEB80419486EA6B45 /* NSString+URLEncoding.m in Sources */,
+				E846678A2B29426D99A3AE22 /* SocialSharing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

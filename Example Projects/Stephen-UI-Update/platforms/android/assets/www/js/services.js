@@ -4,15 +4,14 @@ app.constant('_firebaseReference', "https://burning-heat-7015.firebaseio.com/");
 
 // our authenticated user details
 app.factory("Auth", function ($firebaseAuth, _firebaseReference) {
-  var ref = new Firebase(_firebaseReference);
+  var ref = new Firebase("https://burning-heat-7015.firebaseio.com/");
   return $firebaseAuth(ref);
 });
 
 app.service("LoginAuthenticatedCheck", function ($state, Auth, $firebaseArray, $ionicLoading, $ionicHistory, _firebaseReference) {
 
   // perform authentication here the moment the controller load
-  // console.log("This should only print once.");
-  var test = Auth.$onAuth(function (getAuth) {
+  var uponAuthChange = Auth.$onAuth(function (getAuth) {
 
     if (getAuth) {
       console.log("Logged in as:", getAuth.uid);
@@ -21,7 +20,6 @@ app.service("LoginAuthenticatedCheck", function ($state, Auth, $firebaseArray, $
         disableBack: false,
         historyRoot: true
       });
-      // console.log("Okay Next view will be root.");
 
       AddPossibleUser(getAuth.provider, getAuth);
       $ionicLoading.hide();
@@ -29,8 +27,6 @@ app.service("LoginAuthenticatedCheck", function ($state, Auth, $firebaseArray, $
     } else {
       console.log("Logged out");
     }
-
-    // console.log("onAuth being ran once");
   });
 
   return {
@@ -182,80 +178,10 @@ app.factory('Categories', function () {
   };
 });
 
-app.factory('Items', function () {
-  // Might use a resource here that returns a JSON array
+app.factory('Items', function ($firebaseArray) {
 
-  // Some fake testing data
-  var items = [
-    {
-      id: 1,
-      name: "Rib eye steak",
-      price: 14.20,
-      offer: 40,
-      thumb: "img/items/thumbs/rib_eyes.jpg",
-      images: [
-        "img/items/rib_eye_2.jpg",
-        "img/items/rib_eye_3.jpg",
-        "img/items/rib_eye_4.jpg"
-      ],
-      description: "Beef steak, sauce, french fries",
-      faved: true,
-      reviews: [
-        {
-          id: 1,
-          user_id: 1,
-          username: "Adam",
-          face: "img/people/adam.jpg",
-          text: "Incredibly delicious tender steak! Be sure to order more",
-          images: []
-        },
-        {
-          id: 2,
-          user_id: 3,
-          username: "Ben",
-          face: "img/people/ben.png",
-          text: "Mmm.... Amazing! Steaks are very good",
-          images: []
-        },
-        {
-          id: 3,
-          user_id: 3,
-          username: "Max",
-          face: "img/people/max.png",
-          text: "Incredibly delicious tender steak! Be sure to order more",
-          images: []
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: "Seared Tuna",
-      price: 15.20,
-      offer: 20,
-      thumb: "img/items/thumbs/seared_tuna.jpg"
-    },
-    {
-      id: 3,
-      name: "Brick chicken",
-      price: 16.20,
-      offer: 40,
-      thumb: "img/items/thumbs/brick_chicken.jpg"
-    },
-    {
-      id: 4,
-      name: "Fried calamari",
-      price: 17.20,
-      offer: 50,
-      thumb: "img/items/thumbs/fried_calamari.jpg"
-    },
-    {
-      id: 5,
-      name: "Zuppa",
-      price: 17.20,
-      offer: 20,
-      thumb: "img/items/thumbs/zuppa.jpg"
-    }
-  ];
+  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food");
+  var items = $firebaseArray(itemsRef);
 
   return {
     all: function () {
@@ -507,7 +433,7 @@ app.factory('StripeCharge', function ($q, $http, StripeCheckout) {
   return self;
 })
 
-
+// contributes to item and itemdetail modal data
 app.service("CartItemData", function Item() {
   var item = this;
   //item.message = "DefaultHello (Service)/";
@@ -519,4 +445,46 @@ app.service("CartItemData", function Item() {
   this.getItemData = function () {
     return item;
   }
+})
+
+app.factory('PurchasedItems', function ($firebaseArray, Auth, $ionicLoading, $ionicPopup) {
+  var products = [];
+  var refFB = new Firebase("https://burning-heat-7015.firebaseio.com");
+  var refTransactions = refFB.child("transactions");
+  var refTransactionsCollection = $firebaseArray(refTransactions);
+  
+  refTransactionsCollection.$ref().orderByChild("customerID").equalTo(Auth.$getAuth().uid).on("value", function (dataSnapshot) {
+    
+    products = [];
+    
+    var data = dataSnapshot.exportVal();
+    var i = 0
+    dataSnapshot.forEach(function (childSnapshot) {
+      var pushVal = [];
+      pushVal.push(childSnapshot.val());
+      var refFood = new Firebase("https://burning-heat-7015.firebaseio.com/food/" + childSnapshot.val().foodID);
+      var refFoodData = $firebaseArray(refFood);
+      refFoodData.$ref().on("value", function (foodSnapshot) {
+        pushVal.push(foodSnapshot.val());
+        products.push(pushVal);
+      })
+    })
+  })
+
+  return {
+    all: function () {
+      return products;
+    },
+    remove: function (item) {
+      products.items.splice(items.indexOf(item), 1);
+    },
+    get: function (itemId) {
+      for (var i = 0; i < products.items.length; i++) {
+        if (products.items[i].id === parseInt(itemId)) {
+          return products.items[i];
+        }
+      }
+      return null;
+    }
+  };
 })

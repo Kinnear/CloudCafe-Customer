@@ -40,6 +40,14 @@ module.exports = [
         "clobbers": [
             "navigator.splashscreen"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+        "id": "cordova-plugin-x-socialsharing.SocialSharing",
+        "pluginId": "cordova-plugin-x-socialsharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -49,7 +57,8 @@ module.exports.metadata =
     "cordova-plugin-screen-orientation": "1.4.0",
     "cordova-plugin-inappbrowser": "1.4.0",
     "cordova-plugin-whitelist": "1.2.3-dev",
-    "cordova-plugin-splashscreen": "3.2.2"
+    "cordova-plugin-splashscreen": "3.2.2",
+    "cordova-plugin-x-socialsharing": "5.1.1"
 }
 // BOTTOM OF METADATA
 });
