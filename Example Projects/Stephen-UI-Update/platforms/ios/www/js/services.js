@@ -179,10 +179,10 @@ app.factory('Categories', function () {
 });
 
 app.factory('Items', function ($firebaseArray) {
- 
+
   var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food");
   var items = $firebaseArray(itemsRef);
-  
+
   return {
     all: function () {
       return items;
@@ -349,7 +349,7 @@ app.factory('Chats', function () {
   };
 })
 
-app.factory('StripeCharge', function($q, $http, StripeCheckout) {
+app.factory('StripeCharge', function ($q, $http, StripeCheckout) {
   var self = this;
 
   /**
@@ -361,29 +361,29 @@ app.factory('StripeCharge', function($q, $http, StripeCheckout) {
    * retrieve the price from the back-end (thus the server-side). In this way the client
    * cannot write his own application and choose a price that he/she prefers
    */
-  self.chargeUser = function(stripeToken, ProductMeta) {
+  self.chargeUser = function (stripeToken, ProductMeta) {
     var qCharge = $q.defer();
 
     var chargeUrl = SERVER_SIDE_URL + "/charge";
     var curlData = {
-      stripeCurrency:         "usd",
-      stripeAmount:           Math.floor(ProductMeta.priceUSD*100),  // charge handles transactions in cents
-      stripeSource:           stripeToken,
-      stripeDescription:      "Your custom description here"
+      stripeCurrency: "usd",
+      stripeAmount: Math.floor(ProductMeta.priceUSD * 100),  // charge handles transactions in cents
+      stripeSource: stripeToken,
+      stripeDescription: "Your custom description here"
     };
     $http.post(chargeUrl, curlData)
-        .success(
-            function(StripeInvoiceData){
-              qCharge.resolve(StripeInvoiceData);
-              // you can store the StripeInvoiceData for your own administration
-            }
-        )
-        .error(
-            function(error){
-              console.log(error)
-              qCharge.reject(error);
-            }
-        );
+      .success(
+      function (StripeInvoiceData) {
+        qCharge.resolve(StripeInvoiceData);
+        // you can store the StripeInvoiceData for your own administration
+      }
+      )
+      .error(
+      function (error) {
+        console.log(error)
+        qCharge.reject(error);
+      }
+      );
     return qCharge.promise;
   };
 
@@ -391,40 +391,40 @@ app.factory('StripeCharge', function($q, $http, StripeCheckout) {
   /**
    * Get a stripe token through the checkout handler
    */
-  self.getStripeToken = function(ProductMeta) {
+  self.getStripeToken = function (ProductMeta) {
     var qToken = $q.defer();
 
     var handlerOptions = {
       name: ProductMeta.title,
       description: ProductMeta.description,
-      amount: Math.floor(ProductMeta.priceUSD*100),
+      amount: Math.floor(ProductMeta.priceUSD * 100),
       image: "img/perry.png",
     };
 
     var handler = StripeCheckout.configure({
       name: ProductMeta.title,
-      token: function(token, args) {
+      token: function (token, args) {
         //console.log(token.id)
       }
     })
 
     handler.open(handlerOptions).then(
-        function(result) {
-          var stripeToken = result[0].id;
-          if(stripeToken != undefined && stripeToken != null && stripeToken != "") {
-            //console.log("handler success - defined")
-            qToken.resolve(stripeToken);
-          } else {
-            //console.log("handler success - undefined")
-            qToken.reject("ERROR_STRIPETOKEN_UNDEFINED");
-          }
-        }, function(error) {
-          if(error == undefined) {
-            qToken.reject("ERROR_CANCEL");
-          } else {
-            qToken.reject(error);
-          }
-        } // ./ error
+      function (result) {
+        var stripeToken = result[0].id;
+        if (stripeToken != undefined && stripeToken != null && stripeToken != "") {
+          //console.log("handler success - defined")
+          qToken.resolve(stripeToken);
+        } else {
+          //console.log("handler success - undefined")
+          qToken.reject("ERROR_STRIPETOKEN_UNDEFINED");
+        }
+      }, function (error) {
+        if (error == undefined) {
+          qToken.reject("ERROR_CANCEL");
+        } else {
+          qToken.reject(error);
+        }
+      } // ./ error
     ); // ./ handler
     return qToken.promise;
   };
@@ -433,7 +433,7 @@ app.factory('StripeCharge', function($q, $http, StripeCheckout) {
   return self;
 })
 
-
+// contributes to item and itemdetail modal data
 app.service("CartItemData", function Item() {
   var item = this;
   //item.message = "DefaultHello (Service)/";
@@ -445,4 +445,46 @@ app.service("CartItemData", function Item() {
   this.getItemData = function () {
     return item;
   }
+})
+
+app.factory('PurchasedItems', function ($firebaseArray, Auth, $ionicLoading, $ionicPopup) {
+  var products = [];
+  var refFB = new Firebase("https://burning-heat-7015.firebaseio.com");
+  var refTransactions = refFB.child("transactions");
+  var refTransactionsCollection = $firebaseArray(refTransactions);
+  
+  refTransactionsCollection.$ref().orderByChild("customerID").equalTo(Auth.$getAuth().uid).on("value", function (dataSnapshot) {
+    
+    products = [];
+    
+    var data = dataSnapshot.exportVal();
+    var i = 0
+    dataSnapshot.forEach(function (childSnapshot) {
+      var pushVal = [];
+      pushVal.push(childSnapshot.val());
+      var refFood = new Firebase("https://burning-heat-7015.firebaseio.com/food/" + childSnapshot.val().foodID);
+      var refFoodData = $firebaseArray(refFood);
+      refFoodData.$ref().on("value", function (foodSnapshot) {
+        pushVal.push(foodSnapshot.val());
+        products.push(pushVal);
+      })
+    })
+  })
+
+  return {
+    all: function () {
+      return products;
+    },
+    remove: function (item) {
+      products.items.splice(items.indexOf(item), 1);
+    },
+    get: function (itemId) {
+      for (var i = 0; i < products.items.length; i++) {
+        if (products.items[i].id === parseInt(itemId)) {
+          return products.items[i];
+        }
+      }
+      return null;
+    }
+  };
 })

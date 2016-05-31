@@ -27,6 +27,17 @@ app.controller('TermsController', function ($scope, $ionicModal) {
   });
 });
 
+app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
+
+  $scope.NextViewIsNavRoot = function () {
+    // remove your nav router history
+    $ionicHistory.nextViewOptions({
+      disableBack: false,
+      historyRoot: true
+    });
+  }
+});
+
 app.controller('MainCtrl', function ($scope) {
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
@@ -35,33 +46,6 @@ app.controller('MainCtrl', function ($scope) {
     // }
     screen.lockOrientation('portrait');
   }
-});
-
-app.controller('MyController', function ($scope, $ionicModal) {
-  $ionicModal.fromTemplateUrl('my-modal.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function (modal) {
-    $scope.modal = modal;
-  });
-  $scope.openModal = function () {
-    $scope.modal.show();
-  };
-  $scope.closeModal = function () {
-    $scope.modal.hide();
-  };
-  //Cleanup the modal when we're done with it!
-  $scope.$on('$destroy', function () {
-    $scope.modal.remove();
-  });
-  // Execute action on hide modal
-  $scope.$on('modal.hidden', function () {
-    // Execute action
-  });
-  // Execute action on remove modal
-  $scope.$on('modal.removed', function () {
-    // Execute action
-  });
 });
 
 app.controller("FavouriteController", function ($scope, FavouriteData) {
@@ -96,15 +80,19 @@ app.controller('CategoryCtrl', function ($scope, $state, Categories, $stateParam
 });
 
 // Item controller
-app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, StripeCharge, $stateParams, $ionicHistory, $firebaseArray) {
+app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, Auth, StripeCharge, $stateParams, $ionicHistory, $firebaseArray) {
   var itemData = $stateParams.itemData;
-  $scope.item = {};
-  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food/"+itemData);
-  itemsRef.on('value', function(dataSnapshot){
-    $scope.item = dataSnapshot.val();
-  })
   
-   // Router Thingy
+  $scope.item = {};
+  
+  
+  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food/" + itemData);
+  itemsRef.on('value', function (dataSnapshot) {
+    $scope.item = dataSnapshot.val();
+    console.log($scope.item);
+  })
+
+  // Router Thingy
   var second = this;
   second.item = CartItemData.getItemData();
 
@@ -167,8 +155,106 @@ app.controller('ItemCtrl', function ($scope, $state, Items, CartItemData, Stripe
           var transactionTableCollection = $firebaseArray(transactionTable);
 
           transactionTableCollection.$add({
+            "customerID": Auth.$getAuth().uid,
             "foodID": second.item.id,
             "stripeTransactionID": StripeInvoiceData.id,
+            "pickuptimestamp": 1471351021,
+            "timestamp": StripeInvoiceData.created,
+            "quantity": 1
+          })
+
+          $state.go('transSuccess', { ItemData: second.item, Result: StripeInvoiceData });
+        },
+        function (error) {
+          console.log(error);
+
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Oops... something went wrong";
+
+          $state.go('transFailure', { 'ErrorLog': error });
+        }
+      );
+
+    }; // ./ proceedCharge
+
+  };
+});
+
+app.controller('ItemDetailCtrl', function ($scope, $state, Items, CartItemData, Auth, StripeCharge, $stateParams, $ionicHistory, $firebaseArray) {
+  var itemData = $stateParams.itemData;
+  $scope.item = {};
+  var itemsRef = new Firebase("https://burning-heat-7015.firebaseio.com/food/" + itemData);
+  itemsRef.on('value', function (dataSnapshot) {
+    $scope.item = dataSnapshot.val();
+  })
+
+  // Router Thingy
+  var second = this;
+  second.item = CartItemData.getItemData();
+
+  // Stripe JS
+  $scope.ProductMeta = {
+    title: "Awesome product",
+    description: "Yes it really is",
+    priceUSD: 1,
+  };
+
+  $scope.status = {
+    loading: false,
+    message: "",
+  };
+
+  $scope.charge = function () {
+
+    $scope.status['loading'] = true;
+    $scope.status['message'] = "Retrieving your Stripe Token...";
+
+    second.item = CartItemData.getItemData();
+    console.log("Log: " + CartItemData.getItemData().foodName);
+    console.log(second.item);
+
+    $scope.ProductMeta['title'] = second.item.foodName;
+    $scope.ProductMeta['description'] = second.item.description;
+    $scope.ProductMeta['priceUSD'] = second.item.price;
+
+    // first get the Stripe token
+    StripeCharge.getStripeToken($scope.ProductMeta).then(
+      function (stripeToken) {
+        // -->
+        proceedCharge(stripeToken);
+      },
+      function (error) {
+        console.log(error)
+
+        $scope.status['loading'] = false;
+        if (error != "ERROR_CANCEL") {
+          $scope.status['message'] = "Oops... something went wrong";
+        } else {
+          $scope.status['message'] = "";
+        }
+      }
+    ); // ./ getStripeToken
+
+    function proceedCharge(stripeToken) {
+
+      $scope.status['message'] = "Processing your payment...";
+
+      // then chare the user through your custom node.js server (server-side)
+      StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
+        function (StripeInvoiceData) {
+          $scope.status['loading'] = false;
+          $scope.status['message'] = "Success! Check your Stripe Account";
+          console.log(StripeInvoiceData);
+          console.log(second.item.id);
+
+          var transactionTable = new Firebase('https://burning-heat-7015.firebaseio.com/transactions');
+          var transactionTableCollection = $firebaseArray(transactionTable);
+
+          transactionTableCollection.$add({
+            "customerID": Auth.$getAuth().uid,
+            "foodID": second.item.id,
+            "stripeTransactionID": StripeInvoiceData.id,
+            "pickuptimestamp": 1471351021,
             "timestamp": StripeInvoiceData.created,
             "quantity": 1
           })
@@ -211,102 +297,23 @@ app.controller('FavoriteCtrl', function ($scope, $state, Items, CartItemData) {
   }
 });
 
-// Cart controller
-app.controller('CartCtrl', function ($scope, Cart, CartItemData, StripeCharge) {
-  // set cart items
-  $scope.cart = Cart.get();
-
-  // plus quantity
-  $scope.plusQty = function (item) {
-    item.quantity++;
-  }
-
-  // minus quantity
-  $scope.minusQty = function (item) {
-    if (item.quantity > 1)
-      item.quantity--;
-  }
-
-  // remove item from cart
-  $scope.remove = function (index) {
-    $scope.cart.items.splice(index, 1);
-  }
-
-  // Router Thingy
-  var second = this;
-  second.item = CartItemData.getItemData();
-
-  // Stripe JS
-  $scope.ProductMeta = {
-    title: "Awesome product",
-    description: "Yes it really is",
-    priceUSD: 1,
-  };
-
-  $scope.status = {
-    loading: false,
-    message: "",
-  };
-
-  $scope.charge = function () {
-
-    $scope.status['loading'] = true;
-    $scope.status['message'] = "Retrieving your Stripe Token...";
-
-    console.log(second.item.foodName);
-
-    // first get the Stripe token
-    StripeCharge.getStripeToken($scope.ProductMeta).then(
-      function (stripeToken) {
-        // -->
-        proceedCharge(stripeToken);
-      },
-      function (error) {
-        console.log(error)
-
-        $scope.status['loading'] = false;
-        if (error != "ERROR_CANCEL") {
-          $scope.status['message'] = "Oops... something went wrong";
-        } else {
-          $scope.status['message'] = "";
-        }
-      }
-    ); // ./ getStripeToken
-
-    function proceedCharge(stripeToken) {
-
-      $scope.status['message'] = "Processing your payment...";
-
-      // then chare the user through your custom node.js server (server-side)
-      StripeCharge.chargeUser(stripeToken, $scope.ProductMeta).then(
-        function (StripeInvoiceData) {
-          $scope.status['loading'] = false;
-          $scope.status['message'] = "Success! Check your Stripe Account";
-          console.log(StripeInvoiceData)
-        },
-        function (error) {
-          console.log(error);
-
-          $scope.status['loading'] = false;
-          $scope.status['message'] = "Oops... something went wrong";
-        }
-      );
-
-    }; // ./ proceedCharge
-
-  };
-});
 
 // Purchased controller
-app.controller('PurchasedCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate) {
-  // get all items form Items model
-  $scope.items = Items.all();
+app.controller('PurchasedCtrl', function ($scope, $state, PurchasedItems, Auth, $ionicSideMenuDelegate) {
 
-  // toggle favorite
-  $scope.toggleFav = function () {
-    $scope.item.faved = !$scope.item.faved;
+  $scope.products = {};
+  $scope.products = PurchasedItems.all();
+
+  $scope.$watch(function () { return PurchasedItems.all() }, function (newVal, oldVal) {
+    if (typeof newVal !== 'undefined') {
+      $scope.products = PurchasedItems.all();
+    }
+  });
+  console.log(Auth.$getAuth().key);
+  console.log(Auth.$getAuth().uid);
+  $scope.testfunc = function () {
+    console.log($scope.products.transactions);
   }
-
   // disabled swipe menu
   $ionicSideMenuDelegate.canDragContent(false);
 });
@@ -413,7 +420,7 @@ app.controller('ChatDetailCtrl', function ($scope, $stateParams, Chats, $ionicSc
 
 //empty controllers for new pages here
 //controller for settings.html
-app.controller('SettingsCtrl', function ($scope, $state) { })
+// app.controller('ItemDetailCtrl', function ($scope, $state) { })
 
 //controller for allreviews.html
 app.controller('AllreviewsCtrl', function ($scope, $state) { })
@@ -521,15 +528,3 @@ app.controller('SuccessCtrl', function ($scope, $stateParams, $state) {
 })
 
 app.controller('FailureCtrl', function ($scope, $state) { })
-
-
-// app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
-
-//     $scope.NextViewIsNavRoot = function () {
-//         // remove your nav router history
-//         $ionicHistory.nextViewOptions({
-//             disableBack: false,
-//             historyRoot: true
-//         });
-//     }
-// });

@@ -545,13 +545,13 @@ app.controller('SuccessCtrl', function ($scope, $stateParams, $state) {
 app.controller('FailureCtrl', function ($scope, $state) { })
 
 
-// app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
+app.controller("NavHistoryModifier", function ($scope, $ionicHistory) {
 
-//     $scope.NextViewIsNavRoot = function () {
-//         // remove your nav router history
-//         $ionicHistory.nextViewOptions({
-//             disableBack: false,
-//             historyRoot: true
-//         });
-//     }
-// });
+    $scope.NextViewIsNavRoot = function () {
+        // remove your nav router history
+        $ionicHistory.nextViewOptions({
+            disableBack: false,
+            historyRoot: true
+        });
+    }
+});

@@ -4,12 +4,13 @@
   OffersCtrl pulls data from Items service (service.js)
   The Items service returns array of items data
 -->
-<ion-view view-title="Success" >
+<ion-view view-title="Success" ng-controller="NavHistoryModifier">
 
   <ion-content class="stable-bg">
-    <ion-list ng-controller="SuccessCtrl">
-      <h2>{{var1}}</h2>
-      <h2>{{var2}}</h2>
-    </ion-list>
+    
+      <button class="button button-block button-positive" ui-sref="purchased" ng-click="NextViewIsNavRoot();">
+                            View all purchases
+                            </button>
+     
   </ion-content>
 </ion-view>
