@@ -8,18 +8,18 @@
       <div class="item item-image login-logo" style="position:relative;">
                 <img src="img/backgrounds/logo_white.png">
             </div>
-    <div class="card" style="opacity: 0.8;">  
+    <div class="card" style="opacity: 0.8;" ng-controller="ExampleController">  
     <p class="text-center">
     <br>
     Version Alpha 1.0<br><br>
     For any enquiries contact +65 91374768<br><br>
     
+    <span class="calm" ng-click="shareViaEmail()">Report a bug here</span>
+    
+    
     </p>
     
-    <div ng-controller="ExampleController">
     
-    <button class="button" ng-click="shareViaEmail()">Report a bug</button>
-    </div>
     </div>
 
 </ion-content>

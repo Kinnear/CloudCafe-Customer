@@ -394,13 +394,15 @@ progress[value]::-webkit-progress-value {
   background-color: #f8f8f8; }
   
  .userPic{
-    margin-top:12%;
-    margin-bottom:8%;
-    padding: 0%;
+    padding-top:10%;
+    padding-bottom:7%;
+   
+   
 }
 
 .userPanel{
   padding-left:6%;
+  padding-top: 5%;
 }
 
 .half{

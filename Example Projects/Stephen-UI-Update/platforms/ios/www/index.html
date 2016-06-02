@@ -83,14 +83,14 @@
 
     <!-- Left menu -->
     <ion-side-menu side="left">
-      <ion-content ng-controller="MainCtrl" style="background-image:url(img/backgrounds/LimpetSquares.png); background-size:100%; background-repeat:none;">
+      <ion-content ng-controller="MainCtrl">
 
         <!-- User profile -->
-        <div class="userPic" style="text-align:center;" ng-controller="DisplayCustomerSideInfo">
-          <img class="profile-picture circle" menu-close="" ng-show="userAuthentication.profilePicture !== undefined" ng-src="{{userAuthentication.profilePicture}}">
-          <img class="profile-picture circle" menu-close="" ng-show="userAuthentication.profilePicture === undefined" ng-src="http://placehold.it/100x100">
+        <div class="userPic"  style="background-image:url(img/backgrounds/SideMenu.png); background-size:100%; background-repeat:none; text-align:center;" ng-controller="DisplayCustomerSideInfo">
+          <img class="profile-picture circle" style="border: solid;" menu-close="" ng-show="userAuthentication.profilePicture !== undefined" ng-src="{{userAuthentication.profilePicture}}">
+          <img class="profile-picture circle" style="border: solid;" menu-close="" ng-show="userAuthentication.profilePicture === undefined" ng-src="http://placehold.it/100x100">
 
-          <h4><span class="dark">{{userAuthentication.displayName}}</span></h4>
+          <h4><span class="light">{{userAuthentication.displayName}}</span></h4>
 
         </div>
 
